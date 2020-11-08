@@ -1,0 +1,108 @@
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+        {# this is the content displayed as a panel in the toolbar #}
+        {{ include('/profiler/179-accessibility.svg.twig') }}
+        <span class="sf-toolbar-value">Accessibility</span>
+
+    {% endset %}
+
+    {% set text %}
+        {# this is the content displayed when hovering the mouse over
+           the toolbar panel #}
+        <div class="sf-toolbar-info-piece">
+            <b>Total images / Missing Alt:</b>
+            <span>{{ collector.countAllImages }} / {{ collector.countAltFromImages }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Total icons / Missing aria:</b>
+            <span>{{ collector.countAllIcons }} / {{ collector.countAllExplicitIcons }}</span>
+        </div>
+    {% endset %}
+
+    {# the 'link' value set to 'false' means that this panel doesn't
+       show a section in the web profiler #}
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: true }) }}
+{% endblock %}
+{% block head %}
+    {# Optional. Here you can link to or define your own CSS and JS contents. #}
+    {# Use {{ parent() }} to extend the default styles instead of overriding them. #}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {# This left-hand menu appears when using the full-screen profiler. #}
+    <span class="label">
+        <span class="icon">
+            {{ include('/profiler/179-accessibility.svg.twig') }}
+        </span>
+        <strong>Accessibility</strong>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    {# Optional, for showing the most details. #}
+    <h2>Accessibility ✨</h2>
+
+
+    <h3>Images:</h3>
+
+    <div class="metrics">
+        <div class="metric">
+            <span class="value">{{ collector.countAllImages }}</span>
+            <span class="label">Count all images</span>
+        </div>
+        <div class="metric">
+            <span class="value">{{ collector.countAltFromImages }}</span>
+            <span class="label">Images with balise alt</span>
+        </div>
+    </div>
+    <table>
+        <tr>
+            <th>Images whithout alt:</th>
+            <td>
+                {% for image in collector.listMissingAltFromImages %}
+                    {{ image }}<br>
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+
+    <h3>Icons:</h3>
+    <div class="metrics">
+        <div class="metric">
+            <span class="value">{{ collector.countAllImages }}</span>
+            <span class="label">Count all icons</span>
+        </div>
+        <div class="metric">
+            <span class="value">{{ collector.countAllExplicitIcons }}</span>
+            <span class="label">Non-explicit icons</span>
+        </div>
+    </div>
+    <table>
+        <tr>
+            <th>Class of icons missing aria-hidden attribute:</th>
+            <td>
+                {% for icons in collector.listNonExplicitIcons %}
+                    {{ icons }}<br>
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+    <h3>Forms</h3>
+    {% if collector.isForm %}
+        <table>
+            <tr>
+                <th>Missing associated label for input:</th>
+                <td>
+                    {% for input in collector.missingAssociatedLabelForInput %}
+                        {{ input }}<br>
+                    {% endfor %}
+                </td>
+            </tr>
+        </table>
+    {% else %}
+        <p>No form to explore.</p>
+    {% endif %}
+{% endblock %}

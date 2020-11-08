@@ -1,0 +1,199 @@
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+        {# this is the content displayed as a panel in the toolbar #}
+        {{ include('/profiler/204-link.svg.twig') }}
+        <span class="sf-toolbar-value">SEO</span>
+
+    {% endset %}
+
+    {% set text %}
+        {# this is the content displayed when hovering the mouse over
+           the toolbar panel #}
+        <div class="sf-toolbar-info-piece">
+            <b>X-Robots-Tag:</b>
+            <span>{{ collector.XRobotsTag }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Canonical:</b>
+            <span>{{ collector.canonical }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Title:</b>
+            <span>{{ collector.title }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Meta Description:</b>
+            <span>{{ collector.metaDescription }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>H1 :</b>
+            <span>{{ collector.h1 }}</span>
+        </div>
+    {% endset %}
+
+    {# the 'link' value set to 'false' means that this panel doesn't
+       show a section in the web profiler #}
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: true }) }}
+{% endblock %}
+{% block head %}
+    {# Optional. Here you can link to or define your own CSS and JS contents. #}
+    {# Use {{ parent() }} to extend the default styles instead of overriding them. #}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {# This left-hand menu appears when using the full-screen profiler. #}
+    <span class="label">
+        <span class="icon">
+            {{ include('/profiler/204-link.svg.twig') }}
+        </span>
+        <strong>SEO</strong>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    {# Optional, for showing the most details. #}
+    <h2>SEO insights ✨</h2>
+        <h3>SEO main optimizations:</h3>
+            <table>
+                    <tr>
+                        <th>Title:</th>
+                        <td>{{ collector.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>Meta description:</th>
+                        <td>{{ collector.metaDescription }}</td>
+                    </tr>
+                    <tr>
+                        <th>H1:</th>
+                        <td>{{ collector.h1 }}</td>
+                    </tr>
+                    <tr>
+                        <th>One H1:</th>
+                        {% if collector.oneH1 %}
+                            <td>✅</td>
+                        {% else %}
+                            <td>❌</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <th>Headings:</th>
+                        <td>
+                            {% set headings = collector.headlinesTree %}
+                            {% block treeHeading %}
+                                <div>
+                                    {% for heading in headings %}
+                                        {% for i in 1..heading.level %}&nbsp;&nbsp;{% endfor %}- H{{ heading.level }}: {{ heading.content }}
+
+                                        {% set headings = heading.children %}
+                                        {{ block ("treeHeading") }}
+                                    {% endfor %}
+                                </div>
+                            {% endblock %}
+                        </td>
+
+                    </tr>
+            </table>
+
+        <h3>Directives for robots:</h3>
+            <div class="metrics">
+                <div class="metric">
+                    <span class="value">{{ collector.canonical }}</span>
+                    <span class="label">Canonical</span>
+                </div>
+                <div class="metric">
+                    <span class="value">{{ collector.language }}</span>
+                    <span class="label">Language</span>
+                </div>
+                <div class="metric">
+                    <span class="value">{{ collector.XRobotsTag }}</span>
+                    <span class="label">X-Robots-Tag</span>
+                </div>
+                <div class="metric">
+                    <span class="value">
+                        {% if collector.isHreflang %}
+                        <td>✔️</td>
+                        {% else %}
+                        <td>➖</td>
+                        {% endif %}
+                    </span>
+                    <span class="label">Hreflang</span>
+                </div>
+            </div>
+            <table>
+                    <tr>
+                        <th>Meta Robots:</th>
+                        <td>{{ collector.metaRobot }}</td>
+                    </tr>
+                    <tr>
+                        <th>Meta Googlebot:</th>
+                        <td>{{ collector.metaGooglebot }}</td>
+                    </tr>
+                    <tr>
+                        <th>Meta Googlebot-news:</th>
+                        <td>{{ collector.metaGooglebotNews }}</td>
+                    </tr>
+            </table>
+    <h3>Hreflang:</h3>
+    {% if collector.isHreflang %}
+            <table>
+            {% for href in collector.hreflang %}
+                <tr>
+                    <th>{{ href['hreflang'] }}</th>
+                    <td>
+                        {{ href['href'] }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+    {% else %}
+        <p>No hreflang tags.</p>
+    {% endif %}
+        <h3>Share on Social Media:</h3>
+            <table>
+                <tr>
+                    <th>OpenGraph completed:</th>
+                    <td>{{ collector.OpenGraphLevel }}</td>
+                </tr>
+                <tr>
+                    <th>Properties:</th>
+                    <td>
+                        {% for key, content in collector.OpenGraphProperties %}
+                         {{ key }}: {{ content }} <br>
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Missing properties:</th>
+                    <td>
+                        {% for key, content in collector.missingOpenGraphProperties %}
+                            {{ content }} <br>
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Twitter card completed:</th>
+                    <td>{{ collector.twitterPropertiesLevel }}</td>
+                </tr>
+                <tr>
+                    <th>Properties:</th>
+                    <td>
+                        {% for key, content in collector.twitterProperties %}
+                         {{ key }}: {{ content }} <br>
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Missing properties:</th>
+                    <td>
+                        {% for key, content in collector.missingTwitterProperties %}
+                            {{ content }} <br>
+                        {% endfor %}
+                    </td>
+                </tr>
+            </table>
+{% endblock %}
+
+
