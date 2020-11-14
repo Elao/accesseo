@@ -38,7 +38,11 @@ class BrokenLinkChecker
             }
         }
 
-        return $urls;
+        return
+            [
+                'urls' => $urls,
+                'count' => count($urls)
+            ];
     }
 
     public function getStatusCode(string $uri): int

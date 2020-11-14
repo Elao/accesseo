@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Elao\Bundle\SEOTool\DataCollector;
 
 use Elao\Bundle\SEOTool\Checker\AccessibilityChecker;
+use Elao\Bundle\SEOTool\Checker\BrokenLinkChecker;
 use Elao\Bundle\SEOTool\Checker\ImageChecker;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,10 +20,14 @@ class AccessibilityCollector extends DataCollector
     /** @var AccessibilityChecker */
     public $accessbilityChecker;
 
+    /** @var BrokenLinkChecker */
+    public $brokenLinkChecker;
+
     public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
         $this->imageChecker = new ImageChecker(new Crawler((string) $response->getContent(), $request->getUri(), $request->getBaseUrl()));
         $this->accessbilityChecker = new AccessibilityChecker(new Crawler((string) $response->getContent(), $request->getUri(), $request->getBaseUrl()));
+        $this->brokenLinkChecker = new BrokenLinkChecker(new Crawler((string) $response->getContent(), $request->getUri(), $request->getBaseUrl()), $request->getUri());
 
         $this->data = [
             'response' => $response,
@@ -34,6 +39,8 @@ class AccessibilityCollector extends DataCollector
             'countAllExplicitIcons' => $this->imageChecker->countExplicitIcons(),
             'isForm' => $this->accessbilityChecker->isForm(),
             'missingAssociatedLabelForInput' => $this->accessbilityChecker->getListMissingForLabelsInForm(),
+            'countMissingTextInButtons' => $this->accessbilityChecker->countNonExplicitButtons(),
+            'brokenLinks' => $this->brokenLinkChecker->getExternalBrokenLinks(),
         ];
     }
 
@@ -42,9 +49,19 @@ class AccessibilityCollector extends DataCollector
         $this->data = [];
     }
 
+    public function getBrokenLinks(): array
+    {
+        return $this->data['brokenLinks'];
+    }
+
     public function isForm(): bool
     {
         return $this->data['isForm'];
+    }
+
+    public function getCountMissingTextInButtons(): int
+    {
+        return $this->data['countMissingTextInButtons'];
     }
 
     public function getMissingAssociatedLabelForInput(): array
