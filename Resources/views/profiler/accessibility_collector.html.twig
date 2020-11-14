@@ -12,12 +12,20 @@
         {# this is the content displayed when hovering the mouse over
            the toolbar panel #}
         <div class="sf-toolbar-info-piece">
-            <b>Total images / Missing Alt:</b>
-            <span>{{ collector.countAllImages }} / {{ collector.countAltFromImages }}</span>
+            <b>Missing Alt / Total images :</b>
+            <span>{{ collector.countAltFromImages }} / {{ collector.countAllImages }} </span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Total icons / Missing aria:</b>
             <span>{{ collector.countAllIcons }} / {{ collector.countAllExplicitIcons }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Buttons whithout text:</b>
+            <span>{{ collector.countMissingTextInButtons }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Broken external links:</b>
+            <span>{{ collector.brokenLinks.count }}</span>
         </div>
     {% endset %}
 
@@ -44,7 +52,6 @@
 {% block panel %}
     {# Optional, for showing the most details. #}
     <h2>Accessibility ✨</h2>
-
 
     <h3>Images:</h3>
 
@@ -90,6 +97,7 @@
             </td>
         </tr>
     </table>
+
     <h3>Forms</h3>
     {% if collector.isForm %}
         <table>
@@ -105,4 +113,19 @@
     {% else %}
         <p>No form to explore.</p>
     {% endif %}
+
+    <h3>Broken external links</h3>
+    <table>
+        {% for statusCode, value in collector.brokenLinks.urls %}
+            <tr>
+                <th>Status code {{ statusCode }}:</th>
+                <td>
+                    {% for url in value %}
+                        {{ url }}<br>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
 {% endblock %}
