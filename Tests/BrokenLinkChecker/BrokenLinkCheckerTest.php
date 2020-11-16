@@ -11,9 +11,12 @@ class BrokenLinkCheckerTest extends TestCase
     public function testGetLinksInformations()
     {
         $expected = [
-            '200' => ['http://www.google.com', 'https://www.nasa.gov/'],
-            '404' => ['http://www.google.com/error'],
-            '0' => ['http://www.google/error'],
+            'urls' => [
+                '200' => ['http://www.google.com', 'https://www.nasa.gov/'],
+                '404' => ['http://www.google.com/error'],
+                '0' => ['http://www.google/error']
+            ],
+            'count' => 3
         ];
 
         $brokenlinkchecker = $this->getBrokenLinkChecker('broken-links.html');

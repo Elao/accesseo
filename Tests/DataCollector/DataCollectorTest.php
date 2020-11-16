@@ -22,7 +22,7 @@ class DataCollectorTest extends TestCase
         static::assertEquals('en', $datacollector->getLanguage());
         static::assertEquals(['title', 'description', 'image'], $datacollector->getMissingTwitterProperties());
         static::assertEquals([], $datacollector->getMissingOpenGraphProperties());
-        static::assertEquals(true, $datacollector->getOneH1());
+        static::assertEquals(true, $datacollector->getAtLeastOneH1());
         static::assertEquals([], $datacollector->getOpenGraphProperties());
         static::assertEquals(['card' => 'summary', 'site' => 'Twitter Site', 'creator' => 'Twitter Creator'], $datacollector->getTwitterProperties());
         static::assertEquals('Title', $datacollector->getTitle());

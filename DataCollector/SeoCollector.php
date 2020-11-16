@@ -44,7 +44,7 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
             'title' => $this->optimizationChecker->getTitle(),
             'metaDescription' => $this->optimizationChecker->getMetaDescription(),
             'h1' => $this->optimizationChecker->getH1(),
-            'oneH1' => $this->optimizationChecker->isOneH1(),
+            'atLeastOneH1' => $this->optimizationChecker->atLeastOneH1(),
             'OpenGraphLevel' => $this->optimizationChecker->getOpenGraphLevel(),
             'twitterPropertiesLevel' => $this->optimizationChecker->getTwitterPropertiesLevel(),
             'twitterProperties' => $this->optimizationChecker->getTwitterProperties(),
@@ -121,9 +121,9 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
         return $this->data['missingOpenGraphProperties'];
     }
 
-    public function getOneH1(): bool
+    public function getAtLeastOneH1(): bool
     {
-        return $this->data['oneH1'];
+        return $this->data['atLeastOneH1'];
     }
 
     public function getOpenGraphProperties(): array

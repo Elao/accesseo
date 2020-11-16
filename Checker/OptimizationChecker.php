@@ -60,12 +60,12 @@ class OptimizationChecker
         return $h1;
     }
 
-    public function isOneH1(): bool
+    public function atLeastOneH1(): bool
     {
         try {
             $elements = $this->crawler->filter('h1');
 
-            return 1 === \count($elements);
+            return 1 <= \count($elements);
         } catch (\Exception $e) {
             return false;
         }
