@@ -135,19 +135,19 @@ class OptimizationCheckerTest extends TestCase
     public function test2H1()
     {
         $optimizationChecker = $this->getOptimizationChecker('2-h1.html');
-        static::assertEquals(false, $optimizationChecker->isOneH1());
+        static::assertEquals(true, $optimizationChecker->atLeastOneH1());
     }
 
     public function testOneH1()
     {
         $optimizationChecker = $this->getOptimizationChecker('all-is-complete.html');
-        static::assertEquals(true, $optimizationChecker->isOneH1());
+        static::assertEquals(true, $optimizationChecker->atLeastOneH1());
     }
 
     public function testOneH1Null()
     {
         $optimizationChecker = $this->getOptimizationChecker('no-title.html');
-        static::assertEquals(false, $optimizationChecker->isOneH1());
+        static::assertEquals(false, $optimizationChecker->atLeastOneH1());
     }
 
     public function testGetHrefLang()
