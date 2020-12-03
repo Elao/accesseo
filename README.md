@@ -35,27 +35,3 @@ SEO Tool allows you to quickly get information about your on-page accessibility 
 composer config repositories.elao/seo-tool vcs https://github.com/Elao/seo-tool.git
 composer require elao/seo-tool
 `
-
-## Usage
-
-In `config/services.yaml`, add :
-
-    App\SEOTool\DataCollector\SEOCollector:
-         tags:
-             -
-                 name: data_collector
-                 template: '/profiler/seo_collector.html.twig'
-                 # must match the value returned by the getName() method
-                 id: 'app.seo_collector'
-                 # optional priority
-                 # priority: 300
- 
-    App\SEOTool\DataCollector\AccessibilityCollector:
-        tags:
-             -
-                 name: data_collector
-                 template: '/profiler/accessibility_collector.html.twig'
-                 # must match the value returned by the getName() method
-                 id: 'app.accessibility_collector'
-                 # optional priority
-                 # priority: 300
