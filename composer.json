@@ -1,5 +1,5 @@
 {
-  "name": "seo-tool",
+  "name": "elao/seo-tool",
   "description": "Provide accessibility and SEO insights of your page in Symfony profiler",
   "keywords": ["seo", "accessibility", "symfony", "symfony-profiler"],
   "type": "symfony-bundle",
@@ -9,6 +9,11 @@
     {
       "name": "Elao",
       "email": "contact@elao.com"
+    },
+    {
+      "name": "Anne-Laure de Boissieu",
+      "email": "anne-laure@protonmail.com",
+      "homepage": "https://github.com/al2b"
     }
   ],
   "require": {
@@ -24,6 +29,13 @@
   "autoload": {
     "psr-4": {
       "Elao\\Bundle\\SEOTool\\": "."
+    }
+  },
+  "prefer-stable": true,
+  "minimum-stability": "dev",
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.x-dev"
     }
   }
 }
