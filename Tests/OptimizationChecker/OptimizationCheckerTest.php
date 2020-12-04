@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\tests\SeoTool\OptimizationChecker;
-
-use Elao\Bundle\SEOTool\Checker\OptimizationChecker;
+use Elao\Bundle\SeoTool\Checker\OptimizationChecker;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Elao\Bundle\SEOTool\Checker\BrokenLinkChecker;
+use Elao\Bundle\SeoTool\Checker\BrokenLinkChecker;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 

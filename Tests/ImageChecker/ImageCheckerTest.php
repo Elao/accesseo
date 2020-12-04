@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Elao\Bundle\SEOTool\Checker\ImageChecker;
+use Elao\Bundle\SeoTool\Checker\ImageChecker;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
