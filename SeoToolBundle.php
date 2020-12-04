@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Elao\Bundle\SEOTool;
+namespace Elao\Bundle\SeoTool;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

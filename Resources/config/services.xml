@@ -7,10 +7,10 @@
     <services>
         <defaults public="false" />
 
-        <service id="App\SEOTool\DataCollector\SEOCollector">
+        <service id="App\SeoTool\DataCollector\SEOCollector">
             <tag name="data_collector" template="/profiler/seo_collector.html.twig" id="app.seo_collector" />
         </service>
-        <service id="App\SEOTool\DataCollector\AccessibilityCollector">
+        <service id="App\SeoTool\DataCollector\AccessibilityCollector">
             <tag name="data_collector" template="/profiler/accessibility_collector.html.twig" id="app.accessibility_collector" />
         </service>
 

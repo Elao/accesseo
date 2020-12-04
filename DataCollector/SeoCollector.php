@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Elao\Bundle\SEOTool\DataCollector;
+namespace Elao\Bundle\SeoTool\DataCollector;
 
 use Elao\Bundle\SEOTool\Checker\AccessibilityChecker;
 use Elao\Bundle\SEOTool\Checker\BrokenLinkChecker;
