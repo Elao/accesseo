@@ -61,3 +61,4 @@ if ($rollback) {
 
 foreach (glob("$pathToProject/var/cache/*", GLOB_NOSORT) as $cacheDir) {
     $filesystem->remove($cacheDir);
+}
