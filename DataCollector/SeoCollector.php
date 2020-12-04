@@ -32,6 +32,11 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
     /** @var BrokenLinkChecker */
     public $brokenLinkChecker;
 
+    public function getName(): string
+    {
+        return 'elao.seo_tool.seo_collector';
+    }
+
     public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
         $this->imageChecker = new ImageChecker(new Crawler((string) $response->getContent(), $request->getUri(), $request->getBaseUrl()));
@@ -94,11 +99,6 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
     public function getHeadlinesTree(): array
     {
         return $this->data['headlinesTree'];
-    }
-
-    public function getName(): string
-    {
-        return 'app.seo_collector';
     }
 
     public function getLanguage(): ?string

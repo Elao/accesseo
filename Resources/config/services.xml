@@ -7,11 +7,11 @@
     <services>
         <defaults public="false" />
 
-        <service id="App\SeoTool\DataCollector\SEOCollector">
-            <tag name="data_collector" template="/profiler/seo_collector.html.twig" id="app.seo_collector" />
+        <service id="Elao\Bundle\SeoTool\DataCollector\SeoCollector">
+            <tag name="data_collector" template="@ElaoSeoTool/profiler/seo_collector.html.twig" id="elao.seo_tool.seo_collector" />
         </service>
-        <service id="App\SeoTool\DataCollector\AccessibilityCollector">
-            <tag name="data_collector" template="/profiler/accessibility_collector.html.twig" id="app.accessibility_collector" />
+        <service id="Elao\Bundle\SeoTool\DataCollector\AccessibilityCollector">
+            <tag name="data_collector" template="@ElaoSeoTool/profiler/accessibility_collector.html.twig" id="elao.seo_tool.accessibility_collector" />
         </service>
 
     </services>

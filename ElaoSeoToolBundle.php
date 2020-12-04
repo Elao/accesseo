@@ -6,6 +6,6 @@ namespace Elao\Bundle\SeoTool;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SeoToolBundle extends Bundle
+class ElaoSeoToolBundle extends Bundle
 {
 }
