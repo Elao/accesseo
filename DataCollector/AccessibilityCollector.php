@@ -23,6 +23,11 @@ class AccessibilityCollector extends DataCollector
     /** @var BrokenLinkChecker */
     public $brokenLinkChecker;
 
+    public function getName(): string
+    {
+        return 'elao.seo_tool.accessibility_collector';
+    }
+
     public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
         $this->imageChecker = new ImageChecker(new Crawler((string) $response->getContent(), $request->getUri(), $request->getBaseUrl()));
@@ -107,10 +112,5 @@ class AccessibilityCollector extends DataCollector
     public function getCountAltFromImages(): int
     {
         return $this->data['countAltFromImages'];
-    }
-
-    public function getName(): string
-    {
-        return 'app.accessibility_collector';
     }
 }

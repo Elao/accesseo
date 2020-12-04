@@ -5,7 +5,7 @@ namespace Elao\Bundle\SeoTool\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\HttpKernel\Config\FileLocator;
+use Symfony\Component\Config\FileLocator;
 
 class ElaoSeoToolExtension extends Extension
 {
