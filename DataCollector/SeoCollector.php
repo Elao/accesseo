@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Elao\Bundle\SeoTool\DataCollector;
 
-use Elao\Bundle\SEOTool\Checker\AccessibilityChecker;
-use Elao\Bundle\SEOTool\Checker\BrokenLinkChecker;
-use Elao\Bundle\SEOTool\Checker\ImageChecker;
-use Elao\Bundle\SEOTool\Checker\OptimizationChecker;
-use Elao\Bundle\SEOTool\Checker\RobotDirectivesChecker;
+use Elao\Bundle\SeoTool\Checker\AccessibilityChecker;
+use Elao\Bundle\SeoTool\Checker\BrokenLinkChecker;
+use Elao\Bundle\SeoTool\Checker\ImageChecker;
+use Elao\Bundle\SeoTool\Checker\OptimizationChecker;
+use Elao\Bundle\SeoTool\Checker\RobotDirectivesChecker;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

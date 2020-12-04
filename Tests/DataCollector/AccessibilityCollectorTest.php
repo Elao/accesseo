@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Elao\Bundle\SEOTool\DataCollector\AccessibilityCollector;
+use Elao\Bundle\SeoTool\DataCollector\AccessibilityCollector;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

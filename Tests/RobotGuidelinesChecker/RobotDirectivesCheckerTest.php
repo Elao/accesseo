@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Elao\Bundle\SEOTool\Checker\RobotDirectivesChecker;
+use Elao\Bundle\SeoTool\Checker\RobotDirectivesChecker;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Response;

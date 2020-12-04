@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Elao\Bundle\SEOTool\Checker\AccessibilityChecker;
-use Elao\Bundle\SEOTool\Checker\Headline;
+use Elao\Bundle\SeoTool\Checker\AccessibilityChecker;
+use Elao\Bundle\SeoTool\Checker\Headline;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
