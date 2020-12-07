@@ -22,26 +22,31 @@ class OptimizationChecker
 
     public function getTitle(): ?string
     {
-        $title = $this->crawler->filter('head > title')->text();
+        try {
+            $title = $this->crawler->filter('head > title')->text();
 
-        if ($title === '') {
+            if ($title === '') {
+                return null;
+            }
+
+            return $title;
+        } catch (\Exception $e) {
             return null;
         }
-
-        return $title;
     }
 
     public function getMetaDescription(): ?string
     {
         try {
             $metaDescription = $this->crawler->filter('head > meta[name="description"]')->first()->attr('content');
+
             if ($metaDescription === '') {
                 return null;
             }
 
             return $metaDescription;
-        } catch (\Exception$e) {
-            return '';
+        } catch (\Exception $e) {
+            return null;
         }
     }
 
