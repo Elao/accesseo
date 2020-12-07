@@ -27,7 +27,11 @@ class BrokenLinkChecker
         $links = $this->crawler->filter('a')->links();
 
         if (\count($links) === 0) {
-            return null;
+            return
+                [
+                'urls' => [],
+                'count' => 0
+                ];
         }
 
         foreach ($links as $link) {

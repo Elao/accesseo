@@ -28,8 +28,12 @@
             <span class="overflow-ellipsis">{{ collector.metaDescription }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>At least one H1:</b>
-            <span>{{ collector.atLeastOneH1 }}</span>
+            <b>H1:</b>
+            {% if collector.atLeastOneH1 %}
+                <span>At least one H1</span>
+            {% else %}
+                <span>No H1 founded</span>
+            {% endif %}
         </div>
     {% endset %}
 

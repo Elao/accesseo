@@ -16,15 +16,15 @@
             <span>{{ collector.countAltFromImages }} / {{ collector.countAllImages }} </span>
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>Total icons / Missing aria:</b>
-            <span>{{ collector.countAllIcons }} / {{ collector.countAllExplicitIcons }}</span>
+            <b>Explicit icons / Total icons:</b>
+            <span>{{ collector.countAllExplicitIcons }} / {{ collector.countAllIcons }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>Buttons whithout text:</b>
+            <b>Total buttons whithout text:</b>
             <span>{{ collector.countMissingTextInButtons }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>Broken external links:</b>
+            <b>Broken or redirect external links:</b>
             <span>{{ collector.brokenLinks.count }}</span>
         </div>
     {% endset %}
@@ -71,6 +71,8 @@
             <td>
                 {% for image in collector.listMissingAltFromImages %}
                     {{ image }}<br>
+                    {% else %}
+                    -
                 {% endfor %}
             </td>
         </tr>
