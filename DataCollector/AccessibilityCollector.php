@@ -54,7 +54,7 @@ class AccessibilityCollector extends DataCollector
         $this->data = [];
     }
 
-    public function getBrokenLinks(): array
+    public function getBrokenLinks(): ?array
     {
         return $this->data['brokenLinks'];
     }
