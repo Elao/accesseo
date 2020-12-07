@@ -25,7 +25,7 @@
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Meta Description:</b>
-            <span>{{ collector.metaDescription }}</span>
+            <span class="overflow-ellipsis">{{ collector.metaDescription }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>At least one H1:</b>
@@ -40,6 +40,11 @@
 {% block head %}
     {# Optional. Here you can link to or define your own CSS and JS contents. #}
     {# Use {{ parent() }} to extend the default styles instead of overriding them. #}
+    <style>
+        .overflow-ellipsis {
+            text-overflow: ellipsis;
+        }
+    </style
     {{ parent() }}
 {% endblock %}
 
