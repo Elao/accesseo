@@ -135,7 +135,7 @@ class OptimizationChecker
             return $missing;
         }
 
-        return [];
+        return $properties;
     }
 
     public function getProperty(string $property): ?string

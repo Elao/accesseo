@@ -12,7 +12,7 @@
         {# this is the content displayed when hovering the mouse over
            the toolbar panel #}
         <div class="sf-toolbar-info-piece">
-            <b>Missing Alt / Total images :</b>
+            <b>Images with alt attribute / Total images :</b>
             <span>{{ collector.countAltFromImages }} / {{ collector.countAllImages }} </span>
         </div>
         <div class="sf-toolbar-info-piece">
@@ -72,7 +72,7 @@
                 {% for image in collector.listMissingAltFromImages %}
                     {{ image }}<br>
                     {% else %}
-                    -
+                    <span class="help">Nothing to display.</span>
                 {% endfor %}
             </td>
         </tr>
@@ -81,7 +81,7 @@
     <h3>Icons:</h3>
     <div class="metrics">
         <div class="metric">
-            <span class="value">{{ collector.countAllImages }}</span>
+            <span class="value">{{ collector.countAllIcons }}</span>
             <span class="label">Count all icons</span>
         </div>
         <div class="metric">
@@ -95,26 +95,26 @@
             <td>
                 {% for icons in collector.listNonExplicitIcons %}
                     {{ icons }}<br>
+                {% else %}
+                    <span class="help">Nothing to display.</span>
                 {% endfor %}
             </td>
         </tr>
     </table>
 
     <h3>Forms</h3>
-    {% if collector.isForm %}
         <table>
             <tr>
                 <th>Missing associated label for input:</th>
                 <td>
                     {% for input in collector.missingAssociatedLabelForInput %}
                         {{ input }}<br>
+                    {% else %}
+                        <span class="help">Nothing to display.</span>
                     {% endfor %}
                 </td>
             </tr>
         </table>
-    {% else %}
-        <p>No form to explore.</p>
-    {% endif %}
 
     <h3>Broken external links</h3>
     <table>
@@ -124,10 +124,13 @@
                 <td>
                     {% for url in value %}
                         {{ url }}<br>
+                    {% else %}
+                        <span class="help">Nothing to display.</span>
                     {% endfor %}
                 </td>
             </tr>
+            {% else %}
+            <th><span class="help">No links.</span></th>
         {% endfor %}
     </table>
-
 {% endblock %}
