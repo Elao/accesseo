@@ -24,7 +24,7 @@ class AccessibilityChecker
         $headings = [];
         while ($i <= 6):
             try {
-                $headings[sprintf('h%d', $i)] = \count($this->crawler->filter(sprintf('h%d', $i)));
+                $headings[sprintf('h%d', $i)] = $this->crawler->filter(sprintf('h%d', $i))->count();
             } catch (\Exception $e) {
             }
         ++$i;
@@ -45,7 +45,6 @@ class AccessibilityChecker
 
         foreach ($headlines as $element) {
             /* @var \DOMElement $element */
-            $tag = $element->tagName;
             $level = (int) $element->tagName[1];
             $current = new Headline($level, $element->textContent);
             $parent = $previous !== null ? $previous->getParentForLevel($level) : null;

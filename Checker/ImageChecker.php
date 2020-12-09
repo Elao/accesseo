@@ -29,41 +29,15 @@ class ImageChecker
 
     public function countAllImages(): int
     {
-        $images = $this->crawler
-            ->filter('img');
-
-        return \count($images);
+        return $this->crawler->filter('img')->count();
     }
 
     public function listImagesWhithoutAlt(): array
     {
-        $countImages = $this->countAllImages();
-        $images = [];
+        $images = $this->crawler->filter('img')->extract(['src', 'alt']);
+        $missingAlt = array_filter($images, function($img) { return '' === $img[1]; });
 
-        $i = 0;
-        while ($i < $countImages) {
-            $images[$i] = [
-                'src' => $this->crawler->filter('img')->eq($i)->attr('src'),
-                'alt' => '',
-            ];
-
-            try {
-                $images[$i]['alt'] = $this->crawler->filter('img')->eq($i)->attr('alt');
-            } catch (\Exception $e) {
-            }
-
-            ++$i;
-        }
-
-        $missingAlt = [];
-
-        foreach ($images as $image) {
-            if ('' === $image['alt']) {
-                $missingAlt[] = $image['src'];
-            }
-        }
-
-        return $missingAlt;
+        return array_map(function($img) { return $img[0];} , $missingAlt);
     }
 
     public function countIcons(): int

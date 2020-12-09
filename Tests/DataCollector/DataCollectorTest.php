@@ -21,7 +21,7 @@ class DataCollectorTest extends TestCase
         static::assertEquals('This is H1', $datacollector->getH1());
         static::assertEquals('en', $datacollector->getLanguage());
         static::assertEquals(['title', 'description', 'image'], $datacollector->getMissingTwitterProperties());
-        static::assertEquals([], $datacollector->getMissingOpenGraphProperties());
+        static::assertEquals(\Elao\Bundle\SeoTool\Checker\OptimizationChecker::OG_PROPERTIES, $datacollector->getMissingOpenGraphProperties());
         static::assertEquals(true, $datacollector->getAtLeastOneH1());
         static::assertEquals([], $datacollector->getOpenGraphProperties());
         static::assertEquals(['card' => 'summary', 'site' => 'Twitter Site', 'creator' => 'Twitter Creator'], $datacollector->getTwitterProperties());

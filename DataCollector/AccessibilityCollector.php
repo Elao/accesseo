@@ -30,9 +30,11 @@ class AccessibilityCollector extends DataCollector
 
     public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
-        $this->imageChecker = new ImageChecker(new Crawler((string) $response->getContent(), $request->getUri(), $request->getBaseUrl()));
-        $this->accessbilityChecker = new AccessibilityChecker(new Crawler((string) $response->getContent(), $request->getUri(), $request->getBaseUrl()));
-        $this->brokenLinkChecker = new BrokenLinkChecker(new Crawler((string) $response->getContent(), $request->getUri(), $request->getBaseUrl()), $request->getUri());
+        $crawler = new Crawler((string) $response->getContent(), $request->getUri(), $request->getBaseUrl());
+
+        $this->imageChecker = new ImageChecker($crawler);
+        $this->accessbilityChecker = new AccessibilityChecker($crawler);
+        $this->brokenLinkChecker = new BrokenLinkChecker($crawler, $request->getUri());
 
         $this->data = [
             'response' => $response,
