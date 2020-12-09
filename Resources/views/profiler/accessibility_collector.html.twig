@@ -67,7 +67,7 @@
     </div>
     <table>
         <tr>
-            <th>Images whithout alt:</th>
+            <th>Images whithout alt attribute:</th>
             <td>
                 {% for image in collector.listMissingAltFromImages %}
                     {{ image }}<br>
@@ -130,7 +130,7 @@
                 </td>
             </tr>
             {% else %}
-            <th><span class="help">No links.</span></th>
+            <th><span class="help">No links to display.</span></th>
         {% endfor %}
     </table>
 {% endblock %}

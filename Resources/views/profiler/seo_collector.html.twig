@@ -13,14 +13,6 @@
         {# this is the content displayed when hovering the mouse over
            the toolbar panel #}
         <div class="sf-toolbar-info-piece">
-            <b>X-Robots-Tag:</b>
-            <span>{{ collector.XRobotsTag }}</span>
-        </div>
-        <div class="sf-toolbar-info-piece">
-            <b>Canonical:</b>
-            <span>{{ collector.canonical }}</span>
-        </div>
-        <div class="sf-toolbar-info-piece">
             <b>Title:</b>
             <span>{{ collector.title }}</span>
         </div>
@@ -29,11 +21,23 @@
             <span>{{ collector.metaDescription }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>H1:</b>
+            <b>First H1 found:</b>
             {% if collector.atLeastOneH1 %}
-                <span>At least one H1</span>
+                <span>{{ collector.h1 }}</span>
             {% else %}
                 <span>No H1 founded</span>
+            {% endif %}
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>X-Robots-Tag:</b>
+            <span>{{ collector.XRobotsTag }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Canonical:</b>
+            {% if collector.canonical %}
+                <span>{{ collector.canonical }}</span>
+            {% else %}
+                <span class="help">No canonical</span>
             {% endif %}
         </div>
     {% endset %}
@@ -65,15 +69,27 @@
             <table>
                     <tr>
                         <th>Title:</th>
-                        <td>{{ collector.title }}</td>
+                        {% if collector.title %}
+                            <td>{{ collector.title }}</td>
+                        {% else %}
+                            <td><span class="help">Not title found</span></td>
+                        {% endif %}
                     </tr>
                     <tr>
                         <th>Meta description:</th>
-                        <td>{{ collector.metaDescription }}</td>
+                        {% if collector.metaDescription %}
+                            <td>{{ collector.metaDescription }}</td>
+                        {% else %}
+                            <td><span class="help">Not meta description found</span></td>
+                        {% endif %}
                     </tr>
                     <tr>
                         <th>First H1:</th>
-                        <td>{{ collector.h1 }}</td>
+                        {% if collector.h1 %}
+                            <td>{{ collector.h1 }}</td>
+                        {% else %}
+                            <td><span class="help">Not H1 found</span></td>
+                        {% endif %}
                     </tr>
                     <tr>
                         <th>Headings:</th>
@@ -87,6 +103,7 @@
                                         {% set headings = heading.children %}
                                         {{ block ("treeHeading") }}
                                     {% endfor %}
+
                                 </div>
                             {% endblock %}
                         </td>
@@ -101,7 +118,7 @@
                     {% if collector.canonical %}
                         <td>collector.canonical</td>
                     {% else %}
-                        <td>➖</td>
+                        <td><span class="help">Not found</span></td>
                     {% endif %}
                     </span>
                     <span class="label">Canonical</span>
@@ -111,7 +128,7 @@
                     {% if collector.language %}
                         <td>collector.language</td>
                     {% else %}
-                        <td>➖</td>
+                        <td><span class="help">Not found</span></td>
                     {% endif %}
                     </span>
                     <span class="label">Language</span>
@@ -123,9 +140,9 @@
                 <div class="metric">
                     <span class="value">
                         {% if collector.isHreflang %}
-                        <td>✔️</td>
+                        <td><span class="help">Found</span></td>
                         {% else %}
-                        <td>➖</td>
+                        <td><span class="help">Not found</span></td>
                         {% endif %}
                     </span>
                     <span class="label">Hreflang</span>
@@ -134,15 +151,27 @@
             <table>
                     <tr>
                         <th>Meta Robots:</th>
-                        <td>{{ collector.metaRobot }}</td>
+                        {% if collector.metaRobot %}
+                            <td><span>{{ collector.metaRobot }}</span></td>
+                        {% else %}
+                            <td><span class="help">Not found</span></td>
+                        {% endif %}
                     </tr>
                     <tr>
                         <th>Meta Googlebot:</th>
-                        <td>{{ collector.metaGooglebot }}</td>
+                        {% if collector.metaGooglebot %}
+                            <td><span>{{ collector.metaGooglebot }}</span></td>
+                        {% else %}
+                            <td><span class="help">Not found</span></td>
+                        {% endif %}
                     </tr>
                     <tr>
                         <th>Meta Googlebot-news:</th>
-                        <td>{{ collector.metaGooglebotNews }}</td>
+                        {% if collector.metaGooglebotNews %}
+                            <td><span>{{ collector.metaGooglebotNews }}</span></td>
+                        {% else %}
+                            <td><span class="help">Not found</span></td>
+                        {% endif %}
                     </tr>
             </table>
     <h3>Hreflang:</h3>
@@ -159,7 +188,7 @@
             </table>
     {% else %}
         <table>
-            <th>No hreflang tags.</th>
+            <td><span class="help">No hreflang tags.</span></td>
         </table>
     {% endif %}
         <h3>Share on Social Media:</h3>
@@ -169,7 +198,7 @@
                     <td>{{ collector.OpenGraphLevel }}</td>
                 </tr>
                 <tr>
-                    <th>Properties:</th>
+                    <th>Fulfilled properties:</th>
                     <td>
                         {% for key, content in collector.OpenGraphProperties %}
                          {{ key }}: {{ content }} <br>
@@ -189,7 +218,7 @@
                     <td>{{ collector.twitterPropertiesLevel }}</td>
                 </tr>
                 <tr>
-                    <th>Properties:</th>
+                    <th>Fulfilled properties:</th>
                     <td>
                         {% for key, content in collector.twitterProperties %}
                          {{ key }}: {{ content }} <br>
