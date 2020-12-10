@@ -2,21 +2,23 @@
 
 declare(strict_types=1);
 
+namespace Elao\Bundle\SeoTool\Tests\BrokenLinkChecker;
+
 use Elao\Bundle\SeoTool\Checker\BrokenLinkChecker;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
 class BrokenLinkCheckerTest extends TestCase
 {
-    public function testGetLinksInformations()
+    public function testGetLinksInformations(): void
     {
         $expected = [
             'urls' => [
                 '200' => ['http://www.google.com', 'https://www.nasa.gov/'],
                 '404' => ['http://www.google.com/error'],
-                '0' => ['http://www.google/error']
+                '0' => ['http://www.google/error'],
             ],
-            'count' => 3
+            'count' => 3,
         ];
 
         $brokenlinkchecker = $this->getBrokenLinkChecker('broken-links.html');

@@ -24,7 +24,7 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
     public $optimizationChecker;
 
     /** @var AccessibilityChecker */
-    public $accessbilityChecker;
+    public $accessibilityChecker;
 
     /** @var RobotDirectivesChecker */
     public $robotDirectivesChecker;
@@ -43,7 +43,7 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
 
         $this->imageChecker = new ImageChecker($crawler);
         $this->optimizationChecker = new OptimizationChecker($crawler);
-        $this->accessbilityChecker = new AccessibilityChecker($crawler);
+        $this->accessibilityChecker = new AccessibilityChecker($crawler);
         $this->brokenLinkChecker = new BrokenLinkChecker($crawler, $request->getUri());
 
         $this->data = [
@@ -58,8 +58,8 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
             'OpenGraphProperties' => $this->optimizationChecker->getOpenGraphProperties(),
             'missingOpenGraphProperties' => $this->optimizationChecker->getMissingOGProperties(),
             'missingTwitterProperties' => $this->optimizationChecker->getMissingTwitterProperties(),
-            'countHeadlines' => $this->accessbilityChecker->countHeadlinesByHn(),
-            'headlinesTree' => $this->accessbilityChecker->getHeadlineTree(),
+            'countHeadlines' => $this->accessibilityChecker->countHeadlinesByHn(),
+            'headlinesTree' => $this->accessibilityChecker->getHeadlineTree(),
             'externalBrokenLinks' => $this->brokenLinkChecker->getExternalBrokenLinks(),
             'isHreflang' => $this->optimizationChecker->isHreflang(),
             'hreflang' => $this->optimizationChecker->getHreflang(),

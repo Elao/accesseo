@@ -8,8 +8,6 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class AccessibilityChecker
 {
-    const MAX_LEVEL_HEADLINES = 6;
-
     /** @var Crawler */
     private $crawler;
 
@@ -22,13 +20,13 @@ class AccessibilityChecker
     {
         $i = 1;
         $headings = [];
-        while ($i <= 6):
+        while ($i <= 6) {
             try {
                 $headings[sprintf('h%d', $i)] = $this->crawler->filter(sprintf('h%d', $i))->count();
             } catch (\Exception $e) {
             }
-        ++$i;
-        endwhile;
+            ++$i;
+        }
 
         return $headings;
     }
