@@ -28,7 +28,7 @@ class BrokenLinkCheckerTest extends TestCase
 
     public function getBrokenLinkChecker($filename): BrokenLinkChecker
     {
-        $html = file_get_contents(sprintf('Tests/BrokenLinkChecker/%s', $filename));
+        $html = file_get_contents(sprintf(__DIR__.'/../BrokenLinkChecker/%s', $filename));
         $crawler = new Crawler($html);
 
         return new BrokenLinkChecker($crawler, 'http://localhost');

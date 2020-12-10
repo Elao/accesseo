@@ -4,4 +4,5 @@
 /.php_cs           export-ignore
 /bin/lint-twig.php export-ignore
 /link              export-ignore
-/Tests             export-ignore
+/phpunit.xml.dist  export-ignore
+/tests             export-ignore

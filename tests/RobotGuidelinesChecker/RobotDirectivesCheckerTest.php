@@ -37,7 +37,7 @@ class RobotDirectivesCheckerTest extends TestCase
 
     public function getRobotGuidelinesChecker($filename): RobotDirectivesChecker
     {
-        $html = file_get_contents(sprintf('Tests/RobotGuidelinesChecker/%s', $filename));
+        $html = file_get_contents(sprintf(__DIR__.'/../RobotGuidelinesChecker/%s', $filename));
         $crawler = new Crawler($html);
 
         return new RobotDirectivesChecker($crawler, new Response());

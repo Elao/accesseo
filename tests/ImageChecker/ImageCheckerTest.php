@@ -64,7 +64,7 @@ class ImageCheckerTest extends TestCase
 
     public function getImageChecker($filename): ImageChecker
     {
-        $html = file_get_contents(sprintf('Tests/ImageChecker/%s', $filename));
+        $html = file_get_contents(sprintf(__DIR__.'/../ImageChecker/%s', $filename));
         $crawler = new Crawler($html);
 
         return new ImageChecker($crawler);

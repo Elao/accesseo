@@ -23,7 +23,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Elao\\Bundle\\SeoTool\\": "."
+            "Elao\\Bundle\\SeoTool\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Elao\\Bundle\\SeoTool\\Tests\\": "tests"
         }
     },
     "config": {

@@ -14,7 +14,7 @@ class DataCollectorTest extends TestCase
 {
     public function testGetData(): void
     {
-        $html = file_get_contents('Tests/DataCollector/my-page.html');
+        $html = file_get_contents(__DIR__.'/../DataCollector/my-page.html');
         $request = new Request();
         $response = new Response($html, 200);
         $datacollector = new SeoCollector();
