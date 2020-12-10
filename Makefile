@@ -6,6 +6,9 @@
 install:
 	composer update
 
+install-lowest:
+	composer update --prefer-lowest
+
 ########
 # Lint #
 ########
@@ -23,3 +26,10 @@ lint-composer:
 
 lint-twig:
 	php bin/lint-twig.php Resources/views
+
+########
+# Test #
+########
+
+test:
+	vendor/bin/simple-phpunit
