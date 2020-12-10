@@ -50,7 +50,7 @@ jobs:
 
       - name: 'Lint Twig'
         if: always() && steps.deps.outcome == 'success'
-        run: bin/lint-twig.php Resources/views
+        run: bin/lint-twig.php templates
 
   tests:
     name: 'Tests'

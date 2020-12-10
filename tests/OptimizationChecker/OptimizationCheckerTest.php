@@ -177,7 +177,7 @@ class OptimizationCheckerTest extends TestCase
 
     public function getOptimizationChecker($filename): OptimizationChecker
     {
-        $html = file_get_contents(sprintf('Tests/OptimizationChecker/%s', $filename));
+        $html = file_get_contents(sprintf(__DIR__.'/../OptimizationChecker/%s', $filename));
         $crawler = new Crawler($html);
 
         return new OptimizationChecker($crawler);

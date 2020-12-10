@@ -25,7 +25,7 @@ lint-composer:
 	composer validate --strict
 
 lint-twig:
-	php bin/lint-twig.php Resources/views
+	php bin/lint-twig.php templates
 
 ########
 # Test #

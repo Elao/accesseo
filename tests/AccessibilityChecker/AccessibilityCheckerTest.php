@@ -130,7 +130,7 @@ class AccessibilityCheckerTest extends TestCase
 
     public function getAccessibilityChecker($filename): AccessibilityChecker
     {
-        $html = file_get_contents(sprintf('Tests/AccessibilityChecker/%s', $filename));
+        $html = file_get_contents(sprintf(__DIR__.'/../AccessibilityChecker/%s', $filename));
         $crawler = new Crawler($html);
 
         return new AccessibilityChecker($crawler);
