@@ -51,3 +51,66 @@ jobs:
       - name: 'Lint Twig'
         if: always() && steps.deps.outcome == 'success'
         run: bin/lint-twig.php Resources/views
+
+  tests:
+    name: 'Tests'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    strategy:
+      fail-fast: false # don't cancel other matrix jobs on failure
+      matrix:
+        php: [ '7.1', '7.4', '8.0' ]
+        include:
+          - php: 7.1
+            lowest-deps: true
+
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+
+      - name: 'Setup PHP'
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: "none"
+          extensions: "json"
+          ini-values: "memory_limit=-1"
+          php-version: "${{ matrix.php }}"
+
+      - name: 'Determine composer cache directory'
+        id: composer-cache
+        run: echo "::set-output name=directory::$(composer config cache-dir)"
+
+      - name: 'Cache composer dependencies'
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.directory }}
+          key: ${{ matrix.php }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ matrix.php }}-composer-
+
+      - name: 'Cache phpunit install dir'
+        uses: actions/cache@v2
+        with:
+          path: vendor/bin/.phpunit
+          key: phpunit-${{ hashFiles('phpunit.xml.dist') }}
+
+      - name: 'Fixup Composer'
+        if: matrix.php == 8.0
+        run: |
+          echo "::group::Fixup Composer platform config for third-parties deps not PHP 8 ready yet"
+            composer config platform.php 7.4.99
+          echo "::endgroup::"
+
+      - name: 'Install dependencies'
+        if: matrix.lowest-deps != true
+        run: composer update --no-progress --ansi
+
+      - name: 'Install lowest dependencies'
+        if: matrix.lowest-deps == true
+        run: composer update --no-progress --ansi --prefer-lowest
+
+      - name: 'Install simple-phpunit'
+        run: vendor/bin/simple-phpunit install
+
+      - name: 'Run tests'
+        run: vendor/bin/simple-phpunit --testdox
