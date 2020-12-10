@@ -14,7 +14,7 @@ class BrokenLinkChecker
     /** @var string */
     private $uri;
 
-    public function __construct(Crawler $crawler, string $uri = '')
+    public function __construct(Crawler $crawler, ?string $uri = null)
     {
         $this->crawler = $crawler;
         $this->uri = $uri ?? '';
@@ -27,41 +27,39 @@ class BrokenLinkChecker
         $links = $this->crawler->filter('a')->links();
 
         if (\count($links) === 0) {
-            return
-                [
+            return [
                 'urls' => [],
-                'count' => 0
-                ];
+                'count' => 0,
+            ];
         }
 
         foreach ($links as $link) {
-            if (!\is_int(strpos($link->getUri(), $this->uri))) {
-                $urls[$this->getStatusCode($link->getUri())][] = $link->getUri();
-            } else {
+            if (false !== strpos($link->getUri(), $this->uri)) {
                 continue;
             }
+
+            $urls[$this->getStatusCode($link->getUri())][] = $link->getUri();
         }
 
-        return
-            [
-                'urls' => $urls,
-                'count' => count($urls)
-            ];
+        return [
+            'urls' => $urls,
+            'count' => \count($urls),
+        ];
     }
 
     public function getStatusCode(string $uri): int
     {
         $ch = curl_init($uri);
 
-        if ($ch !== false) {
-            curl_setopt($ch, CURLOPT_NOBODY, true);
-            curl_exec($ch);
-            $retcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
-
-            return $retcode;
-        } else {
+        if ($ch === false) {
             return 0;
         }
+
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_exec($ch);
+        $retcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        return $retcode;
     }
 }

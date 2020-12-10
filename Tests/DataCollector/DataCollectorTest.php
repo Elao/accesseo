@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+namespace Elao\Bundle\SeoTool\Tests\DataCollector;
+
+use Elao\Bundle\SeoTool\Checker\OptimizationChecker;
 use Elao\Bundle\SeoTool\DataCollector\SeoCollector;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DataCollectorTest extends TestCase
 {
-    public function testGetData()
+    public function testGetData(): void
     {
         $html = file_get_contents('Tests/DataCollector/my-page.html');
         $request = new Request();
@@ -21,7 +24,7 @@ class DataCollectorTest extends TestCase
         static::assertEquals('This is H1', $datacollector->getH1());
         static::assertEquals('en', $datacollector->getLanguage());
         static::assertEquals(['title', 'description', 'image'], $datacollector->getMissingTwitterProperties());
-        static::assertEquals(\Elao\Bundle\SeoTool\Checker\OptimizationChecker::OG_PROPERTIES, $datacollector->getMissingOpenGraphProperties());
+        static::assertEquals(OptimizationChecker::OG_PROPERTIES, $datacollector->getMissingOpenGraphProperties());
         static::assertEquals(true, $datacollector->getAtLeastOneH1());
         static::assertEquals([], $datacollector->getOpenGraphProperties());
         static::assertEquals(['card' => 'summary', 'site' => 'Twitter Site', 'creator' => 'Twitter Creator'], $datacollector->getTwitterProperties());

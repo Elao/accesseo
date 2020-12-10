@@ -18,7 +18,7 @@ class AccessibilityCollector extends DataCollector
     public $imageChecker;
 
     /** @var AccessibilityChecker */
-    public $accessbilityChecker;
+    public $accessibilityChecker;
 
     /** @var BrokenLinkChecker */
     public $brokenLinkChecker;
@@ -33,7 +33,7 @@ class AccessibilityCollector extends DataCollector
         $crawler = new Crawler((string) $response->getContent(), $request->getUri(), $request->getBaseUrl());
 
         $this->imageChecker = new ImageChecker($crawler);
-        $this->accessbilityChecker = new AccessibilityChecker($crawler);
+        $this->accessibilityChecker = new AccessibilityChecker($crawler);
         $this->brokenLinkChecker = new BrokenLinkChecker($crawler, $request->getUri());
 
         $this->data = [
@@ -44,9 +44,9 @@ class AccessibilityCollector extends DataCollector
             'listNonExplicitIcons' => $this->imageChecker->listNonExplicitIcons(),
             'countAllIcons' => $this->imageChecker->countIcons(),
             'countAllExplicitIcons' => $this->imageChecker->countExplicitIcons(),
-            'isForm' => $this->accessbilityChecker->isForm(),
-            'missingAssociatedLabelForInput' => $this->accessbilityChecker->getListMissingForLabelsInForm(),
-            'countMissingTextInButtons' => $this->accessbilityChecker->countNonExplicitButtons(),
+            'isForm' => $this->accessibilityChecker->isForm(),
+            'missingAssociatedLabelForInput' => $this->accessibilityChecker->getListMissingForLabelsInForm(),
+            'countMissingTextInButtons' => $this->accessibilityChecker->countNonExplicitButtons(),
             'brokenLinks' => $this->brokenLinkChecker->getExternalBrokenLinks(),
         ];
     }

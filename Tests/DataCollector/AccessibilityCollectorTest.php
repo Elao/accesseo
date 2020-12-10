@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Elao\Bundle\SeoTool\Tests\DataCollector;
+
 use Elao\Bundle\SeoTool\DataCollector\AccessibilityCollector;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AccessibilityCollectorTest extends TestCase
 {
-    public function testGetData()
+    public function testGetData(): void
     {
         $html = file_get_contents('Tests/DataCollector/my-page.html');
         $request = new Request();

@@ -2,48 +2,50 @@
 
 declare(strict_types=1);
 
+namespace Elao\Bundle\SeoTool\Tests\OptimizationChecker;
+
 use Elao\Bundle\SeoTool\Checker\OptimizationChecker;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
 class OptimizationCheckerTest extends TestCase
 {
-    public function testNoH1()
+    public function testNoH1(): void
     {
         $optimizationChecker = $this->getOptimizationChecker('no-h1.html');
 
         static::assertNull($optimizationChecker->getH1());
     }
 
-    public function testEmptyH1()
+    public function testEmptyH1(): void
     {
         $optimizationChecker = $this->getOptimizationChecker('empty-h1.html');
 
         static::assertNull($optimizationChecker->getH1());
     }
 
-    public function testNoTitle()
+    public function testNoTitle(): void
     {
         $optimizationChecker = $this->getOptimizationChecker('no-title.html');
 
         static::assertNull($optimizationChecker->getTitle());
     }
 
-    public function testNoOpenGraph()
+    public function testNoOpenGraph(): void
     {
         $optimizationChecker = $this->getOptimizationChecker('no-open-graph.html');
 
         static::assertEquals('missing', $optimizationChecker->getOpenGraphLevel());
     }
 
-    public function testNoTwitterProperties()
+    public function testNoTwitterProperties(): void
     {
         $optimizationChecker = $this->getOptimizationChecker('no-twitter-properties.html');
 
         static::assertEquals('missing', $optimizationChecker->getTwitterPropertiesLevel());
     }
 
-    public function testAllIsComplete()
+    public function testAllIsComplete(): void
     {
         $optimizationChecker = $this->getOptimizationChecker('all-is-complete.html');
 
@@ -75,7 +77,7 @@ class OptimizationCheckerTest extends TestCase
         static::assertEquals($openGraphExpected, $optimizationChecker->getOpenGraphProperties());
     }
 
-    public function testOgIsNotComplete()
+    public function testOgIsNotComplete(): void
     {
         $optimizationChecker = $this->getOptimizationChecker('og-properties-missing.html');
 
@@ -88,7 +90,7 @@ class OptimizationCheckerTest extends TestCase
         static::assertEquals('almost-completed', $optimizationChecker->getOpenGraphLevel());
     }
 
-    public function testTwitterPropertiesAreNotCompleted()
+    public function testTwitterPropertiesAreNotCompleted(): void
     {
         $optimizationChecker = $this->getOptimizationChecker('twitter-properties-missing.html');
 
@@ -102,53 +104,53 @@ class OptimizationCheckerTest extends TestCase
         static::assertEquals('almost-completed', $optimizationChecker->getTwitterPropertiesLevel());
     }
 
-    public function testTwitterMissingProperties()
+    public function testTwitterMissingProperties(): void
     {
         $missing = ['title', 'description', 'image'];
         $optimizationChecker = $this->getOptimizationChecker('twitter-properties-missing.html');
         static::assertEquals($missing, $optimizationChecker->getMissingTwitterProperties());
     }
 
-    public function testTwitterNoMissingProperties()
+    public function testTwitterNoMissingProperties(): void
     {
         $missing = [];
         $optimizationChecker = $this->getOptimizationChecker('all-is-complete.html');
         static::assertEquals($missing, $optimizationChecker->getMissingTwitterProperties());
     }
 
-    public function testOGMissingProperties()
+    public function testOGMissingProperties(): void
     {
         $missing = ['title', 'locale', 'description', 'image'];
         $optimizationChecker = $this->getOptimizationChecker('og-properties-missing.html');
         static::assertEquals($missing, $optimizationChecker->getMissingOGProperties());
     }
 
-    public function testOGNoMissingProperties()
+    public function testOGNoMissingProperties(): void
     {
         $missing = [];
         $optimizationChecker = $this->getOptimizationChecker('all-is-complete.html');
         static::assertEquals($missing, $optimizationChecker->getMissingOGProperties());
     }
 
-    public function test2H1()
+    public function test2H1(): void
     {
         $optimizationChecker = $this->getOptimizationChecker('2-h1.html');
         static::assertEquals(true, $optimizationChecker->atLeastOneH1());
     }
 
-    public function testOneH1()
+    public function testOneH1(): void
     {
         $optimizationChecker = $this->getOptimizationChecker('all-is-complete.html');
         static::assertEquals(true, $optimizationChecker->atLeastOneH1());
     }
 
-    public function testOneH1Null()
+    public function testOneH1Null(): void
     {
         $optimizationChecker = $this->getOptimizationChecker('no-title.html');
         static::assertEquals(false, $optimizationChecker->atLeastOneH1());
     }
 
-    public function testGetHrefLang()
+    public function testGetHrefLang(): void
     {
         $expect = [
           ['hreflang' => 'en-gb', 'href' => 'http://en-gb.example.com/page.html'],
@@ -161,13 +163,13 @@ class OptimizationCheckerTest extends TestCase
         static::assertEquals($expect, $optimizationChecker->getHrefLang());
     }
 
-    public function testIsHrefLang()
+    public function testIsHrefLang(): void
     {
         $optimizationChecker = $this->getOptimizationChecker('hreflang.html');
         static::assertEquals(true, $optimizationChecker->isHreflang());
     }
 
-    public function testIsNoHrefLang()
+    public function testIsNoHrefLang(): void
     {
         $optimizationChecker = $this->getOptimizationChecker('no-title.html');
         static::assertEquals(false, $optimizationChecker->isHreflang());

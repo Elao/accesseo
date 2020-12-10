@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Elao\Bundle\SeoTool\Tests\AccessibilityChecker;
+
 use Elao\Bundle\SeoTool\Checker\AccessibilityChecker;
 use Elao\Bundle\SeoTool\Checker\Headline;
 use PHPUnit\Framework\TestCase;
@@ -9,7 +11,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class AccessibilityCheckerTest extends TestCase
 {
-    public function testCountHeadlines()
+    public function testCountHeadlines(): void
     {
         $optimizationChecker = $this->getAccessibilityChecker('headlines-1-6.html');
 
@@ -25,7 +27,7 @@ class AccessibilityCheckerTest extends TestCase
         static::assertEquals($headlines, $optimizationChecker->countHeadlinesByHn());
     }
 
-    public function testGetHeadlines()
+    public function testGetHeadlines(): void
     {
         $optimizationChecker = $this->getAccessibilityChecker('headlines-1-6.html');
 
@@ -61,7 +63,7 @@ class AccessibilityCheckerTest extends TestCase
         static::assertEquals($treeExpected, $optimizationChecker->getHeadlineTree());
     }
 
-    public function testSemanticalSections()
+    public function testSemanticalSections(): void
     {
         $accessibilityChecker = $this->getAccessibilityChecker('sections.html');
 
@@ -73,7 +75,7 @@ class AccessibilityCheckerTest extends TestCase
         static::assertEquals(true, $accessibilityChecker->isHeaderInArticle());
     }
 
-    public function testNoSemanticalSections()
+    public function testNoSemanticalSections(): void
     {
         $accessibilityChecker = $this->getAccessibilityChecker('no-sections.html');
 
@@ -85,13 +87,13 @@ class AccessibilityCheckerTest extends TestCase
         static::assertEquals(false, $accessibilityChecker->isHeaderInArticle());
     }
 
-    public function testNoExplicitsButtons()
+    public function testNoExplicitsButtons(): void
     {
         $accessibility = $this->getAccessibilityChecker('index.html');
         static::assertEquals(2, $accessibility->countNonExplicitButtons());
     }
 
-    public function testIsThereAForm()
+    public function testIsThereAForm(): void
     {
         $form = $this->getAccessibilityChecker('form-missing-for.html');
         $alsoForm = $this->getAccessibilityChecker('form-missing-for.html');
@@ -102,25 +104,25 @@ class AccessibilityCheckerTest extends TestCase
         static::assertEquals(false, $noForm->isForm());
     }
 
-    public function testMissingForInForm()
+    public function testMissingForInForm(): void
     {
         $accessibilityChecker = $this->getAccessibilityChecker('form-missing-for.html');
         static::assertEquals(['name', 'email'], $accessibilityChecker->getListMissingForLabelsInForm());
     }
 
-    public function testNoMissingForInForm()
+    public function testNoMissingForInForm(): void
     {
         $accessibilityChecker = $this->getAccessibilityChecker('form-with-for.html');
         static::assertEquals([2 => ''], $accessibilityChecker->getListMissingForLabelsInForm());
     }
 
-    public function testNoForm()
+    public function testNoForm(): void
     {
         $accessibilityChecker = $this->getAccessibilityChecker('headlines-1-6.html');
         static::assertEquals([], $accessibilityChecker->getListMissingForLabelsInForm());
     }
 
-    public function testIsForm()
+    public function testIsForm(): void
     {
         $accessibilityChecker = $this->getAccessibilityChecker('form-with-for.html');
         static::assertEquals(true, $accessibilityChecker->isForm());
