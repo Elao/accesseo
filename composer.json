@@ -1,43 +1,54 @@
 {
-  "name": "elao/seo-tool",
-  "description": "Provide accessibility and SEO insights of your page in Symfony profiler",
-  "keywords": ["seo", "accessibility", "symfony", "symfony-profiler"],
-  "type": "symfony-bundle",
-  "homepage": "https://github.com/Elao/seo-tool",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Elao",
-      "email": "contact@elao.com"
+    "name": "elao/seo-tool",
+    "description": "Provide accessibility and SEO insights of your page in Symfony profiler",
+    "keywords": [
+        "seo",
+        "accessibility",
+        "symfony",
+        "symfony-profiler"
+    ],
+    "type": "symfony-bundle",
+    "homepage": "https://github.com/Elao/seo-tool",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Elao",
+            "email": "contact@elao.com"
+        },
+        {
+            "name": "Anne-Laure de Boissieu",
+            "email": "anne-laure@protonmail.com",
+            "homepage": "https://github.com/al2b"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Elao\\Bundle\\SeoTool\\": "."
+        }
     },
-    {
-      "name": "Anne-Laure de Boissieu",
-      "email": "anne-laure@protonmail.com",
-      "homepage": "https://github.com/al2b"
+    "config": {
+        "sort-packages": true
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev",
+    "require": {
+        "symfony/css-selector": "~4.0|~5.0",
+        "symfony/dom-crawler": "~4.0|~5.0",
+        "symfony/dependency-injection": "~4.0|~5.0",
+        "symfony/http-foundation": "~4.0|~5.0",
+        "symfony/http-kernel": "~4.0|~5.0",
+        "symfony/service-contracts": "~2.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.17",
+        "phpunit/phpunit": "^7",
+        "symfony/console": "^4.4|^5.1",
+        "symfony/filesystem": "^5.1",
+        "symfony/twig-bridge": "^4.4|^5.1"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
     }
-  ],
-  "require": {
-    "symfony/dom-crawler": "~4.0|~5.0",
-    "symfony/http-foundation": "~4.0|~5.0",
-    "symfony/css-selector": "~4.0|~5.0",
-    "symfony/http-kernel": "~4.0|~5.0",
-    "symfony/service-contracts": "~2.0",
-    "symfony/dependency-injection": "~4.0|~5.0"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^7",
-    "symfony/filesystem": "^5.1"
-  },
-  "autoload": {
-    "psr-4": {
-      "Elao\\Bundle\\SeoTool\\": "."
-    }
-  },
-  "prefer-stable": true,
-  "minimum-stability": "dev",
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.x-dev"
-    }
-  }
 }

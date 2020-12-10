@@ -1,0 +1,53 @@
+name: 'CI'
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+
+  lint:
+    name: 'Lint'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+
+      - name: 'Setup PHP'
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: "none"
+          extensions: "json"
+          ini-values: "memory_limit=-1"
+          php-version: "7.4"
+
+      - name: 'Determine composer cache directory'
+        id: composer-cache
+        run: echo "::set-output name=directory::$(composer config cache-dir)"
+
+      - name: 'Cache composer dependencies'
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.directory }}
+          key: 7.4-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: 7.4-composer-
+
+      - name: 'Install dependencies'
+        id: deps
+        run: composer update --no-progress --ansi
+
+      - name: 'Composer validate'
+        if: always() && steps.deps.outcome == 'success'
+        run: composer validate --strict
+
+      - name: 'PHP CS Fixer'
+        if: always() && steps.deps.outcome == 'success'
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff
+
+      - name: 'Lint Twig'
+        if: always() && steps.deps.outcome == 'success'
+        run: bin/lint-twig.php Resources/views
