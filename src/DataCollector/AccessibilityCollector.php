@@ -22,9 +22,6 @@ class AccessibilityCollector extends DataCollector
     /** @var AccessibilityChecker */
     public $accessibilityChecker;
 
-    /** @var BrokenLinkChecker */
-    public $brokenLinkChecker;
-
     /** @var Stopwatch|null */
     private $stopwatch;
 
@@ -48,7 +45,6 @@ class AccessibilityCollector extends DataCollector
 
         $this->imageChecker = new ImageChecker($crawler);
         $this->accessibilityChecker = new AccessibilityChecker($crawler);
-        $this->brokenLinkChecker = new BrokenLinkChecker($crawler, $request->getUri());
 
         $this->data = [
             'response' => $response,
@@ -61,7 +57,6 @@ class AccessibilityCollector extends DataCollector
             'isForm' => $this->accessibilityChecker->isForm(),
             'missingAssociatedLabelForInput' => $this->accessibilityChecker->getListMissingForLabelsInForm(),
             'countMissingTextInButtons' => $this->accessibilityChecker->countNonExplicitButtons(),
-            'brokenLinks' => $this->brokenLinkChecker->getExternalBrokenLinks(),
         ];
 
         $this->data = $this->cloneVar($this->data);
@@ -79,11 +74,6 @@ class AccessibilityCollector extends DataCollector
     public function seek(string $key): Data
     {
         return $this->data->seek($key);
-    }
-
-    public function getBrokenLinks(): ?array
-    {
-        return $this->data['brokenLinks']->getValue();
     }
 
     public function isForm(): bool

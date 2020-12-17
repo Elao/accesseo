@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Elao\Bundle\Accesseo\Checker;
 
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class BrokenLinkChecker
 {
@@ -14,10 +15,14 @@ class BrokenLinkChecker
     /** @var string */
     private $uri;
 
-    public function __construct(Crawler $crawler, ?string $uri = null)
+    /** @var HttpClientInterface */
+    private $client;
+
+    public function __construct(Crawler $crawler, HttpClientInterface $client, ?string $uri = null)
     {
         $this->crawler = $crawler;
         $this->uri = $uri ?? '';
+        $this->client = $client;
     }
 
     public function getExternalBrokenLinks(): ?array
@@ -34,10 +39,6 @@ class BrokenLinkChecker
         }
 
         foreach ($links as $link) {
-            if (false !== strpos($link->getUri(), $this->uri)) {
-                continue;
-            }
-
             $urls[$this->getStatusCode($link->getUri())][] = $link->getUri();
         }
 
@@ -49,17 +50,11 @@ class BrokenLinkChecker
 
     public function getStatusCode(string $uri): int
     {
-        $ch = curl_init($uri);
+        $response = $this->client->request(
+            'GET',
+            $uri
+        );
 
-        if ($ch === false) {
-            return 0;
-        }
-
-        curl_setopt($ch, CURLOPT_NOBODY, true);
-        curl_exec($ch);
-        $retcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        return $retcode;
+        return $response->getStatusCode();
     }
 }

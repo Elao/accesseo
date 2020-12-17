@@ -7,9 +7,18 @@ namespace Elao\Bundle\Accesseo\Tests\BrokenLinkChecker;
 use Elao\Bundle\Accesseo\Checker\BrokenLinkChecker;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class BrokenLinkCheckerTest extends TestCase
 {
+    /** @var HttpClientInterface */
+    private $client;
+
+    public function testConstruct(HttpClientInterface $client): void
+    {
+        $this->client = $client;
+    }
+
     public function testGetLinksInformations(): void
     {
         $expected = [
@@ -31,6 +40,6 @@ class BrokenLinkCheckerTest extends TestCase
         $html = file_get_contents(sprintf(__DIR__.'/../BrokenLinkChecker/%s', $filename));
         $crawler = new Crawler($html);
 
-        return new BrokenLinkChecker($crawler, 'http://localhost');
+        return new BrokenLinkChecker($crawler, $this->client, 'http://localhost');
     }
 }

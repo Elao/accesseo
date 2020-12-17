@@ -31,9 +31,6 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
     /** @var RobotDirectivesChecker */
     public $robotDirectivesChecker;
 
-    /** @var BrokenLinkChecker */
-    public $brokenLinkChecker;
-
     /** @var Stopwatch|null */
     private $stopwatch;
 
@@ -58,7 +55,6 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
         $this->imageChecker = new ImageChecker($crawler);
         $this->optimizationChecker = new OptimizationChecker($crawler);
         $this->accessibilityChecker = new AccessibilityChecker($crawler);
-        $this->brokenLinkChecker = new BrokenLinkChecker($crawler, $request->getUri());
 
         $this->data = [
             'response' => $response,
@@ -74,7 +70,6 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
             'missingTwitterProperties' => $this->optimizationChecker->getMissingTwitterProperties(),
             'countHeadlines' => $this->accessibilityChecker->countHeadlinesByHn(),
             'headlinesTree' => $this->accessibilityChecker->getHeadlineTree(),
-            'externalBrokenLinks' => $this->brokenLinkChecker->getExternalBrokenLinks(),
             'isHreflang' => $this->optimizationChecker->isHreflang(),
             'hreflang' => $this->optimizationChecker->getHreflang(),
         ];
@@ -121,11 +116,6 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
     public function isHreflang(): bool
     {
         return $this->data['isHreflang'];
-    }
-
-    public function getExternalBrokenLinks(): array
-    {
-        return $this->data['externalBrokenLinks']->getValue();
     }
 
     public function getHeadlinesTree(): array
