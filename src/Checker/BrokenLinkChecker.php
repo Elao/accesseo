@@ -5,31 +5,25 @@ declare(strict_types=1);
 namespace Elao\Bundle\Accesseo\Checker;
 
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Contracts\HttpClient\Exception\TimeoutExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class BrokenLinkChecker
 {
-    /** @var Crawler */
-    private $crawler;
-
-    /** @var string */
-    private $uri;
-
     /** @var HttpClientInterface */
     private $client;
 
-    public function __construct(Crawler $crawler, HttpClientInterface $client, ?string $uri = null)
+    public function __construct(HttpClientInterface $client)
     {
-        $this->crawler = $crawler;
-        $this->uri = $uri ?? '';
         $this->client = $client;
     }
 
-    public function getExternalBrokenLinks(): ?array
+    public function getExternalBrokenLinks(Crawler $crawler): ?array
     {
         $urls = [];
 
-        $links = $this->crawler->filter('a')->links();
+        $links = $crawler->filter('a')->links();
 
         if (\count($links) === 0) {
             return [
@@ -39,7 +33,17 @@ class BrokenLinkChecker
         }
 
         foreach ($links as $link) {
-            $urls[$this->getStatusCode($link->getUri())][] = $link->getUri();
+            $uri = $link->getUri();
+
+            try {
+                $status = $this->getStatusCode($uri);
+            } catch (TimeoutExceptionInterface $ex) {
+                $status = 'timeout';
+            } catch (TransportExceptionInterface $ex) {
+                $status = 'invalid';
+            }
+
+            $urls[$status][] = $uri;
         }
 
         return [
@@ -48,7 +52,10 @@ class BrokenLinkChecker
         ];
     }
 
-    public function getStatusCode(string $uri): int
+    /**
+     * @throws TransportExceptionInterface
+     */
+    private function getStatusCode(string $uri): int
     {
         $response = $this->client->request(
             'GET',
