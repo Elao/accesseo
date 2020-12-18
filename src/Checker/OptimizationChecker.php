@@ -166,7 +166,7 @@ class OptimizationChecker
 
     public function isHreflang(): bool
     {
-        return \count($this->getHreflang()) > 1;
+        return \count($this->getHreflang()) >= 1;
     }
 
     public function getHreflang(): array
