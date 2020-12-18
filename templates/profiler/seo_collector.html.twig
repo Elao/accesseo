@@ -13,15 +13,15 @@
         {# this is the content displayed when hovering the mouse over
            the toolbar panel #}
         <div class="sf-toolbar-info-piece">
-            <b>Title:</b>
+            <b>Title</b>
             <span>{{ collector.title }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>Meta Description:</b>
+            <b>Meta Description</b>
             <span>{{ collector.metaDescription }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>First H1 found:</b>
+            <b>First H1 found</b>
             {% if collector.atLeastOneH1 %}
                 <span>{{ collector.h1 }}</span>
             {% else %}
@@ -29,11 +29,11 @@
             {% endif %}
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>X-Robots-Tag:</b>
+            <b>X-Robots-Tag</b>
             <span>{{ collector.XRobotsTag }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>Canonical:</b>
+            <b>Canonical</b>
             {% if collector.canonical %}
                 <span>{{ collector.canonical }}</span>
             {% else %}
@@ -50,6 +50,12 @@
     {# Optional. Here you can link to or define your own CSS and JS contents. #}
     {# Use {{ parent() }} to extend the default styles instead of overriding them. #}
     {{ parent() }}
+    <style>
+        .text-warning {
+            color: var(--color-warning);
+        }
+        .tab-navigation li .badge.status-success { background: var(--color-success); color: #FFF; }
+    </style>
 {% endblock %}
 
 {% block menu %}
@@ -65,60 +71,56 @@
 {% block panel %}
     {# Optional, for showing the most details. #}
     <h2>SEO insights ✨</h2>
-        <h3>SEO main optimizations:</h3>
-            <table>
-                    <tr>
-                        <th>Title:</th>
-                        {% if collector.title %}
-                            <td>{{ collector.title }}</td>
-                        {% else %}
-                            <td><span class="help">Not title found</span></td>
-                        {% endif %}
-                    </tr>
-                    <tr>
-                        <th>Meta description:</th>
-                        {% if collector.metaDescription %}
-                            <td>{{ collector.metaDescription }}</td>
-                        {% else %}
-                            <td><span class="help">Not meta description found</span></td>
-                        {% endif %}
-                    </tr>
-                    <tr>
-                        <th>First H1:</th>
-                        {% if collector.h1 %}
-                            <td>{{ collector.h1 }}</td>
-                        {% else %}
-                            <td><span class="help">Not H1 found</span></td>
-                        {% endif %}
-                    </tr>
-                    <tr>
-                        <th>Headings:</th>
-                        <td>
-                            {% set headings = collector.headlinesTree %}
-                            {% block treeHeading %}
-                                <div>
-                                    {% for heading in headings %}
-                                        {% for i in 1..heading.level %}&nbsp;&nbsp;{% endfor %}- H{{ heading.level }}: {{ heading.content }}
 
-                                        {% set headings = heading.children %}
-                                        {{ block ("treeHeading") }}
-                                    {% endfor %}
+    <h3>SEO main optimizations</h3>
+        <table>
+            <tr>
+                <th>Title</th>
+                <td>{{ profiler_dump(collector.seek('title')) }}</td>
+            </tr>
+            <tr>
+                <th>Meta description</th>
+                <td>{{ profiler_dump(collector.seek('metaDescription')) }}</td>
+            </tr>
+            <tr>
+                <th>First H1</th>
+                <td>{{ profiler_dump(collector.seek('h1')) }}</td>
+            </tr>
+            <tr>
+                <th>Headings</th>
+                <td>
+                    {% set headings = collector.headlinesTree %}
+                    {% set level = 1 %}
+                    {% block treeHeading %}
+                        <div>
+                            <ul>
+                                {% for heading in headings %}
+                                    <li>
+                                        <span class="{{ level != heading.level ? 'text-warning' }}">
+                                            H{{ heading.level }}: {{ heading.content }}
+                                        </span>
+                                    </li>
+                                    {% set headings = heading.children %}
+                                    {% set level = level+1 %}
+                                    {{ block ("treeHeading") }}
+                                    {% set level = level-1 %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endblock %}
+                </td>
 
-                                </div>
-                            {% endblock %}
-                        </td>
+            </tr>
+        </table>
 
-                    </tr>
-            </table>
-
-        <h3>Directives for robots:</h3>
+        <h3>Directives for robots</h3>
             <div class="metrics">
                 <div class="metric">
                     <span class="value">
                     {% if collector.canonical %}
-                        <td>collector.canonical</td>
+                        <a href="{{ collector.canonical }}">{{ collector.canonical }}</a>
                     {% else %}
-                        <td><span class="help">Not found</span></td>
+                        {{ include('@WebProfiler/Icon/no-gray.svg') }}
                     {% endif %}
                     </span>
                     <span class="label">Canonical</span>
@@ -126,9 +128,9 @@
                 <div class="metric">
                     <span class="value">
                     {% if collector.language %}
-                        <td>collector.language</td>
+                        {{ collector.language }}
                     {% else %}
-                        <td><span class="help">Not found</span></td>
+                        {{ include('@WebProfiler/Icon/no-gray.svg') }}
                     {% endif %}
                     </span>
                     <span class="label">Language</span>
@@ -140,98 +142,122 @@
                 <div class="metric">
                     <span class="value">
                         {% if collector.isHreflang %}
-                        <td><span class="help">Found</span></td>
+                            {{ include('@WebProfiler/Icon/yes.svg') }}
                         {% else %}
-                        <td><span class="help">Not found</span></td>
+                            {{ include('@WebProfiler/Icon/no-gray.svg') }}
                         {% endif %}
                     </span>
                     <span class="label">Hreflang</span>
                 </div>
             </div>
             <table>
-                    <tr>
-                        <th>Meta Robots:</th>
-                        {% if collector.metaRobot %}
-                            <td><span>{{ collector.metaRobot }}</span></td>
-                        {% else %}
-                            <td><span class="help">Not found</span></td>
-                        {% endif %}
-                    </tr>
-                    <tr>
-                        <th>Meta Googlebot:</th>
-                        {% if collector.metaGooglebot %}
-                            <td><span>{{ collector.metaGooglebot }}</span></td>
-                        {% else %}
-                            <td><span class="help">Not found</span></td>
-                        {% endif %}
-                    </tr>
-                    <tr>
-                        <th>Meta Googlebot-news:</th>
-                        {% if collector.metaGooglebotNews %}
-                            <td><span>{{ collector.metaGooglebotNews }}</span></td>
-                        {% else %}
-                            <td><span class="help">Not found</span></td>
-                        {% endif %}
-                    </tr>
-            </table>
-    <h3>Hreflang:</h3>
-    {% if collector.isHreflang %}
-            <table>
-            {% for href in collector.hreflang %}
                 <tr>
-                    <th>{{ href['hreflang'] }}</th>
-                    <td>
-                        {{ href['href'] }}
-                    </td>
+                    <th>Meta Robots</th>
+                    <td>{{ profiler_dump(collector.seek('metaRobot')) }}</td>
                 </tr>
-            {% endfor %}
+                <tr>
+                    <th>Meta Googlebot</th>
+                    <td>{{ profiler_dump(collector.seek('metaGooglebot')) }}</td>
+                </tr>
+                <tr>
+                    <th>Meta Googlebot-news</th>
+                    <td>{{ profiler_dump(collector.seek('metaGooglebotNews')) }}</td>
+                </tr>
             </table>
-    {% else %}
+
+    <h3>Hreflang</h3>
+
+    {% if collector.isHrefLang %}
         <table>
-            <td><span class="help">No hreflang tags.</span></td>
+        {% for href in collector.hreflang %}
+            <tr>
+                <th>{{ href['hreflang'] }}</th>
+                <td>
+                    <a href="{{ href['href'] }}">{{ href['href'] }}</a>
+                </td>
+            </tr>
+        {% endfor %}
         </table>
+    {% else %}
+        <div class="empty">
+            <p>No hreflang tags</p>
+        </div>
     {% endif %}
-        <h3>Share on Social Media:</h3>
-            <table>
-                <tr>
-                    <th>OpenGraph completed:</th>
-                    <td>{{ collector.OpenGraphLevel }}</td>
-                </tr>
-                <tr>
-                    <th>Fulfilled properties:</th>
-                    <td>
-                        {% for key, content in collector.OpenGraphProperties %}
-                         {{ key }}: {{ content }} <br>
-                        {% endfor %}
-                    </td>
-                </tr>
-                <tr>
-                    <th>Missing properties:</th>
-                    <td>
-                        {% for key, content in collector.missingOpenGraphProperties %}
-                            {{ content }} <br>
-                        {% endfor %}
-                    </td>
-                </tr>
-                <tr>
-                    <th>Twitter card completed:</th>
-                    <td>{{ collector.twitterPropertiesLevel }}</td>
-                </tr>
-                <tr>
-                    <th>Fulfilled properties:</th>
-                    <td>
-                        {% for key, content in collector.twitterProperties %}
-                         {{ key }}: {{ content }} <br>
-                        {% endfor %}
-                    </td>
-                </tr>
-                <tr>
-                    <th>Missing properties:</th>
-                    <td>
-                        {% for key, content in collector.missingTwitterProperties %}
-                            {{ content }} <br>
-                        {% endfor %}
-                    </td>
-                </tr>
-            </table>
+
+    <h3>Share on Social Media</h3>
+
+    <div class="metrics">
+        <div class="metric">
+            <span class="value">
+                {% if collector.OpenGraphLevel == 'completed' %}
+                    {{ include('@WebProfiler/Icon/yes.svg') }}
+                {% else %}
+                    {{ include('@WebProfiler/Icon/no-gray.svg') }}
+                {% endif %}
+            </span>
+            <span class="label">OpenGraph</span>
+        </div>
+        <div class="metric">
+            <span class="value">
+                {% if collector.twitterPropertiesLevel == 'completed' %}
+                    {{ include('@WebProfiler/Icon/yes.svg') }}
+                {% else %}
+                    {{ include('@WebProfiler/Icon/no-gray.svg') }}
+                {% endif %}
+            </span>
+            <span class="label">Twitter card</span>
+        </div>
+    </div>
+
+    <div class="sf-tabs">
+        <div class="tab">
+            <h4 class="tab-title">
+                Opengraph
+                <span class="badge {{ collector.OpenGraphLevel == 'completed' ? 'status-success' }}">
+                    {{ collector.OpenGraphProperties|length }}
+                </span>
+            </h4>
+            <div class="tab-content">
+                <table>
+                    <tr>
+                        <th>Fulfilled properties</th>
+                        <td>
+                            {{ profiler_dump(collector.seek('OpenGraphProperties'), maxDepth=1) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Missing properties</th>
+                        <td>
+                            {{ profiler_dump(collector.seek('missingOpenGraphProperties'), maxDepth=1) }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="tab">
+            <h4 class="tab-title">Twitter
+                card
+                <span class="badge {{ collector.twitterPropertiesLevel == 'completed' ? 'status-success' }}">
+                    {{ collector.twitterProperties|length }}
+                </span>
+            </h4>
+            <div class="tab-content">
+                <table>
+                    <tr>
+                        <th>Fulfilled properties</th>
+                        <td>
+                            {{ profiler_dump(collector.seek('twitterProperties'), maxDepth=1) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Missing properties</th>
+                        <td>
+                            {{ profiler_dump(collector.seek('missingTwitterProperties'), maxDepth=1) }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}

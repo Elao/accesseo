@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class SeoCollector extends DataCollector implements LateDataCollectorInterface
 {
@@ -76,6 +77,8 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
         $this->data['metaGooglebot'] = $this->robotDirectivesChecker->getMetaGooglebotsTag();
         $this->data['metaGooglebotNews'] = $this->robotDirectivesChecker->getMetaGooglebotNewsTag();
         $this->data['language'] = $this->robotDirectivesChecker->getLanguage();
+
+        $this->data = $this->cloneVar($this->data);
     }
 
     public function reset(): void
@@ -83,9 +86,19 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
         $this->data = [];
     }
 
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    public function seek(string $key): Data
+    {
+        return $this->data->seek($key);
+    }
+
     public function getHreflang(): array
     {
-        return $this->data['hreflang'];
+        return $this->data['hreflang']->getValue();
     }
 
     public function isHreflang(): bool
@@ -95,12 +108,12 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
 
     public function getExternalBrokenLinks(): array
     {
-        return $this->data['externalBrokenLinks'];
+        return $this->data['externalBrokenLinks']->getValue();
     }
 
     public function getHeadlinesTree(): array
     {
-        return $this->data['headlinesTree'];
+        return $this->data['headlinesTree']->getValue();
     }
 
     public function getLanguage(): ?string
@@ -110,17 +123,19 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
 
     public function getCountHeadlines(): array
     {
-        return $this->data['countHeadlines'];
+        return array_map(static function (Data $data): int {
+            return $data->getValue();
+        }, $this->data['countHeadlines']->getValue());
     }
 
     public function getMissingTwitterProperties(): array
     {
-        return $this->data['missingTwitterProperties'];
+        return $this->data['missingTwitterProperties']->getValue();
     }
 
     public function getMissingOpenGraphProperties(): array
     {
-        return $this->data['missingOpenGraphProperties'];
+        return $this->data['missingOpenGraphProperties']->getValue();
     }
 
     public function getAtLeastOneH1(): bool
@@ -130,12 +145,12 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
 
     public function getOpenGraphProperties(): array
     {
-        return $this->data['OpenGraphProperties'];
+        return $this->data['OpenGraphProperties']->getValue();
     }
 
     public function getTwitterProperties(): array
     {
-        return $this->data['twitterProperties'];
+        return $this->data['twitterProperties']->getValue();
     }
 
     public function getTitle(): ?string
