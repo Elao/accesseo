@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class SeoCollector extends DataCollector implements LateDataCollectorInterface
 {
@@ -32,6 +33,14 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
     /** @var BrokenLinkChecker */
     public $brokenLinkChecker;
 
+    /** @var Stopwatch|null */
+    private $stopwatch;
+
+    public function __construct(?Stopwatch $stopwatch = null)
+    {
+        $this->stopwatch = $stopwatch;
+    }
+
     public function getName(): string
     {
         return 'elao.seo_tool.seo_collector';
@@ -39,6 +48,10 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
 
     public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
+        if ($this->stopwatch) {
+            $event = $this->stopwatch->start('seo-collect', 'seo-tool');
+        }
+
         $crawler = new Crawler((string) $response->getContent(), $request->getUri(), $request->getBaseUrl());
 
         $this->imageChecker = new ImageChecker($crawler);
@@ -64,6 +77,10 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
             'isHreflang' => $this->optimizationChecker->isHreflang(),
             'hreflang' => $this->optimizationChecker->getHreflang(),
         ];
+
+        if (isset($event)) {
+            $event->stop();
+        }
     }
 
     public function lateCollect(): void
