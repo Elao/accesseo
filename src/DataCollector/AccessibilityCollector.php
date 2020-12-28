@@ -11,6 +11,7 @@ use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class AccessibilityCollector extends DataCollector
 {
@@ -23,6 +24,14 @@ class AccessibilityCollector extends DataCollector
     /** @var BrokenLinkChecker */
     public $brokenLinkChecker;
 
+    /** @var Stopwatch|null */
+    private $stopwatch;
+
+    public function __construct(?Stopwatch $stopwatch = null)
+    {
+        $this->stopwatch = $stopwatch;
+    }
+
     public function getName(): string
     {
         return 'elao.seo_tool.accessibility_collector';
@@ -30,6 +39,10 @@ class AccessibilityCollector extends DataCollector
 
     public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
+        if ($this->stopwatch) {
+            $event = $this->stopwatch->start('accessibility-collect', 'seo-tool');
+        }
+
         $crawler = new Crawler((string) $response->getContent(), $request->getUri(), $request->getBaseUrl());
 
         $this->imageChecker = new ImageChecker($crawler);
@@ -49,6 +62,10 @@ class AccessibilityCollector extends DataCollector
             'countMissingTextInButtons' => $this->accessibilityChecker->countNonExplicitButtons(),
             'brokenLinks' => $this->brokenLinkChecker->getExternalBrokenLinks(),
         ];
+
+        if (isset($event)) {
+            $event->stop();
+        }
     }
 
     public function reset(): void
