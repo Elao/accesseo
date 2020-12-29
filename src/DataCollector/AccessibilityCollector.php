@@ -11,6 +11,7 @@ use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class AccessibilityCollector extends DataCollector
 {
@@ -49,6 +50,8 @@ class AccessibilityCollector extends DataCollector
             'countMissingTextInButtons' => $this->accessibilityChecker->countNonExplicitButtons(),
             'brokenLinks' => $this->brokenLinkChecker->getExternalBrokenLinks(),
         ];
+
+        $this->data = $this->cloneVar($this->data);
     }
 
     public function reset(): void
@@ -56,9 +59,14 @@ class AccessibilityCollector extends DataCollector
         $this->data = [];
     }
 
+    public function seek(string $key): Data
+    {
+        return $this->data->seek($key);
+    }
+
     public function getBrokenLinks(): ?array
     {
-        return $this->data['brokenLinks'];
+        return $this->data['brokenLinks']->getValue();
     }
 
     public function isForm(): bool
@@ -73,17 +81,17 @@ class AccessibilityCollector extends DataCollector
 
     public function getMissingAssociatedLabelForInput(): array
     {
-        return $this->data['missingAssociatedLabelForInput'];
+        return $this->data['missingAssociatedLabelForInput']->getValue();
     }
 
     public function listMissingAltFromImages(): array
     {
-        return $this->data['listMissingAltFromImages'];
+        return $this->data['listMissingAltFromImages']->getValue();
     }
 
     public function listNonExplicitIcons(): array
     {
-        return $this->data['listNonExplicitIcons'];
+        return $this->data['listNonExplicitIcons']->getValue();
     }
 
     public function getCountAllIcons(): int
