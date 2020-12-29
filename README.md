@@ -33,5 +33,5 @@ SEO Tool allows you to quickly get information about your on-page accessibility 
 
 ```
 composer config repositories.elao/seo-tool vcs https://github.com/Elao/seo-tool.git
-composer require elao/seo-tool
+composer require --dev elao/seo-tool
 ```
