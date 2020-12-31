@@ -37,7 +37,7 @@ class ImageChecker
         $images = $this->crawler->filter('img')->extract(['src', 'alt']);
         $missingAlt = array_filter($images, function ($img) { return '' === $img[1]; });
 
-        return array_map(function ($img) { return $img[0]; }, $missingAlt);
+        return array_values(array_map(function ($img) { return $img[0]; }, $missingAlt));
     }
 
     public function countIcons(): int

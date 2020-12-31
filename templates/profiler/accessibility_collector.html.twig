@@ -36,6 +36,12 @@
 {% block head %}
     {# Optional. Here you can link to or define your own CSS and JS contents. #}
     {# Use {{ parent() }} to extend the default styles instead of overriding them. #}
+    <style>
+        .text-warning {
+            color: var(--color-warning);
+        }
+        .tab-navigation li .badge.status-success { background: var(--color-success); color: #FFF; }
+    </style>
     {{ parent() }}
 {% endblock %}
 
@@ -53,7 +59,7 @@
     {# Optional, for showing the most details. #}
     <h2>Accessibility ✨</h2>
 
-    <h3>Images:</h3>
+    <h3>Images</h3>
 
     <div class="metrics">
         <div class="metric">
@@ -65,20 +71,23 @@
             <span class="label">Images with balise alt</span>
         </div>
     </div>
-    <table>
-        <tr>
-            <th>Images whithout alt attribute:</th>
-            <td>
-                {% for image in collector.listMissingAltFromImages %}
-                    {{ image }}<br>
-                    {% else %}
-                    <span class="help">Nothing to display.</span>
-                {% endfor %}
-            </td>
-        </tr>
-    </table>
 
-    <h3>Icons:</h3>
+    <h4>Images whithout alt attribute</h4>
+    {% if collector.listMissingAltFromImages > 0 %}
+        <table>
+            <tr>
+                <td>
+                    {{ profiler_dump(collector.seek('listMissingAltFromImages'), maxDepth=1) }}
+                </td>
+            </tr>
+        </table>
+    {% else %}
+        <div class="empty">
+            <p>Nothing to display</p>
+        </div>
+    {% endif %}
+
+    <h3>Icons</h3>
     <div class="metrics">
         <div class="metric">
             <span class="value">{{ collector.countAllIcons }}</span>
@@ -89,32 +98,38 @@
             <span class="label">Non-explicit icons</span>
         </div>
     </div>
-    <table>
-        <tr>
-            <th>Class of icons missing aria-hidden attribute:</th>
-            <td>
-                {% for icons in collector.listNonExplicitIcons %}
-                    {{ icons }}<br>
-                {% else %}
-                    <span class="help">Nothing to display.</span>
-                {% endfor %}
-            </td>
-        </tr>
-    </table>
 
-    <h3>Forms</h3>
+    <h4>Class of icons missing aria-hidden attribute</h4>
+    {% if collector.listNonExplicitIcons > 0 %}
         <table>
             <tr>
-                <th>Missing associated label for input:</th>
                 <td>
-                    {% for input in collector.missingAssociatedLabelForInput %}
-                        {{ input }}<br>
-                    {% else %}
-                        <span class="help">Nothing to display.</span>
-                    {% endfor %}
+                    {{ profiler_dump(collector.seek('listNonExplicitIcons'), maxDepth=1) }}
                 </td>
             </tr>
         </table>
+    {% else %}
+        <div class="empty">
+            <p>Nothing to display</p>
+        </div>
+    {% endif %}
+
+    <h3>Forms</h3>
+
+    {% if collector.isForm %}
+        <table>
+            <tr>
+            <th>Missing associated label for input</th>
+                    <td>
+                        {{ profiler_dump(collector.seek('missingAssociatedLabelForInput'), maxDepth=1) }}
+                    </td>
+            </tr>
+        </table>
+    {% else %}
+        <div class="empty">
+            <p>No Forms</p>
+        </div>
+    {% endif %}
 
     <h3>Broken external links</h3>
     <table>
