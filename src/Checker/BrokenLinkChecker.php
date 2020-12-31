@@ -46,10 +46,7 @@ class BrokenLinkChecker
             $urls[$status][] = $uri;
         }
 
-        return [
-            'urls' => $urls,
-            'count' => \count($urls),
-        ];
+        return $urls;
     }
 
     /**
