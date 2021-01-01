@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Elao\Bundle\SeoTool\DataCollector;
+namespace Elao\Bundle\Accesseo\DataCollector;
 
-use Elao\Bundle\SeoTool\Checker\AccessibilityChecker;
-use Elao\Bundle\SeoTool\Checker\BrokenLinkChecker;
-use Elao\Bundle\SeoTool\Checker\ImageChecker;
-use Elao\Bundle\SeoTool\Checker\OptimizationChecker;
-use Elao\Bundle\SeoTool\Checker\RobotDirectivesChecker;
+use Elao\Bundle\Accesseo\Checker\AccessibilityChecker;
+use Elao\Bundle\Accesseo\Checker\BrokenLinkChecker;
+use Elao\Bundle\Accesseo\Checker\ImageChecker;
+use Elao\Bundle\Accesseo\Checker\OptimizationChecker;
+use Elao\Bundle\Accesseo\Checker\RobotDirectivesChecker;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,7 +50,7 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
     public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
         if ($this->stopwatch) {
-            $event = $this->stopwatch->start('seo-collect', 'seo-tool');
+            $event = $this->stopwatch->start('seo-collect', 'accesseo');
         }
 
         $crawler = new Crawler((string) $response->getContent(), $request->getUri(), $request->getBaseUrl());

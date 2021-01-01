@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Elao\Bundle\SeoTool\Tests\BrokenLinkChecker;
+namespace Elao\Bundle\Accesseo\Tests\BrokenLinkChecker;
 
-use Elao\Bundle\SeoTool\Checker\BrokenLinkChecker;
+use Elao\Bundle\Accesseo\Checker\BrokenLinkChecker;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Elao\Bundle\SeoTool\Tests\AccessibilityChecker;
+namespace Elao\Bundle\Accesseo\Tests\AccessibilityChecker;
 
-use Elao\Bundle\SeoTool\Checker\AccessibilityChecker;
-use Elao\Bundle\SeoTool\Checker\Headline;
+use Elao\Bundle\Accesseo\Checker\AccessibilityChecker;
+use Elao\Bundle\Accesseo\Checker\Headline;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 

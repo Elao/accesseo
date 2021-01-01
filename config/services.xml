@@ -7,13 +7,13 @@
     <services>
         <defaults public="false" />
 
-        <service id="Elao\Bundle\SeoTool\DataCollector\SeoCollector">
+        <service id="Elao\Bundle\Accesseo\DataCollector\SeoCollector">
             <argument type="service" id="debug.stopwatch" on-invalid="null" />
-            <tag name="data_collector" template="@ElaoSeoTool/profiler/seo_collector.html.twig" id="elao.seo_tool.seo_collector" />
+            <tag name="data_collector" template="@ElaoAccesseo/profiler/seo_collector.html.twig" id="elao.accesseo.seo_collector" />
         </service>
-        <service id="Elao\Bundle\SeoTool\DataCollector\AccessibilityCollector">
+        <service id="Elao\Bundle\Accesseo\DataCollector\AccessibilityCollector">
             <argument type="service" id="debug.stopwatch" on-invalid="null" />
-            <tag name="data_collector" template="@ElaoSeoTool/profiler/accessibility_collector.html.twig" id="elao.seo_tool.accessibility_collector" />
+            <tag name="data_collector" template="@ElaoAccesseo/profiler/accessibility_collector.html.twig" id="elao.accesseo.accessibility_collector" />
         </service>
 
     </services>

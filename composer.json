@@ -1,5 +1,5 @@
 {
-    "name": "elao/seo-tool",
+    "name": "elao/accesseo",
     "description": "Provide accessibility and SEO insights of your page in Symfony profiler",
     "keywords": [
         "seo",
@@ -23,12 +23,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Elao\\Bundle\\SeoTool\\": "src"
+            "Elao\\Bundle\\Accesseo\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Elao\\Bundle\\SeoTool\\Tests\\": "tests"
+            "Elao\\Bundle\\Accesseo\\Tests\\": "tests"
         }
     },
     "config": {

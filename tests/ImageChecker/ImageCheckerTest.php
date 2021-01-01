@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Elao\Bundle\SeoTool\Tests\ImageChecker;
+namespace Elao\Bundle\Accesseo\Tests\ImageChecker;
 
-use Elao\Bundle\SeoTool\Checker\ImageChecker;
+use Elao\Bundle\Accesseo\Checker\ImageChecker;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
