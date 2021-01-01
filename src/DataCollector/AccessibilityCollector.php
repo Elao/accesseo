@@ -11,8 +11,8 @@ use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
-use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\Stopwatch\Stopwatch;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class AccessibilityCollector extends DataCollector
 {
