@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Elao\Bundle\SeoTool\Tests\DataCollector;
+namespace Elao\Bundle\Accesseo\Tests\DataCollector;
 
-use Elao\Bundle\SeoTool\DataCollector\AccessibilityCollector;
+use Elao\Bundle\Accesseo\DataCollector\AccessibilityCollector;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

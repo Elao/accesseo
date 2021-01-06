@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Elao\Bundle\SeoTool\Tests\DataCollector;
+namespace Elao\Bundle\Accesseo\Tests\DataCollector;
 
-use Elao\Bundle\SeoTool\Checker\OptimizationChecker;
-use Elao\Bundle\SeoTool\DataCollector\SeoCollector;
+use Elao\Bundle\Accesseo\Checker\OptimizationChecker;
+use Elao\Bundle\Accesseo\DataCollector\SeoCollector;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

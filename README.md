@@ -1,10 +1,10 @@
 # Seo Tool
 
-SEO Tool allows you to quickly get information about your on-page accessibility or SEO criteria, directly in the Symfony profiler.
+Accesseo allows you to quickly get information about your on-page accessibility or SEO criteria, directly in the Symfony profiler.
 
 ## Accessibility Insights 
 
-- Images whithout alt attribute ([See more on developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Img))
+- Images without alt attribute ([See more on developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Img))
 - Missing aria-hidden attribute on icons ([See more on developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-hidden_attribute))
 - Buttons without any content ([See more on w3.org](https://www.w3.org/WAI/standards-guidelines/act/rules/button-non-empty-accessible-name-97a4e1/))
 - Form : missing for attribute of the label ([See more on developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/forms/Basic_form_hints))
@@ -32,6 +32,6 @@ SEO Tool allows you to quickly get information about your on-page accessibility 
 ## Installation
 
 ```
-composer config repositories.elao/seo-tool vcs https://github.com/Elao/seo-tool.git
-composer require --dev elao/seo-tool
+composer config repositories.elao/accesseo vcs https://github.com/Elao/accesseo.git
+composer require --dev elao/accesseo
 ```

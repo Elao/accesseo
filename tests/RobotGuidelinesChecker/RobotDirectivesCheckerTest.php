@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Elao\Bundle\SeoTool\Tests\RobotGuidelinesChecker;
+namespace Elao\Bundle\Accesseo\Tests\RobotGuidelinesChecker;
 
-use Elao\Bundle\SeoTool\Checker\RobotDirectivesChecker;
+use Elao\Bundle\Accesseo\Checker\RobotDirectivesChecker;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Response;

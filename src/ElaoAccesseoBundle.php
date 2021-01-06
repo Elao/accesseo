@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Elao\Bundle\SeoTool;
+namespace Elao\Bundle\Accesseo;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class ElaoSeoToolBundle extends Bundle
+class ElaoAccesseoBundle extends Bundle
 {
     public function getPath()
     {

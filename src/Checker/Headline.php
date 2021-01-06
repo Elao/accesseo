@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Elao\Bundle\SeoTool\Checker;
+namespace Elao\Bundle\Accesseo\Checker;
 
 class Headline
 {
