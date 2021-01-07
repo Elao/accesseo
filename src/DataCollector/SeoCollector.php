@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Elao\Bundle\Accesseo\DataCollector;
 
 use Elao\Bundle\Accesseo\Checker\AccessibilityChecker;
-use Elao\Bundle\Accesseo\Checker\BrokenLinkChecker;
 use Elao\Bundle\Accesseo\Checker\ImageChecker;
 use Elao\Bundle\Accesseo\Checker\OptimizationChecker;
 use Elao\Bundle\Accesseo\Checker\RobotDirectivesChecker;
