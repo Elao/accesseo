@@ -44,7 +44,7 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
 
     public function getName(): string
     {
-        return 'elao.seo_tool.seo_collector';
+        return 'elao.accesseo.seo_collector';
     }
 
     public function collect(Request $request, Response $response, \Throwable $exception = null): void

@@ -35,13 +35,13 @@ class AccessibilityCollector extends DataCollector
 
     public function getName(): string
     {
-        return 'elao.seo_tool.accessibility_collector';
+        return 'elao.accesseo.accessibility_collector';
     }
 
     public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
         if ($this->stopwatch) {
-            $event = $this->stopwatch->start('accessibility-collect', 'accesseol');
+            $event = $this->stopwatch->start('accessibility-collect', 'accesseo');
         }
 
         $crawler = new Crawler((string) $response->getContent(), $request->getUri(), $request->getBaseUrl());

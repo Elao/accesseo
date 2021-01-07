@@ -1,8 +1,8 @@
-# Seo Tool
+# Accesseo
 
 Accesseo allows you to quickly get information about your on-page accessibility or SEO criteria, directly in the Symfony profiler.
 
-## Accessibility Insights 
+## Accessibility Insights
 
 - Images without alt attribute ([See more on developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Img))
 - Missing aria-hidden attribute on icons ([See more on developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-hidden_attribute))

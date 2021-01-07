@@ -9,7 +9,7 @@ require __DIR__.'/vendor/symfony/filesystem/Filesystem.php';
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Links dependencies of a project to a local clone of the Elao/seo-tool GitHub repository.
+ * Links dependencies of a project to a local clone of the Elao/accesseo GitHub repository.
  */
 
 $copy = false !== $k = array_search('--copy', $argv, true);
@@ -18,7 +18,7 @@ $rollback = false !== $k = array_search('--rollback', $argv, true);
 $rollback && array_splice($argv, $k, 1);
 $pathToProject = $argv[1] ?? getcwd();
 
-$projectVendorDir = "$pathToProject/vendor/elao/seo-tool";
+$projectVendorDir = "$pathToProject/vendor/elao/accesseo";
 
 if (!is_dir($projectVendorDir)) {
     echo 'Links dependencies of a project to a local clone of the library.'.PHP_EOL.PHP_EOL;
