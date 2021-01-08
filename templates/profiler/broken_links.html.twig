@@ -1,0 +1,16 @@
+ <table>
+        {% for statusCode, value in links %}
+            <tr>
+                <th>Status code {{ statusCode }}:</th>
+                <td>
+                    {% for url in value %}
+                        {{ url }}<br>
+                    {% else %}
+                        <span class="help">Nothing to display.</span>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% else %}
+            <th><span class="help">No links to display.</span></th>
+        {% endfor %}
+    </table>

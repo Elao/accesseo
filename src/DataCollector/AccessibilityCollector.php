@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Elao\Bundle\Accesseo\DataCollector;
 
 use Elao\Bundle\Accesseo\Checker\AccessibilityChecker;
-use Elao\Bundle\Accesseo\Checker\BrokenLinkChecker;
 use Elao\Bundle\Accesseo\Checker\ImageChecker;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,6 +56,7 @@ class AccessibilityCollector extends DataCollector
             'isForm' => $this->accessibilityChecker->isForm(),
             'missingAssociatedLabelForInput' => $this->accessibilityChecker->getListMissingForLabelsInForm(),
             'countMissingTextInButtons' => $this->accessibilityChecker->countNonExplicitButtons(),
+            'links' => $this->accessibilityChecker->getLinks(),
         ];
 
         $this->data = $this->cloneVar($this->data);

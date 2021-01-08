@@ -16,5 +16,9 @@
             <tag name="data_collector" template="@ElaoAccesseo/profiler/accessibility_collector.html.twig" id="elao.accesseo.accessibility_collector" />
         </service>
 
+        <service id="Elao\Bundle\Accesseo\Controller\BrokenLinkController" public="true">
+            <argument type="service" id="twig" />
+        </service>
+
     </services>
 </container>

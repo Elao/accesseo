@@ -23,9 +23,6 @@
             <b>Total buttons whithout text:</b>
             <span>{{ collector.countMissingTextInButtons }}</span>
         </div>
-        <div class="sf-toolbar-info-piece">
-            <b>Broken or redirect external links:</b>
-        </div>
     {% endset %}
 
     {# the 'link' value set to 'false' means that this panel doesn't
@@ -41,6 +38,29 @@
         }
         .tab-navigation li .badge.status-success { background: var(--color-success); color: #FFF; }
     </style>
+    <script>
+        function getStatusCode(event){
+          console.log("coucou");
+          const httpRequest = new XMLHttpRequest();
+          httpRequest.onreadystatechange = () => {
+            if (httpRequest.readyState === 4) {
+              if (httpRequest.status === 200) {
+                //
+                const data = JSON.parse(httpRequest.responseText);
+                console.log(data);
+                event.target.parentElement.innerHTML = data.template;
+              } else {
+                //
+              }
+            }
+          };
+          httpRequest.open('GET', '{{ path("_accesseo_status_code", {'token' : token}) }}');
+          httpRequest.send();
+        }
+
+        window.addEventListener('load', () => document.getElementById('giveMeStatusCode').addEventListener('click', getStatusCode));
+
+    </script>
     {{ parent() }}
 {% endblock %}
 
@@ -57,7 +77,7 @@
 {% block panel %}
     {# Optional, for showing the most details. #}
     <h2>Accessibility ✨</h2>
-
+{{ dump() }}
     <h3>Images</h3>
 
     <div class="metrics">
@@ -132,22 +152,8 @@
 
     <h3>Broken external links</h3>
 
+    <div>
+        <button id="giveMeStatusCode">Click me please.</button>
+    </div>
 
-
-{#    <table>#}
-{#        {% for statusCode, value in collector.brokenLinks.urls %}#}
-{#            <tr>#}
-{#                <th>Status code {{ statusCode }}:</th>#}
-{#                <td>#}
-{#                    {% for url in value %}#}
-{#                        {{ url }}<br>#}
-{#                    {% else %}#}
-{#                        <span class="help">Nothing to display.</span>#}
-{#                    {% endfor %}#}
-{#                </td>#}
-{#            </tr>#}
-{#            {% else %}#}
-{#            <th><span class="help">No links to display.</span></th>#}
-{#        {% endfor %}#}
-{#    </table>#}
 {% endblock %}

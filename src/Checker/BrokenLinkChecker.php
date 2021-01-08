@@ -19,12 +19,13 @@ class BrokenLinkChecker
         $this->client = $client;
     }
 
-    public function getExternalBrokenLinks(Crawler $crawler): ?array
+    public function getLinks(Crawler $crawler): ?array
     {
-        $urls = [];
+        return $crawler->filter('a')->links();
+    }
 
-        $links = $crawler->filter('a')->links();
-
+    public function getExternalBrokenLinks(array $links): ?array
+    {
         if (\count($links) === 0) {
             return [
                 'urls' => [],

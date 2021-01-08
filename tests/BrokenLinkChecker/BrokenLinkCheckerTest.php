@@ -36,7 +36,7 @@ class BrokenLinkCheckerTest extends TestCase
 
         $this->responsesFactory->addResponses(...array_values($responses));
 
-        static::assertEquals($expected, $this->checker->getExternalBrokenLinks(new Crawler($html)));
+        static::assertEquals($expected, $this->checker->getExternalBrokenLinks($this->checker->getLinks(new Crawler($html))));
     }
 
     public function provideGetLinksInformationsData(): iterable
