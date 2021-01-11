@@ -21,30 +21,28 @@ class BrokenLinkChecker
 
     public function getLinks(Crawler $crawler): ?array
     {
-        return $crawler->filter('a')->links();
+        return $crawler
+            ->filter('a')
+            ->extract(['href']);
     }
 
     public function getExternalBrokenLinks(array $links): ?array
     {
         if (\count($links) === 0) {
-            return [
-                'urls' => [],
-                'count' => 0,
-            ];
+            return [];
         }
+        $urls = [];
 
         foreach ($links as $link) {
-            $uri = $link->getUri();
-
             try {
-                $status = $this->getStatusCode($uri);
+                $status = $this->getStatusCode($link);
             } catch (TimeoutExceptionInterface $ex) {
                 $status = 'timeout';
             } catch (TransportExceptionInterface $ex) {
                 $status = 'invalid';
             }
 
-            $urls[$status][] = $uri;
+            $urls[$status][] = $link;
         }
 
         return $urls;

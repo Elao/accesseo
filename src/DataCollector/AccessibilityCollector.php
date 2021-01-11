@@ -91,6 +91,11 @@ class AccessibilityCollector extends DataCollector
         return $this->data['missingAssociatedLabelForInput']->getValue();
     }
 
+    public function getLinks(): array
+    {
+        return $this->data['links']->getValue();
+    }
+
     public function listMissingAltFromImages(): array
     {
         return $this->data['listMissingAltFromImages']->getValue();
