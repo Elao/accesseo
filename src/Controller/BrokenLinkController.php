@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
+use Symfony\Component\VarDumper\Cloner\Data;
 use Twig\Environment;
 
 class BrokenLinkController
@@ -30,16 +31,11 @@ class BrokenLinkController
     {
         $profile = $this->profiler->loadProfile($token);
 
-        $links =
-            [
-                '200' => ['http://www.google.com', 'https://www.nasa.gov/'],
-                '404' => ['http://www.google.com/error'],
-                'invalid' => ['http://www.google/error'],
-                'timeout' => ['http://www.google/timeout'],
-            ];
-
         $linksFromDataCollector = $profile->getCollector('elao.accesseo.accessibility_collector')->getLinks();
-        $links = $this->brokenLinkChecker->getExternalBrokenLinks($linksFromDataCollector);
+
+        $links = array_map(static function (Data $data): string {return $data->getValue(); }, $linksFromDataCollector);
+
+        $links = $this->brokenLinkChecker->getExternalBrokenLinks($links);
 
         $template = $this->twig->render(
             '@ElaoAccesseo/profiler/broken_links.html.twig',

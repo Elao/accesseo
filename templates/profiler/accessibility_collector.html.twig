@@ -40,15 +40,13 @@
     </style>
     <script>
         function getStatusCode(event){
-          console.log("coucou");
           const httpRequest = new XMLHttpRequest();
+          const div = event.target.parentElement;
           httpRequest.onreadystatechange = () => {
             if (httpRequest.readyState === 4) {
               if (httpRequest.status === 200) {
-                //
                 const data = JSON.parse(httpRequest.responseText);
-                console.log(data);
-                // event.target.parentElement.innerHTML = data.template;
+                div.innerHTML = data.template;
               } else {
                 //
               }
@@ -56,6 +54,7 @@
           };
           httpRequest.open('GET', '{{ path("_accesseo_status_code", {'token' : token}) }}');
           httpRequest.send();
+          div.innerHTML = "<i>Loading...</i>";
         }
 
         window.addEventListener('load', () => document.getElementById('giveMeStatusCode').addEventListener('click', getStatusCode));
@@ -149,10 +148,10 @@
         </div>
     {% endif %}
 
-    <h3>Broken external links</h3>
+    <h3>Status code of external & internal links</h3>
 
     <div>
-        <button id="giveMeStatusCode">Click me please.</button>
+        <button class="sf-toggle btn btn-sm sf-toggle-off" id="giveMeStatusCode">Discover links</button>
     </div>
 
 {% endblock %}

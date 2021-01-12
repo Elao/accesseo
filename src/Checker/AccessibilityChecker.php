@@ -119,8 +119,6 @@ class AccessibilityChecker
 
     public function getLinks(): ?array
     {
-        return $this->crawler
-            ->filter('a')
-            ->extract(['href']);
+        return array_map(function ($link) { return $link->getUri(); }, $this->crawler->filter('a')->links());
     }
 }
