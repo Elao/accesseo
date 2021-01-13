@@ -35,3 +35,11 @@ Accesseo allows you to quickly get information about your on-page accessibility 
 composer config repositories.elao/accesseo vcs https://github.com/Elao/accesseo.git
 composer require --dev elao/accesseo
 ```
+
+in `config/routes/dev`, create `accesseo.yaml` and add :`
+
+```
+web_profiler_profiler:
+  resource: '@ElaoAccesseoBundle/config/routing/accesseo.xml'
+  prefix: /_profiler
+```
