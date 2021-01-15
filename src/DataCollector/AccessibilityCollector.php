@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Elao\Bundle\Accesseo\DataCollector;
 
 use Elao\Bundle\Accesseo\Checker\AccessibilityChecker;
-use Elao\Bundle\Accesseo\Checker\BrokenLinkChecker;
 use Elao\Bundle\Accesseo\Checker\ImageChecker;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,9 +20,6 @@ class AccessibilityCollector extends DataCollector
 
     /** @var AccessibilityChecker */
     public $accessibilityChecker;
-
-    /** @var BrokenLinkChecker */
-    public $brokenLinkChecker;
 
     /** @var Stopwatch|null */
     private $stopwatch;
@@ -48,7 +44,6 @@ class AccessibilityCollector extends DataCollector
 
         $this->imageChecker = new ImageChecker($crawler);
         $this->accessibilityChecker = new AccessibilityChecker($crawler);
-        $this->brokenLinkChecker = new BrokenLinkChecker($crawler, $request->getUri());
 
         $this->data = [
             'response' => $response,
@@ -61,7 +56,7 @@ class AccessibilityCollector extends DataCollector
             'isForm' => $this->accessibilityChecker->isForm(),
             'missingAssociatedLabelForInput' => $this->accessibilityChecker->getListMissingForLabelsInForm(),
             'countMissingTextInButtons' => $this->accessibilityChecker->countNonExplicitButtons(),
-            'brokenLinks' => $this->brokenLinkChecker->getExternalBrokenLinks(),
+            'links' => $this->accessibilityChecker->getLinks(),
         ];
 
         $this->data = $this->cloneVar($this->data);
@@ -81,11 +76,6 @@ class AccessibilityCollector extends DataCollector
         return $this->data->seek($key);
     }
 
-    public function getBrokenLinks(): ?array
-    {
-        return $this->data['brokenLinks']->getValue();
-    }
-
     public function isForm(): bool
     {
         return $this->data['isForm'];
@@ -99,6 +89,11 @@ class AccessibilityCollector extends DataCollector
     public function getMissingAssociatedLabelForInput(): array
     {
         return $this->data['missingAssociatedLabelForInput']->getValue();
+    }
+
+    public function getLinks(): array
+    {
+        return $this->data['links']->getValue();
     }
 
     public function listMissingAltFromImages(): array

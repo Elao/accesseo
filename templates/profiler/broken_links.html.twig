@@ -1,0 +1,43 @@
+<div class="sf-tabs">
+   {% for type, statusCodes in links %}
+
+     <div class="tab">
+         <h4 class="tab-title">
+            {{ type }}
+             <span class="badge">
+                {% if type == 'errors' %}
+                    {{ countErrors }}
+                {% elseif type == 'redirections' %}
+                    {{ countRedirections }}
+                {% else %}
+                    {{ countSuccess }}
+                {% endif %}
+             </span>
+         </h4>
+         <div class="tab-content">
+             <table>
+                 <tr>
+                     <th>Status Code</th>
+                     <th>Url</th>
+                 </tr>
+                 {% for statusCode, value in statusCodes %}
+                 <tr>
+                     <th>{{ statusCode }}</th>
+                     <td>
+                         {% for url in value %}
+                             {{ url }}<br>
+                         {% else %}
+                             <span class="help">Nothing to display.</span>
+                         {% endfor %}
+                     </td>
+                 </tr>
+                 {% else %}
+                     <tr>
+                        <th><span class="help">No links to display.</span></th>
+                     </tr>
+                 {% endfor %}
+             </table>
+         </div>
+     </div>
+   {% endfor %}
+</div>

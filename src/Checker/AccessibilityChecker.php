@@ -116,4 +116,9 @@ class AccessibilityChecker
 
         return array_diff($inputsName, $for);
     }
+
+    public function getLinks(): ?array
+    {
+        return array_map(function ($link) { return $link->getUri(); }, $this->crawler->filter('a')->links());
+    }
 }

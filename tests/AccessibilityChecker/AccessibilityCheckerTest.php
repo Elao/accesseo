@@ -128,6 +128,20 @@ class AccessibilityCheckerTest extends TestCase
         static::assertEquals(true, $accessibilityChecker->isForm());
     }
 
+    public function testGetLinks(): void
+    {
+        $accessibilityChecker = $this->getAccessibilityChecker('with-links.html');
+
+        $links = [
+            'http://www.google.com',
+            'https://www.nasa.gov/',
+            'http://www.google.com/error',
+            'http://www.google/error',
+            'http://www.google/timeout',
+            ];
+        static::assertEquals($links, $accessibilityChecker->getLinks());
+    }
+
     public function getAccessibilityChecker($filename): AccessibilityChecker
     {
         $html = file_get_contents(sprintf(__DIR__.'/../AccessibilityChecker/%s', $filename));

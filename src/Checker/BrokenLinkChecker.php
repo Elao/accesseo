@@ -5,61 +5,73 @@ declare(strict_types=1);
 namespace Elao\Bundle\Accesseo\Checker;
 
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Contracts\HttpClient\Exception\TimeoutExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class BrokenLinkChecker
 {
-    /** @var Crawler */
-    private $crawler;
+    /** @var HttpClientInterface */
+    private $client;
 
-    /** @var string */
-    private $uri;
-
-    public function __construct(Crawler $crawler, ?string $uri = null)
+    public function __construct(HttpClientInterface $client)
     {
-        $this->crawler = $crawler;
-        $this->uri = $uri ?? '';
+        $this->client = $client;
     }
 
-    public function getExternalBrokenLinks(): ?array
+    public function getLinks(Crawler $crawler): ?array
     {
-        $urls = [];
+        return $crawler
+            ->filter('a')
+            ->extract(['href']);
+    }
 
-        $links = $this->crawler->filter('a')->links();
-
+    public function getExternalBrokenLinks(array $links): ?array
+    {
         if (\count($links) === 0) {
-            return [
-                'urls' => [],
-                'count' => 0,
-            ];
+            return [];
         }
+
+        $urls = [
+            'errors' => [],
+            'redirections' => [],
+            'success' => [],
+        ];
 
         foreach ($links as $link) {
-            if (false !== strpos($link->getUri(), $this->uri)) {
-                continue;
+            try {
+                $status = $this->getStatusCode($link);
+            } catch (TimeoutExceptionInterface $ex) {
+                $status = 'timeout';
+            } catch (TransportExceptionInterface $ex) {
+                $status = 'invalid';
             }
 
-            $urls[$this->getStatusCode($link->getUri())][] = $link->getUri();
+            switch (true) {
+                case $status >= 300 && $status < 400:
+                    $urls['redirections'][$status][] = $link;
+                    break;
+                case $status === 200:
+                    $urls['success'][$status][] = $link;
+                    break;
+                default:
+                    $urls['errors'][$status][] = $link;
+            }
         }
 
-        return [
-            'urls' => $urls,
-            'count' => \count($urls),
-        ];
+        return $urls;
     }
 
-    public function getStatusCode(string $uri): int
+    /**
+     * @throws TransportExceptionInterface
+     */
+    private function getStatusCode(string $uri): int
     {
-        $ch = curl_init($uri);
+        $response = $this->client->request(
+            'GET',
+            $uri
+        );
 
-        if ($ch === false) {
-            return 0;
-        }
-
-        curl_setopt($ch, CURLOPT_NOBODY, true);
-        curl_exec($ch);
-        $retcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        return $retcode;
+        return $response->getStatusCode();
     }
 }

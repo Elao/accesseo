@@ -23,10 +23,6 @@
             <b>Total buttons whithout text:</b>
             <span>{{ collector.countMissingTextInButtons }}</span>
         </div>
-        <div class="sf-toolbar-info-piece">
-            <b>Broken or redirect external links:</b>
-            <span>{{ collector.brokenLinks.count }}</span>
-        </div>
     {% endset %}
 
     {# the 'link' value set to 'false' means that this panel doesn't
@@ -42,6 +38,29 @@
         }
         .tab-navigation li .badge.status-success { background: var(--color-success); color: #FFF; }
     </style>
+    <script>
+        function getStatusCode(event){
+          const httpRequest = new XMLHttpRequest();
+          const div = event.target.parentElement;
+          httpRequest.onreadystatechange = () => {
+            if (httpRequest.readyState === 4) {
+              if (httpRequest.status === 200) {
+                const data = JSON.parse(httpRequest.responseText);
+                div.innerHTML = data.template;
+                Sfjs.createTabs();
+              } else {
+                //
+              }
+            }
+          };
+          httpRequest.open('GET', '{{ path("_accesseo_status_code", {'token' : token}) }}');
+          httpRequest.send();
+          div.innerHTML = "<i>Loading...</i>";
+        }
+
+        window.addEventListener('load', () => document.getElementById('giveMeStatusCode').addEventListener('click', getStatusCode));
+
+    </script>
     {{ parent() }}
 {% endblock %}
 
@@ -58,7 +77,6 @@
 {% block panel %}
     {# Optional, for showing the most details. #}
     <h2>Accessibility ✨</h2>
-
     <h3>Images</h3>
 
     <div class="metrics">
@@ -131,21 +149,10 @@
         </div>
     {% endif %}
 
-    <h3>Broken external links</h3>
-    <table>
-        {% for statusCode, value in collector.brokenLinks.urls %}
-            <tr>
-                <th>Status code {{ statusCode }}:</th>
-                <td>
-                    {% for url in value %}
-                        {{ url }}<br>
-                    {% else %}
-                        <span class="help">Nothing to display.</span>
-                    {% endfor %}
-                </td>
-            </tr>
-            {% else %}
-            <th><span class="help">No links to display.</span></th>
-        {% endfor %}
-    </table>
+    <h3>Status code of external & internal links</h3>
+
+    <div>
+        <button class="sf-toggle btn btn-sm sf-toggle-off" id="giveMeStatusCode">Discover links</button>
+    </div>
+
 {% endblock %}

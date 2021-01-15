@@ -11,9 +11,20 @@
             <argument type="service" id="debug.stopwatch" on-invalid="null" />
             <tag name="data_collector" template="@ElaoAccesseo/profiler/seo_collector.html.twig" id="elao.accesseo.seo_collector" />
         </service>
+
         <service id="Elao\Bundle\Accesseo\DataCollector\AccessibilityCollector">
             <argument type="service" id="debug.stopwatch" on-invalid="null" />
             <tag name="data_collector" template="@ElaoAccesseo/profiler/accessibility_collector.html.twig" id="elao.accesseo.accessibility_collector" />
+        </service>
+
+        <service id="Elao\Bundle\Accesseo\Checker\BrokenLinkChecker">
+            <argument type="service" id="http_client" />
+        </service>
+
+        <service id="Elao\Bundle\Accesseo\Controller\BrokenLinkController" public="true">
+            <argument type="service" id="twig" />
+            <argument type="service" id="profiler" />
+            <argument type="service" id="Elao\Bundle\Accesseo\Checker\BrokenLinkChecker" />
         </service>
 
     </services>
