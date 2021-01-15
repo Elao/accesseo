@@ -1,11 +1,18 @@
 <div class="sf-tabs">
    {% for type, statusCodes in links %}
+
      <div class="tab">
          <h4 class="tab-title">
             {{ type }}
              <span class="badge">
-                     {{ countSuccess}}
-                </span>
+                {% if type == 'errors' %}
+                    {{ countErrors }}
+                {% elseif type == 'redirections' %}
+                    {{ countRedirections }}
+                {% else %}
+                    {{ countSuccess }}
+                {% endif %}
+             </span>
          </h4>
          <div class="tab-content">
              <table>

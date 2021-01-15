@@ -47,6 +47,7 @@
               if (httpRequest.status === 200) {
                 const data = JSON.parse(httpRequest.responseText);
                 div.innerHTML = data.template;
+                Sfjs.createTabs();
               } else {
                 //
               }

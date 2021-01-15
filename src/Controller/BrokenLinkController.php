@@ -41,11 +41,11 @@ class BrokenLinkController
             '@ElaoAccesseo/profiler/broken_links.html.twig',
             [
                 'links' => $links,
-                'countSuccess' => array_sum(array_map("count", $links['success'])),
-                'countErrors' => array_sum(array_map("count", $links['errors'])),
-                'countRedirections' => array_sum(array_map("count", $links['redirections'])),
+                'countSuccess' => array_sum(array_map('count', $links['success'])),
+                'countErrors' => array_sum(array_map('count', $links['errors'])),
+                'countRedirections' => array_sum(array_map('count', $links['redirections'])),
             ]);
 
-        return new JsonResponse(['template' => $template, 'links' => $links]);
+        return new JsonResponse(['template' => $template]);
     }
 }

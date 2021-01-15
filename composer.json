@@ -41,13 +41,13 @@
         "symfony/css-selector": "^4.4|^5.1",
         "symfony/dependency-injection": "^4.4|^5.1",
         "symfony/dom-crawler": "^4.4|^5.1",
-        "symfony/http-client": "^4.4|^5.1",
         "symfony/http-client-contracts": "^1.1|^2.0",
         "symfony/http-foundation": "^4.4|^5.1",
         "symfony/http-kernel": "^4.4|^5.1",
         "symfony/service-contracts": "^1.1|^2.0"
     },
     "require-dev": {
+        "symfony/http-client": "^4.4|^5.1",
         "friendsofphp/php-cs-fixer": "^2.17",
         "symfony/console": "^4.4|^5.1",
         "symfony/filesystem": "^4.4|^5.1",

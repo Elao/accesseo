@@ -11,9 +11,6 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class BrokenLinkChecker
 {
-    const STATUS_CODE_REDIRECTS = [301, 308, 302, 303, 307, 300, 304];
-    const STATUS_CODE_SUCCESS = [200];
-
     /** @var HttpClientInterface */
     private $client;
 
@@ -34,6 +31,7 @@ class BrokenLinkChecker
         if (\count($links) === 0) {
             return [];
         }
+
         $urls = [
             'errors' => [],
             'redirections' => [],
@@ -49,11 +47,11 @@ class BrokenLinkChecker
                 $status = 'invalid';
             }
 
-            switch ($status) {
-                case (in_array($status, self::STATUS_CODE_REDIRECTS)):
+            switch (true) {
+                case $status >= 300 && $status < 400:
                     $urls['redirections'][$status][] = $link;
                     break;
-                case (in_array($status, self::STATUS_CODE_SUCCESS)):
+                case $status === 200:
                     $urls['success'][$status][] = $link;
                     break;
                 default:
