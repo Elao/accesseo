@@ -14,16 +14,16 @@
            the toolbar panel #}
         <div class="sf-toolbar-info-piece">
             <b>Title</b>
-            <span>{{ collector.title }}</span>
+            <span>{{ collector.title|u.truncate(20, '...', false) }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Meta Description</b>
-            <span>{{ collector.metaDescription }}</span>
+            <span>{{ collector.metaDescription|u.truncate(20, '...', false) }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>First H1 found</b>
             {% if collector.atLeastOneH1 %}
-                <span>{{ collector.h1 }}</span>
+                <span>{{ collector.h1|u.truncate(20, '...', false) }}</span>
             {% else %}
                 <span>No H1 found</span>
             {% endif %}
