@@ -14,8 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
-use Symfony\Component\VarDumper\Cloner\Data;
 use function Symfony\Component\String\u;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class SeoCollector extends DataCollector implements LateDataCollectorInterface
 {
@@ -191,7 +191,6 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
     public function getMetaDescriptionTruncate(): ?string
     {
         return (string) u($this->data['metaDescription'])->truncate(20, '...', false);
-
     }
 
     public function getOpenGraphLevel(): string
