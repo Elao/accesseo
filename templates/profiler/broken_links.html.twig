@@ -23,9 +23,9 @@
                  {% for statusCode, value in statusCodes %}
                  <tr>
                      <th>{{ statusCode }}</th>
-                     <td>
+                     <td id="{{ statusCode }}">
                          {% for url in value %}
-                             {{ url }}<br>
+                             <p>{{ url }}</p>
                          {% else %}
                              <span class="help">Nothing to display.</span>
                          {% endfor %}
