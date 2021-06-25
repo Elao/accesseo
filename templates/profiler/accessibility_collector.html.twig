@@ -68,8 +68,19 @@
             if (httpRequest.readyState === 4) {
               if (httpRequest.status === 200) {
                 const data = JSON.parse(httpRequest.responseText);
+
                 div.innerHTML = data.template;
+                Array.from(document.getElementById('invalid').children).forEach(item => {
+                  const request = new Request(item.innerText);
+
+                  fetch(request).then((response) => {
+                    document.getElementById(response.status).appendChild(item);
+                  });
+
+                });
+
                 Sfjs.createTabs();
+
               } else {
                 //
               }
