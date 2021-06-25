@@ -61,9 +61,9 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
             'title' => $this->optimizationChecker->getTitle(),
             'metaDescription' => $this->optimizationChecker->getMetaDescription(),
             'h1' => $this->optimizationChecker->getH1(),
-            'titleTruncate' => $this->optimizationChecker->getTitle(),
-            'metaDescriptionTruncate' => $this->optimizationChecker->getMetaDescription(),
-            'h1Truncate' => $this->optimizationChecker->getH1(),
+            'truncatedTitle' => $this->optimizationChecker->getTitle(),
+            'truncatedMetaDescription' => $this->optimizationChecker->getMetaDescription(),
+            'truncatedH1' => $this->optimizationChecker->getH1(),
             'atLeastOneH1' => $this->optimizationChecker->atLeastOneH1(),
             'OpenGraphLevel' => $this->optimizationChecker->getOpenGraphLevel(),
             'twitterPropertiesLevel' => $this->optimizationChecker->getTwitterPropertiesLevel(),
@@ -168,8 +168,12 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
         return $this->data['title'];
     }
 
-    public function getTitleTruncate(): ?string
+    public function getTruncatedTitle(): ?string
     {
+        if (null === $this->data['title']) {
+            return null;
+        }
+
         return (string) u($this->data['title'])->truncate(20, '...', false);
     }
 
@@ -183,13 +187,21 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
         return $this->data['metaDescription'];
     }
 
-    public function getH1Truncate(): ?string
+    public function getTruncatedH1(): ?string
     {
+        if (null === $this->data['h1']) {
+            return null;
+        }
+
         return (string) u($this->data['h1'])->truncate(20, '...', false);
     }
 
-    public function getMetaDescriptionTruncate(): ?string
+    public function getTruncatedMetaDescription(): ?string
     {
+        if (null === $this->data['metaDescription']) {
+            return null;
+        }
+
         return (string) u($this->data['metaDescription'])->truncate(20, '...', false);
     }
 
