@@ -4,7 +4,7 @@
      <div class="tab">
          <h4 class="tab-title">
             {{ type }}
-             <span class="badge">
+             <span class="badge" id="badge-{{ type }}">
                 {% if type == 'errors' %}
                     {{ countErrors }}
                 {% elseif type == 'redirections' %}
