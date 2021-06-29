@@ -23,7 +23,7 @@
                  {% for statusCode, value in statusCodes %}
                  <tr>
                      <th>{{ statusCode }}</th>
-                     <td id="{{ statusCode }}">
+                     <td class="type-{{ type }}" id="{{ statusCode }}">
                          {% for url in value %}
                              <p>{{ url }}</p>
                          {% else %}

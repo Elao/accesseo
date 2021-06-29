@@ -39,6 +39,24 @@
         .tab-navigation li .badge.status-success { background: var(--color-success); color: #FFF; }
     </style>
     <script>
+        function discoverLinks() {
+            const badgeSuccess = document.getElementById('badge-success');
+            const badgeErrors = document.getElementById('badge-errors');
+            const badgeRedirections = document.getElementById('badge-redirections');
+
+            Array.from(document.getElementById('invalid').children).forEach(item => {
+              const request = new Request(item.innerText);
+
+              fetch(request).then((response) => {
+                document.getElementById(response.status).appendChild(item);
+
+                badgeErrors.innerText = Array.from(document.getElementsByClassName('type-errors')).reduce((total, element) => total + element.childElementCount, 0);
+                badgeSuccess.innerText = Array.from(document.getElementsByClassName('type-success')).reduce((total, element) => total + element.childElementCount, 0);
+                badgeRedirections.innerText = Array.from(document.getElementsByClassName('type-redirections')).reduce((total, element) => total + element.childElementCount, 0);
+              });
+
+            });
+        }
         function getStatusCode(event){
           const httpRequest = new XMLHttpRequest();
           const div = event.target.parentElement;
@@ -47,47 +65,11 @@
               if (httpRequest.status === 200) {
                 const data = JSON.parse(httpRequest.responseText);
 
-                console.log(data.template);
-
                 div.innerHTML = data.template;
-
-                const badgeSuccess = document.getElementById('badge-success');
-                const badgeErrors = document.getElementById('badge-errors');
-                const badgeRedirections = document.getElementById('badge-redirections');
-
-                const linkErrors = document.getElementById('invalid');
-                const linkSuccess = document.getElementById('success');
-                const linkRedir = document.getElementById('redirections');
-
-                Array.from(linkErrors.children).forEach(item => {
-                  const request = new Request(item.innerText);
-
-                  fetch(request).then((response) => {
-
-                    document.getElementById(response.status).appendChild(item);
-
-                    const countLinksErrors = linkErrors.children.length
-                    const countLinksSuccess= linkSuccess.children.length
-                    const countLinksRedirections = linkRedir.children.length
-
-                    console.table({
-                      countLinksErrors,
-                      countLinksSuccess,
-                      countLinksRedirections
-                    });
-
-                    badgeErrors.innerText = countLinksErrors;
-                    badgeSuccess.innerText = countLinksSuccess;
-                    badgeRedirections.innerText = countLinksErrors;
-
-                  });
-
-                });
 
                 Sfjs.createTabs();
 
-              } else {
-                //
+                discoverLinks();
               }
             }
           };
