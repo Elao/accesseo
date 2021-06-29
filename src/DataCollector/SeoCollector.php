@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
+use function Symfony\Component\String\u;
 use Symfony\Component\VarDumper\Cloner\Data;
 
 class SeoCollector extends DataCollector implements LateDataCollectorInterface
@@ -60,6 +61,9 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
             'title' => $this->optimizationChecker->getTitle(),
             'metaDescription' => $this->optimizationChecker->getMetaDescription(),
             'h1' => $this->optimizationChecker->getH1(),
+            'truncatedTitle' => $this->optimizationChecker->getTitle(),
+            'truncatedMetaDescription' => $this->optimizationChecker->getMetaDescription(),
+            'truncatedH1' => $this->optimizationChecker->getH1(),
             'atLeastOneH1' => $this->optimizationChecker->atLeastOneH1(),
             'OpenGraphLevel' => $this->optimizationChecker->getOpenGraphLevel(),
             'twitterPropertiesLevel' => $this->optimizationChecker->getTwitterPropertiesLevel(),
@@ -164,6 +168,15 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
         return $this->data['title'];
     }
 
+    public function getTruncatedTitle(): ?string
+    {
+        if (null === $this->data['title']) {
+            return null;
+        }
+
+        return (string) u($this->data['title'])->truncate(20, '...', false);
+    }
+
     public function getH1(): ?string
     {
         return $this->data['h1'];
@@ -172,6 +185,24 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
     public function getMetaDescription(): ?string
     {
         return $this->data['metaDescription'];
+    }
+
+    public function getTruncatedH1(): ?string
+    {
+        if (null === $this->data['h1']) {
+            return null;
+        }
+
+        return (string) u($this->data['h1'])->truncate(20, '...', false);
+    }
+
+    public function getTruncatedMetaDescription(): ?string
+    {
+        if (null === $this->data['metaDescription']) {
+            return null;
+        }
+
+        return (string) u($this->data['metaDescription'])->truncate(20, '...', false);
     }
 
     public function getOpenGraphLevel(): string

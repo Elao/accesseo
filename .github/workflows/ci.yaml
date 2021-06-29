@@ -60,9 +60,9 @@ jobs:
     strategy:
       fail-fast: false # don't cancel other matrix jobs on failure
       matrix:
-        php: [ '7.1', '7.4', '8.0' ]
+        php: [ '7.4', '8.0' ]
         include:
-          - php: 7.1
+          - php: 7.4
             lowest-deps: true
 
     steps:
