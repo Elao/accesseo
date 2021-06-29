@@ -33,6 +33,10 @@
             <span>{{ collector.XRobotsTag }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
+            <b>Robots <meta> tag</b>
+            <span>{{ collector.metaRobot }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
             <b>Canonical</b>
             {% if collector.canonical %}
                 <span>{{ collector.canonical }}</span>
@@ -136,7 +140,13 @@
                     <span class="label">Language</span>
                 </div>
                 <div class="metric">
-                    <span class="value">{{ collector.XRobotsTag }}</span>
+                    <span class="value">
+                        {% if collector.XRobotsTag %}
+                            {{ collector.XRobotsTag }}
+                        {% else %}
+                            {{ include('@WebProfiler/Icon/no-gray.svg') }}
+                        {% endif %}
+                    </span>
                     <span class="label">X-Robots-Tag</span>
                 </div>
                 <div class="metric">
