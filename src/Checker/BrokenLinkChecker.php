@@ -35,6 +35,8 @@ class BrokenLinkChecker
                 '500' => [],
                 '503' => [],
                 '504' => [],
+                'invalid' => [],
+                'timeout' => [],
             ],
             'redirections' => [
                 '301' => [],
