@@ -123,8 +123,8 @@ class AccessibilityChecker
 
         $here = $this->crawler->filter('a')->links();
 
-        foreach($here as $link){
-            if(0 === strpos($link->getUri(), 'http')) {
+        foreach ($here as $link) {
+            if (0 === strpos($link->getUri(), 'http')) {
                 $links[] = $link->getUri();
             }
         }
