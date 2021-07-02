@@ -5,7 +5,6 @@
         {# this is the content displayed as a panel in the toolbar #}
         {{ include('@ElaoAccesseo/profiler/179-accessibility.svg.twig') }}
         <span class="sf-toolbar-value">Accessibility</span>
-
     {% endset %}
 
     {% set text %}
@@ -36,7 +35,25 @@
         .text-warning {
             color: var(--color-warning);
         }
-        .tab-navigation li .badge.status-success { background: var(--color-success); color: #FFF; }
+
+        .tab-navigation li .badge.status-success {
+            color: #fff;
+            background: var(--color-success);
+        }
+
+        .code-inline {
+            display: inline-block;
+        }
+
+        table caption {
+            margin: 0 0 .5em;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        table caption small {
+            display: block;
+        }
     </style>
     <script>
         function getStatusCode(event){
@@ -76,50 +93,159 @@
 
 {% block panel %}
     {# Optional, for showing the most details. #}
-    <h2>Accessibility ✨</h2>
-    <h3>Images</h3>
-
+    <h2>Images</h2>
+    <p class="text-muted">On this page, we have :</p>
     <div class="metrics">
         <div class="metric">
             <span class="value">{{ collector.countAllImages }}</span>
-            <span class="label">Count all images</span>
+            <span class="label"><code class="code-inline">&lt;img/&gt;</code></span>
         </div>
         <div class="metric">
-            <span class="value">{{ collector.countAltFromImages }}</span>
-            <span class="label">Images with balise alt</span>
+            <span class="value">6</span>
+            <span class="label"><code class="code-inline">background-image</code></span>
+        </div>
+        <div class="metric">
+            <span class="value">500 <span class="unit">Ko</span></span>
+            <span class="label"><code class="code-inline">total image weight</code></span>
         </div>
     </div>
 
-    <h4>Images whithout alt attribute</h4>
-    {% if collector.listMissingAltFromImages > 0 %}
-        <table>
-            <tr>
-                <td>
-                    {{ profiler_dump(collector.seek('listMissingAltFromImages'), maxDepth=1) }}
-                </td>
-            </tr>
-        </table>
-    {% else %}
-        <div class="empty">
-            <p>Nothing to display</p>
-        </div>
-    {% endif %}
+    <br>
 
-    <h3>Icons</h3>
+    <h3>&lt;img/&gt; : alternative text</h3>
+    <p class="text-muted">All images should have an alt attribute. Those that carry meaning should provide concise alternative text to describe them, while decorative images should have an <code class="code-inline">alt</code> attribute left empty. More about <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Img#attributes">the alt attribute</a>.</p>
+
+    <br>
+
+    <div class="sf-tabs">
+        {# Images with an alt #}
+        {# Todo show images paths + their alt text #}
+        <div class="tab">
+            <span class="tab-title">
+                <span>{{ collector.countAltFromImages }}</span>
+                images with alt text
+            </span>
+            <p class="text-muted">Make sure the alt text is meaningfull</p>
+            <div class="tab-content">
+                <table>
+                    <tr>
+                        <td>
+                            <span class="sf-dump-str">"https://elao.com/build/images/pages/home/<span class="sf-dump-default">workshop-team.jpg</span>"</span>
+                        </td>
+                        <td><span class="sf-dump-default">alt="Team working together"</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        {# Images without an alt #}
+        {# Todo : count images missing the alt attr (not ok) #}
+        <div class="tab">
+            <span class="tab-title">
+                <span>12</span>
+                images without alt text
+            </span>
+            <p class="text-muted">These images that are missing the alt attribute. All images should have an alt attribute (even left empty).</p>
+            <div class="tab-content">
+                {% if collector.listMissingAltFromImages > 0 %}
+                    <table>
+                        <tr>
+                            <td>
+                                {{ profiler_dump(collector.seek('listMissingAltFromImages'), maxDepth=1) }}
+                            </td>
+                        </tr>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+
+        {# Images with empty alt #}
+        {# Todo : count images that have an empty alt (should be decorative images) #}
+        <div class="tab">
+            <span class="tab-title">
+                <span>12</span>
+                images with empty alt text
+            </span>
+            <div class="tab-content">
+                <p class="text-muted">Images with an empty alt. Make sure they're decorative.</p>
+                <table>
+                    <tr>
+                        <td>
+                            <span class="sf-dump-str">"https://elao.com/build/images/pages/home/<span class="sf-dump-default">workshop-team.jpg</span>"</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        {# Images with long alt #}
+        {# Todo : count images with a too long alt att (define "long") #}
+        <div class="tab">
+            <span class="tab-title">
+                <span>12</span>
+                alt text has + 80 char.
+            </span>
+            <p class="text-muted">Is this much description necessary ?</p>
+            <div class="tab-content">
+                <table>
+                    <tr>
+                        <td>
+                            <span class="sf-dump-str">"https://elao.com/build/images/pages/home/<span class="sf-dump-default">workshop-team.jpg</span>"</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <h3>Background images</h3>
+    <p class="text-muted">CSS displayed images (using the background-image property) must always have decorative purposes. <strong>If an image carries meaning, then it cannot be displayed using CSS</strong>, it has to be an <code class="code-inline">&lt;img/&gt;</code> tag.</p>
+    <table>
+        <caption>Background images on this page (make sure they're decorative)</caption>
+        <tr>
+            <td>
+                <span class="sf-dump-str">"https://elao.com/build/images/pages/home/<span class="sf-dump-default">workshop-team.jpg</span>"</span>
+                <br>
+                <span class="sf-dump-str">"https://elao.com/build/images/pages/home/<span class="sf-dump-default">workshop-team.jpg</span>"</span>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+
+    {# Todo liste des images et leur poids #}
+    <h3>Images performance</h3>
+    <table>
+        <caption>Images weight</caption>
+        <tr>
+            <td>
+                <span class="sf-dump-str">"https://elao.com/build/images/pages/home/<span class="sf-dump-default">workshop-team.jpg</span>"</span>
+            </td>
+            <td>
+                <span class="sf-dump-default">47Ko</span>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+
+    <h2>Font Icons</h2>
+    <p><small>Font icons rely on a font character displayed in CSS with a <code class="code-inline">:before</code> or an <code class="code-inline">:after</code>. Since <strong>CSS displayed text is not accessible to screen readers</strong>, they should be explicitly hidden with the HTML atttribute <code class="code-inline">aria-hidden="true"</code>. More about <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-hidden_attribute">the aria-hidden attribute</a>.</small></p>
     <div class="metrics">
         <div class="metric">
             <span class="value">{{ collector.countAllIcons }}</span>
-            <span class="label">Count all icons</span>
+            <span class="label">Icons</span>
         </div>
         <div class="metric">
             <span class="value">{{ collector.countAllExplicitIcons }}</span>
-            <span class="label">Non-explicit icons</span>
+            <span class="label">are visible <br> to screen readers</span>
         </div>
     </div>
-
-    <h4>Class of icons missing aria-hidden attribute</h4>
     {% if collector.listNonExplicitIcons > 0 %}
         <table>
+            <caption>Icons missing the aria-hidden attribute</caption>
             <tr>
                 <td>
                     {{ profiler_dump(collector.seek('listNonExplicitIcons'), maxDepth=1) }}
@@ -128,29 +254,38 @@
         </table>
     {% else %}
         <div class="empty">
-            <p>Nothing to display</p>
+            <p>No icons detected on this page.</p>
         </div>
     {% endif %}
 
-    <h3>Forms</h3>
+    <br>
 
+    <h2>Forms</h2>
+    <p><small>An input <strong>should always have a label</strong> for users to know what is expected of them. This is especially true for screen readers users as they won't have access to the input placeholder. To do so, an input must have an <code class="code-inline">id</code> and its label a <code class="code-inline">for</code> attribue targeting this <code class="code-inline">id</code>. More about <a href="https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input#accessibilit%C3%A9">accessible forms</a>.</small></p>
     {% if collector.isForm %}
         <table>
+            <caption>Input without label</caption>
             <tr>
-            <th>Missing associated label for input</th>
-                    <td>
-                        {{ profiler_dump(collector.seek('missingAssociatedLabelForInput'), maxDepth=1) }}
-                    </td>
+                <td>
+                    {# Todo questions :
+                        - qu'est-ce qu'on peut afficher comme informations sur l'input ?
+                        - actuellement c'est son type ?
+                        - est-ce qu'on a moyen de sortir la balise html ?
+                    #}
+                    {{ profiler_dump(collector.seek('missingAssociatedLabelForInput'), maxDepth=1) }}
+                </td>
             </tr>
         </table>
     {% else %}
         <div class="empty">
-            <p>No Forms</p>
+            <p>No forms detected on this page.</p>
         </div>
     {% endif %}
 
-    <h3>Status code of external & internal links</h3>
+    <br>
 
+    {# Todo : move to SEO #}
+    <h2>Status code of external & internal links</h2>
     <div>
         <button class="sf-toggle btn btn-sm sf-toggle-off" id="giveMeStatusCode">Discover links</button>
     </div>
