@@ -38,12 +38,14 @@
 
         table ul li { margin: 0; }
         table .small-cell { width: 45px; }
+        table.icon-danger {
+            vertical-align: middle;
+            border: solid 1px #fff;
+        }
 
         .icon-danger {
-            vertical-align: middle;
             fill: var(--base-5);
             background: #fff !important;
-            border: solid 1px #fff;
             border-radius: 50px;
         }
     </style>
@@ -85,7 +87,6 @@
 
 {% block panel %}
     <h2>Accessibility</h2>
-    <p class="text-muted">Guidelines concerning the current page</p>
 
     <h3>Images</h3>
     <div class="metrics">
