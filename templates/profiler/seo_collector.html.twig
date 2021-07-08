@@ -113,12 +113,18 @@
             <tr>
                 <th class="font-normal text-muted">Title</th>
                 {# Todo : est-ce possible de récupérer le texte brut ici ⬇ ? #}
-                <td class="font-normal">{{ profiler_dump(collector.seek('title')) }}</td>
+                <td class="font-normal">
+                    <div>{{ profiler_dump(collector.seek('title')) }}</div>
+                    {# <div class="text-muted">30 characters (recommended : less than 60 characters)</div> #}
+                </td>
             </tr>
             <tr>
                 <th class="font-normal text-muted">Meta description</th>
                 {# Todo : ici aussi ⬇ #}
-                <td class="font-normal">{{ profiler_dump(collector.seek('metaDescription')) }}</td>
+                <td class="font-normal">
+                    <div>{{ profiler_dump(collector.seek('metaDescription')) }}</div>
+                    {# <div class="text-muted">130 characters (recommended : 50–150 characters)</div> #}
+                </td>
             </tr>
             <tr>
                 <th class="font-normal text-muted">First h1</th>
