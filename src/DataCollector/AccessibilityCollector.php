@@ -49,7 +49,7 @@ class AccessibilityCollector extends DataCollector
             'response' => $response,
             'countAllImages' => $this->imageChecker->countAllImages(),
             'countAltFromImages' => $this->imageChecker->countAltFromImages(),
-            'listMissingAltFromImages' => $this->imageChecker->listImagesWhithoutAlt(),
+            'listMissingAltFromImages' => $this->imageChecker->listImagesWithoutAlt(),
             'listNonExplicitIcons' => $this->imageChecker->listNonExplicitIcons(),
             'countAllIcons' => $this->imageChecker->countIcons(),
             'countAllExplicitIcons' => $this->imageChecker->countExplicitIcons(),
