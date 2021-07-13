@@ -32,7 +32,7 @@ class ImageChecker
         return $this->crawler->filter('img')->count();
     }
 
-    public function listImagesWhithoutAlt(): array
+    public function listImagesWithoutAlt(): array
     {
         $images = $this->crawler->filter('img')->extract(['src', 'alt']);
         $missingAlt = array_filter($images, function ($img) { return '' === $img[1]; });
