@@ -147,12 +147,7 @@
 
                                     - si les titres ne respectent pas l'ordre
                                     <li>
-                                        <svg xmlns="http://www.w3.org/2000/svg" x="0" y="0" width="12px" height="12px" viewBox="0 0 20 20" class="icon-danger status-error">
-                                            <path d="M10,19.9c-5.4,0-9.9-4.5-9.9-9.9S4.6,0.1,10,0.1s9.9,4.5,9.9,9.9S15.4,19.9,10,19.9z M10,11.9c0.4,0,0.9-0.3,0.9-0.9
-                                                l0.3-5.8c0-0.7-0.5-1.2-1.2-1.2c-0.7,0-1.2,0.5-1.2,1.2l0.3,5.8C9.1,11.6,9.6,11.9,10,11.9z M10,13c-0.4,0-0.8,0.1-1.1,0.4
-                                                c-0.3,0.3-0.4,0.7-0.4,1.1s0.1,0.8,0.4,1.1c0.3,0.4,0.7,0.5,1.1,0.5c0.4,0,0.8-0.1,1.1-0.4s0.4-0.7,0.4-1.1s-0.1-0.8-0.4-1.1
-                                                C10.8,13.1,10.4,13,10,13z"/>
-                                        </svg>
+                                        {{ include('@ElaoAccesseo/profiler/danger.svg') }}
                                         <span>
                                             <strong>h{{ heading.level }}:</strong> {{ heading.content }}
                                         </span>
@@ -281,11 +276,7 @@
         <div class="tab">
             <span class="tab-title">
                 {#  Todo : If at least one missing property, show icon
-                    <svg xmlns="http://www.w3.org/2000/svg" x="0" y="0" width="20px" height="20px" viewBox="0 0 20 20" class="icon-danger">
-                        <path d="M10,19.9c-5.4,0-9.9-4.5-9.9-9.9S4.6,0.1,10,0.1s9.9,4.5,9.9,9.9S15.4,19.9,10,19.9z M10,11.9c0.4,0,0.9-0.3,0.9-0.9
-                        l0.3-5.8c0-0.7-0.5-1.2-1.2-1.2c-0.7,0-1.2,0.5-1.2,1.2l0.3,5.8C9.1,11.6,9.6,11.9,10,11.9z M10,13c-0.4,0-0.8,0.1-1.1,0.4
-                        c-0.3,0.3-0.4,0.7-0.4,1.1s0.1,0.8,0.4,1.1c0.3,0.4,0.7,0.5,1.1,0.5c0.4,0,0.8-0.1,1.1-0.4s0.4-0.7,0.4-1.1s-0.1-0.8-0.4-1.1
-                        C10.8,13.1,10.4,13,10,13z"/>
+                    {{ include('@ElaoAccesseo/profiler/danger.svg') }}
                 #}
                 </svg>
                 <span class="badge">{{ collector.OpenGraphProperties|length }}</span>
@@ -324,11 +315,7 @@
         <div class="tab">
             <span class="tab-title">
                 {#  Todo : If at least one missing property, show icon
-                    <svg xmlns="http://www.w3.org/2000/svg" x="0" y="0" width="20px" height="20px" viewBox="0 0 20 20" class="icon-danger">
-                        <path d="M10,19.9c-5.4,0-9.9-4.5-9.9-9.9S4.6,0.1,10,0.1s9.9,4.5,9.9,9.9S15.4,19.9,10,19.9z M10,11.9c0.4,0,0.9-0.3,0.9-0.9
-                        l0.3-5.8c0-0.7-0.5-1.2-1.2-1.2c-0.7,0-1.2,0.5-1.2,1.2l0.3,5.8C9.1,11.6,9.6,11.9,10,11.9z M10,13c-0.4,0-0.8,0.1-1.1,0.4
-                        c-0.3,0.3-0.4,0.7-0.4,1.1s0.1,0.8,0.4,1.1c0.3,0.4,0.7,0.5,1.1,0.5c0.4,0,0.8-0.1,1.1-0.4s0.4-0.7,0.4-1.1s-0.1-0.8-0.4-1.1
-                        C10.8,13.1,10.4,13,10,13z"/>
+                    {{ include('@ElaoAccesseo/profiler/danger.svg') }}
                 #}
                 </svg>
                 <span class="badge">{{ collector.twitterProperties|length }}</span>
