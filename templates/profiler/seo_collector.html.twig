@@ -139,26 +139,18 @@
                     {% block treeHeading %}
                         <ul class="headings-tree">
                             {% for heading in headings %}
-                                {# Todo : ne pas se reposer uniquement sur la couleur pour alerter
-                                    - si les titres respectent l'ordre
+                                {% if level == heading.level %}
                                     <li>
                                         <strong>h{{ heading.level }}:</strong> {{ heading.content }}
                                     </li>
-
-                                    - si les titres ne respectent pas l'ordre
+                                {% else %}
                                     <li>
                                         {{ include('@ElaoAccesseo/profiler/danger.svg') }}
                                         <span>
                                             <strong>h{{ heading.level }}:</strong> {{ heading.content }}
                                         </span>
                                     </li>
-                                #}
-
-                                <li>
-                                    <span class="{{ level != heading.level ? 'text-warning' }}">
-                                        <strong>h{{ heading.level }}:</strong> {{ heading.content }}
-                                    </span>
-                                </li>
+                                {% endif %}
                                 {% set headings = heading.children %}
                                 {% set level = level+1 %}
                                 {{ block ("treeHeading") }}
