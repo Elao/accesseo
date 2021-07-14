@@ -136,8 +136,10 @@
                 <td class="font-normal">
                     {% set headings = collector.headlinesTree %}
                     {% set level = 1 %}
+                    {% set headingErrors = 0 %}
                     {% block treeHeading %}
                         <ul class="headings-tree">
+
                             {% for heading in headings %}
                                 {% if level == heading.level %}
                                     <li>
@@ -150,6 +152,7 @@
                                             <strong>h{{ heading.level }}:</strong> {{ heading.content }}
                                         </span>
                                     </li>
+                                    {% set headingErrors = headingErrors+1 %}
                                 {% endif %}
                                 {% set headings = heading.children %}
                                 {% set level = level+1 %}
@@ -162,13 +165,12 @@
             </tbody>
         </tr>
     </table>
-
-    {#
-        Todo : afficher si l'un des titres ne respecte pas l'ordre
+    {% if headingErrors > 0 %}
         <div class="card status-error">
-            <strong>Error : au moins 1 titre ne respecte pas la structure.</strong>
+            <strong>Error : {{ headingErrors }} headings are not in the correct order.</strong>
         </div>
-     #}
+    {% endif %}
+
 
     <h3>Robots directives</h3>
     {# Todo : if missing meta, show alert (mandatory meta) or warning (recommended meta)
