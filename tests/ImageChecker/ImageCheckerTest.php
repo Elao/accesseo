@@ -50,13 +50,13 @@ class ImageCheckerTest extends TestCase
         static::assertEquals(2, $imgChecker->countIcons());
     }
 
-    public function testListImagesWhithoutAlt(): void
+    public function testListImagesWithoutAlt(): void
     {
         $imgChecker = $this->getImageChecker('images.html');
-        static::assertEquals(['https://image.fr/image1.jpg'], $imgChecker->listImagesWhithoutAlt());
+        static::assertEquals(['https://image.fr/image1.jpg'], $imgChecker->listImagesWithoutAlt());
     }
 
-    public function testListImagesWhithoutAriHidden(): void
+    public function testListImagesWithoutAriaHidden(): void
     {
         $imgChecker = $this->getImageChecker('explicit-icons.html');
         static::assertEquals(['icon icon--alert'], $imgChecker->listNonExplicitIcons());
