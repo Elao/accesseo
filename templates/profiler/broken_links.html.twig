@@ -4,7 +4,7 @@
      <div class="tab">
          <h4 class="tab-title">
             {{ type }}
-             <span class="badge">
+             <span class="badge" id="badge-{{ type }}">
                 {% if type == 'errors' %}
                     {{ countErrors }}
                 {% elseif type == 'redirections' %}
@@ -23,9 +23,9 @@
                  {% for statusCode, value in statusCodes %}
                  <tr>
                      <th>{{ statusCode }}</th>
-                     <td>
+                     <td class="type-{{ type }}" id="{{ statusCode }}">
                          {% for url in value %}
-                             {{ url }}<br>
+                             <p>{{ url }}</p>
                          {% else %}
                              <span class="help">Nothing to display.</span>
                          {% endfor %}

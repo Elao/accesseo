@@ -28,15 +28,28 @@ class BrokenLinkChecker
 
     public function getExternalBrokenLinks(array $links): ?array
     {
-        if (\count($links) === 0) {
-            return [];
-        }
-
         $urls = [
-            'errors' => [],
-            'redirections' => [],
-            'success' => [],
+            'errors' => [
+                '403' => [],
+                '404' => [],
+                '500' => [],
+                '503' => [],
+                '504' => [],
+                'invalid' => [],
+                'timeout' => [],
+            ],
+            'redirections' => [
+                '301' => [],
+                '302' => [],
+            ],
+            'success' => [
+                '200' => [],
+            ],
         ];
+
+        if (\count($links) === 0) {
+            return $urls;
+        }
 
         foreach ($links as $link) {
             try {

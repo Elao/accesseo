@@ -51,10 +51,19 @@ class BrokenLinkCheckerTest extends TestCase
                 'http://www.google/timeout' => new TimeoutException('timeout url'),
             ],
             'expected' => [
-                'success' => ['200' => ['http://www.google.com', 'https://www.nasa.gov/']],
-                'redirections' => [],
+                'success' => [
+                    '200' => ['http://www.google.com', 'https://www.nasa.gov/'],
+                ],
+                'redirections' => [
+                    '301' => [],
+                    '302' => [],
+                ],
                 'errors' => [
                     '404' => ['http://www.google.com/error'],
+                    '403' => [],
+                    '500' => [],
+                    '503' => [],
+                    '504' => [],
                     'invalid' => ['http://www.google/error'],
                     'timeout' => ['http://www.google/timeout'], ],
             ],
