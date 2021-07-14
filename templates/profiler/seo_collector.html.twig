@@ -119,14 +119,6 @@
                         <div class="card status-error">
                             <strong>Warning : missing title (recommended : 50 - 60 characters)</strong>
                         </div>
-                    {% elseif collector.title|length < 50 %}
-                        <div class="card status-error">
-                            <strong>Warning : {{ collector.title|length }} characters (recommended : 50 - 60 characters)</strong>
-                        </div>
-                    {% elseif collector.title|length > 60 %}
-                        <div class="card status-error">
-                            <strong>Warning : {{ collector.title|length }} characters (recommended : 50 - 60 characters)</strong>
-                        </div>
                     {% else %}
                         <div class="text-muted">{{ collector.title|length }} characters (recommended : 50 - 60 characters)</div>
                     {% endif %}
@@ -140,14 +132,6 @@
                     {% if collector.metaDescription|length == 0 %}
                         <div class="card status-error">
                             <strong>Warning : meta description is missing (recommended : 50 - 160 characters)</strong>
-                        </div>
-                    {% elseif collector.metaDescription|length < 50 %}
-                        <div class="card status-error">
-                            <strong>Warning : {{ collector.metaDescription|length }} characters (recommended : 50 - 160 characters)</strong>
-                        </div>
-                    {% elseif collector.metaDescription|length > 160 %}
-                        <div class="card status-error">
-                            <strong>Warning {{ collector.metaDescription|length }} characters (recommended : 50 - 160 characters)</strong>
                         </div>
                     {% else %}
                         <div class="text-muted">{{ collector.metaDescription|length }} characters (recommended : 50 - 160 characters)  </div>
