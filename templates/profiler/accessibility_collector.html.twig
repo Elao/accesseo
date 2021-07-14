@@ -5,7 +5,6 @@
         {# this is the content displayed as a panel in the toolbar #}
         {{ include('@ElaoAccesseo/profiler/179-accessibility.svg.twig') }}
         <span class="sf-toolbar-value">Accessibility</span>
-
     {% endset %}
 
     {% set text %}
@@ -33,10 +32,33 @@
     {# Optional. Here you can link to or define your own CSS and JS contents. #}
     {# Use {{ parent() }} to extend the default styles instead of overriding them. #}
     <style>
-        .text-warning {
-            color: var(--color-warning);
+        .text-error { color: var(--color-error); }
+
+        .card.status-info { background-color: rgba(32, 139, 195, .2); }
+
+        .code-inline { display: inline-block; }
+
+        .tab-navigation li, .tab-navigation li * { vertical-align: middle; }
+
+        table td, table td * { vertical-align: middle; }
+        table ul li { margin: 0; }
+        table .small-cell { width: 45px; }
+
+        .icon-danger {
+            display: inline-flex;
+            fill: var(--base-5);
+            background: #fff !important;
+            border-radius: 50px;
         }
-        .tab-navigation li .badge.status-success { background: var(--color-success); color: #FFF; }
+
+        .icon-danger.status-error {
+            fill: var(--color-error);
+        }
+
+        .sf-tabs .icon-danger {
+            vertical-align: middle;
+            border: solid 1px #fff;
+        }
     </style>
     <script>
         function getStatusCode(event){
@@ -75,50 +97,339 @@
 {% endblock %}
 
 {% block panel %}
-    {# Optional, for showing the most details. #}
-    <h2>Accessibility ✨</h2>
-    <h3>Images</h3>
+    <h2>Accessibility</h2>
 
+    <h3>Images</h3>
     <div class="metrics">
         <div class="metric">
             <span class="value">{{ collector.countAllImages }}</span>
-            <span class="label">Count all images</span>
+            <span class="label"><code class="code-inline">&lt;img/&gt;</code></span>
         </div>
-        <div class="metric">
-            <span class="value">{{ collector.countAltFromImages }}</span>
-            <span class="label">Images with balise alt</span>
+        {#
+            Todo : count all background images. In the HTML, look for :
+
+            - style="background: url(image.png)"
+            - style="background: url('image.png')"
+            - style="background: url("image.png")"
+            - style="background-image: url(image.png)"
+            - style="background-image: url('image.png')"
+            - style="background-image: url("image.png")"
+
+            <div class="metric">
+                <span class="value">6</span>
+                <span class="label"><code class="code-inline">inline <br> background-image</code></span>
+            </div>
+        #}
+
+        {#
+            Todo : count total image weight
+
+            <div class="metric">
+                <span class="value">500 <span class="unit">Ko</span></span>
+                <span class="label"><code class="code-inline">total image weight</code></span>
+            </div>
+        #}
+    </div>
+    {#
+        Todo if there is no <img> nor CSS background-image on the page :
+        <div class="empty">
+            <p>No images found on this page</p>
         </div>
+    #}
+
+    <br>
+
+    <h3>Alternative text</h3>
+    <p class="text-muted">All images should have an alt attribute. If an image has meaning, you should provide a concise alternative text to describe it. If it's decorative, add the alt attribute and leave it empty. More about <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Img#attributes" target="_blank">the alt attribute</a>.</p>
+
+    <br>
+
+    <div class="sf-tabs">
+        {# Images with an alt #}
+        {# Todo : show images URL + their alt text  #}
+        <div class="tab">
+            <span class="tab-title">
+                <span class="badge">{{ collector.countAltFromImages }}</span>
+                images with alt text
+            </span>
+            <div class="tab-content">
+                {# If there is at least 1 image with an alt
+                    <div class="card status-info">
+                        <strong>Make sure the alt text is meaningful.</strong>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Image URL</th>
+                                <th>Alt text</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-normal text-muted nowrap small-cell">1</td>
+                                <td class="break-long-words">https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
+                                <td class="font-normal">Team working together</td>
+                            </tr>
+                            <tr>
+                                <td class="font-normal text-muted nowrap small-cell">2</td>
+                                <td class="break-long-words">https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
+                                <td class="font-normal">Team working together</td>
+                            </tr>
+                            <tr>
+                                <td class="font-normal text-muted nowrap small-cell">3</td>
+                                <td class="break-long-words">https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
+                                <td class="font-normal">Team working together</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                #}
+                {# If there's no image with an alt
+                    <div class="empty">
+                        <p>No image with an alt attribute found on this page</p>
+                    </div>
+               #}
+            </div>
+        </div>
+
+        {#
+            Images with an empty alt
+
+            Todo : count images that have an empty alt (should be decorative images)
+
+            <div class="tab">
+                <span class="tab-title">
+                    <span class="badge">12</span>
+                    images with empty alt text
+                </span>
+                <div class="tab-content">
+
+                    If there is at least 1 image with an empty alt:
+
+                    <div class="card status-info">
+                        <strong>Make sure the images are decorative. If they mean something, describe them in the alt attribute.</strong>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Image URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-normal text-muted nowrap small-cell">1</td>
+                                <td>https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="font-normal text-muted nowrap small-cell">1</td>
+                                <td>https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    If there's no image with an empty alt
+                    <div class="empty">
+                        <p>No image with an empty alt attribute found on this page</p>
+                    </div>
+                </div>
+            </div>
+        #}
+
+        {# Images without an alt #}
+        <div class="tab">
+            <span class="tab-title">
+                {% if collector.listMissingAltFromImages > 0 %}
+                    <span class="icon-danger">
+                        {{ include('@ElaoAccesseo/profiler/danger.svg') }}
+                    </span>
+                {% endif %}
+                {# Todo : count all images without an alt #}
+                <span class="badge">2</span>
+                images without alt text
+            </span>
+            <div class="tab-content">
+                {% if collector.listMissingAltFromImages > 0 %}
+                    <div class="card status-error">
+                        <strong>Error : these images are missing the alt attribute. All images should have an alt attribute. It can be left empty if an image is purely decorative.</strong>
+                    </div>
+                    {#
+                        Todo : can we have the images in separate rows ? Like this :
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Image URL</th>
+                                    <th>Alt text</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-normal text-muted nowrap small-cell">1</td>
+                                    <td>http://localhost:8080/build/images/pages/home/<strong>lorem.jpg</strong></td>
+                                    <td class="font-normal">Missing, you need to add one</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-normal text-muted nowrap small-cell">2</td>
+                                    <td>http://localhost:8080/build/images/pages/home/<strong>ipsum.jpg</strong></td>
+                                    <td class="font-normal">Missing, you need to add one</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    #}
+                    <table>
+                        <tr>
+                            <td>
+                                {{ profiler_dump(collector.seek('listMissingAltFromImages'), maxDepth=1) }}
+                            </td>
+                        </tr>
+                    </table>
+                {% else %}
+                    <div class="empty">
+                        <p>No image without alt text found on this page (it's a good thing 🎉)</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {# Todo : Images with much alt text
+            - count images with too much alt text (define "too much" -> + 80 char ?)
+            - display the SVG icon only if at least 1 image has too much alt text
+            - display the warning card only if at least 1 image has too much alt text
+            - display the image URL + its alt text
+
+            <div class="tab">
+                <span class="tab-title">
+                    {{ include('@ElaoAccesseo/profiler/danger.svg') }}
+                    <span class="badge">12</span>
+                    alt text has + 80 char.
+                </span>
+                <div class="tab-content">
+
+                    If there is at least 1 image with too much alt text
+                    <div class="card status-warning">
+                        <strong>Warning : too much alt text might interrupt the reading flow for screen reader users.</strong>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Image URL</th>
+                                <th>Alt text</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-normal text-muted nowrap small-cell">1</td>
+                                <td>https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
+                                <td class="font-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla enim sit amet metus.</td>
+                            </tr>
+                            <tr>
+                                <td class="font-normal text-muted nowrap small-cell">2</td>
+                                <td>https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
+                                <td class="font-normal">Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    If there's no image with too much alt text
+                    <div class="empty">
+                        <p>None of your images seem to have too much alt text (it's a good thing 🎉)</p>
+                    </div>
+                </div>
+            </div>
+        #}
     </div>
 
-    <h4>Images whithout alt attribute</h4>
-    {% if collector.listMissingAltFromImages > 0 %}
+    <br>
+
+    {#
+        Todo : inline background images
+
+        <h3>Inline background images</h3>
+        <p class="text-muted">CSS displayed images (using the background-image property) must always have a decorative purpose.<strong> If an image means something, it cannot be displayed using CSS</strong>, it has to be an HTML &lt;img /&gt;.</p>
+
+
+        If there is at least one inline background image
+        <div class="card status-info"><strong>Make sure the images are decorative.</strong></div>
         <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Image URL</th>
+                </tr>
+            </thead>
             <tr>
-                <td>
-                    {{ profiler_dump(collector.seek('listMissingAltFromImages'), maxDepth=1) }}
-                </td>
+                <td class="font-normal text-muted nowrap small-cell">1</td>
+                <td>https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
+            </tr>
+            <tr>
+                <td class="font-normal text-muted nowrap small-cell">1</td>
+                <td>https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
             </tr>
         </table>
-    {% else %}
-        <div class="empty">
-            <p>Nothing to display</p>
-        </div>
-    {% endif %}
 
-    <h3>Icons</h3>
+        If there are no background images
+        <div class="empty">
+            <p>No inline background images found on this page.</p>
+        </div>
+
+        <br>
+    #}
+
+
+    {#
+        Todo liste des images et leur poids
+
+        <h3>Images performance</h3>
+        <div class="card status-info"><strong>Images should be as light as possible.</strong></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Image URL</th>
+                    <th>Image weight</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="font-normal text-muted nowrap small-cell">1</td>
+                    <td>https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
+                    <td>
+                        <span class="font-normal">47 Ko</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="font-normal text-muted nowrap small-cell">2</td>
+                    <td>https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
+                    <td>
+                        <span class="font-normal">47 Ko</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+    #}
+
+
+    <h3>Font Icons</h3>
+    <p class="text-muted">Font icons rely on a font character displayed in CSS with a :before or an :after. Since <strong>CSS displayed text is not accessible to screen readers</strong>, they should be explicitly hidden with the HTML atttribute aria-hidden="true". More about <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-hidden_attribute" target="_blank">the aria-hidden attribute</a>.</p>
     <div class="metrics">
         <div class="metric">
             <span class="value">{{ collector.countAllIcons }}</span>
-            <span class="label">Count all icons</span>
+            <span class="label">Icons found</span>
         </div>
         <div class="metric">
             <span class="value">{{ collector.countAllExplicitIcons }}</span>
-            <span class="label">Non-explicit icons</span>
+            <span class="label">visible to screen readers</span>
         </div>
     </div>
-
-    <h4>Class of icons missing aria-hidden attribute</h4>
     {% if collector.listNonExplicitIcons > 0 %}
+        <div class="card status-info"><strong>These icons are missing the aria-hidden attribute (to hide them from screen readers).</strong></div>
         <table>
             <tr>
                 <td>
@@ -126,31 +437,80 @@
                 </td>
             </tr>
         </table>
+        {#  Todo : is it possible to show every icon in a separate line of the table ? Proposition :
+
+            <table>
+                <thead>
+                    <th>#</th>
+                    <th>Icon class</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="font-normal text-muted nowrap small-cell">1</td>
+                        <td>icon icon--bell</td>
+                    </tr>
+                    <tr>
+                        <td class="font-normal text-muted nowrap small-cell">1</td>
+                        <td>icon icon--menu</td>
+                    </tr>
+                </tbody>
+            </table>
+        #}
     {% else %}
         <div class="empty">
-            <p>Nothing to display</p>
+            <p>No icons found on this page.</p>
         </div>
     {% endif %}
 
-    <h3>Forms</h3>
+    <br>
 
+    <h3>Forms</h3>
+    <p class="text-muted">An input <strong>should always have a label</strong> for users to know what is expected of them. This is especially true for screen readers users as they won't have access to the input placeholder. To do so, an input must have an <code class="code-inline">id</code> and its label a <code class="code-inline">for</code> attribue targeting this <code class="code-inline">id</code>. More about <a href="https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input#accessibilit%C3%A9" target="_blank">accessible forms</a>.</p>
     {% if collector.isForm %}
         <table>
             <tr>
-            <th>Missing associated label for input</th>
-                    <td>
-                        {{ profiler_dump(collector.seek('missingAssociatedLabelForInput'), maxDepth=1) }}
-                    </td>
+                <td>{{ profiler_dump(collector.seek('missingAssociatedLabelForInput'), maxDepth=1) }}</td>
             </tr>
         </table>
+
+        {# Todo : rendre la lecture plus simple. Proposition : #}
+       {#  <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Label</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="font-normal text-muted nowrap small-cell">1</td>
+                    <td>type="email"</td>
+                    <td>name="user_email"</td>
+                    If label
+                    <td>"User email"</td>
+                    If missing label
+                    <td>
+                        <span class="icon-danger status-error">
+                            {{ include('@ElaoAccesseo/profiler/danger.svg') }}
+                        </span>
+                        <strong class="text-error">Missing label</strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table> #}
+
     {% else %}
         <div class="empty">
-            <p>No Forms</p>
+            <p>No forms found on this page.</p>
         </div>
     {% endif %}
 
-    <h3>Status code of external & internal links</h3>
+    <br>
 
+    {# Todo : move to SEO #}
+    <h2>Status code of external & internal links</h2>
     <div>
         <button class="sf-toggle btn btn-sm sf-toggle-off" id="giveMeStatusCode">Discover links</button>
     </div>
