@@ -115,7 +115,13 @@
                 {# Todo : est-ce possible de récupérer le texte brut ici ⬇ ? #}
                 <td class="font-normal">
                     <div>{{ profiler_dump(collector.seek('title')) }}</div>
-                    {# <div class="text-muted">30 characters (recommended : less than 60 characters)</div> #}
+                    {% if collector.title|length == 0 %}
+                        <div class="card status-error">
+                            <strong>Warning : missing title (recommended : 50 - 60 characters)</strong>
+                        </div>
+                    {% else %}
+                        <div class="text-muted">{{ collector.title|length }} characters (recommended : 50 - 60 characters)</div>
+                    {% endif %}
                 </td>
             </tr>
             <tr>
@@ -123,7 +129,13 @@
                 {# Todo : ici aussi ⬇ #}
                 <td class="font-normal">
                     <div>{{ profiler_dump(collector.seek('metaDescription')) }}</div>
-                    {# <div class="text-muted">130 characters (recommended : 50–150 characters)</div> #}
+                    {% if collector.metaDescription|length == 0 %}
+                        <div class="card status-error">
+                            <strong>Warning : meta description is missing (recommended : 50 - 160 characters)</strong>
+                        </div>
+                    {% else %}
+                        <div class="text-muted">{{ collector.metaDescription|length }} characters (recommended : 50 - 160 characters)  </div>
+                    {% endif %}
                 </td>
             </tr>
             <tr>
