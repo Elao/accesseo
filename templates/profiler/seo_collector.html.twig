@@ -87,8 +87,23 @@
             list-style:  none;
         }
 
-        .headings-tree:first-child {
+        .headings-tree:first-of-type {
             padding:  0;
+        }
+
+        .headings-tree__item {}
+
+        .headings-tree__item--error svg {
+            width: 13px;
+            height: 13px;
+        }
+
+        .headings-tree__item--error svg path {
+            fill: var(--color-error);
+        }
+
+        .headings-tree__item--error strong {
+            color: var(--color-error);
         }
     </style>
 {% endblock %}
@@ -134,22 +149,31 @@
             <tr>
                 <th class="font-normal text-muted">Headings</th>
                 <td class="font-normal">
+                    <div class="card status-error">
+                        <strong>Error : missing h1</strong>
+                    </div>
+                    <div class="card status-error">
+                        <strong>Error : several h1 found, there should be only one per page</strong>
+                    </div>
+                    <div class="card status-error">
+                        <strong>Error : at least 1 title is skipping a heading level</strong>
+                    </div>
+
                     {% set headings = collector.headlinesTree %}
                     {% set level = 1 %}
                     {% set headingErrors = 0 %}
                     {% block treeHeading %}
                         <ul class="headings-tree">
-
                             {% for heading in headings %}
                                 {% if level == heading.level %}
-                                    <li>
+                                    <li class="headings-tree__item headings-tree__item--error">
                                         <strong>h{{ heading.level }}:</strong> {{ heading.content }}
                                     </li>
                                 {% else %}
-                                    <li>
+                                    <li class="headings-tree__item headings-tree__item--error">
                                         {{ include('@ElaoAccesseo/profiler/danger.svg') }}
                                         <span>
-                                            <strong>h{{ heading.level }}:</strong> {{ heading.content }}
+                                            <strong>h{{ heading.level }} :</strong> {{ heading.content }}
                                         </span>
                                     </li>
                                     {% set headingErrors = headingErrors+1 %}
