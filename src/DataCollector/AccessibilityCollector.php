@@ -49,7 +49,9 @@ class AccessibilityCollector extends DataCollector
             'response' => $response,
             'countAllImages' => $this->imageChecker->countAllImages(),
             'countAltFromImages' => $this->imageChecker->countAltFromImages(),
+            'listImgUrlAndAlt' => $this->imageChecker->listImagesUrlAndAlt(),
             'listMissingAltFromImages' => $this->imageChecker->listImagesWithoutAlt(),
+            'listImagesUrlAndAltTooLong' => $this->imageChecker->listImagesUrlAndAltTooLong(),
             'listNonExplicitIcons' => $this->imageChecker->listNonExplicitIcons(),
             'countAllIcons' => $this->imageChecker->countIcons(),
             'countAllExplicitIcons' => $this->imageChecker->countExplicitIcons(),
@@ -81,6 +83,11 @@ class AccessibilityCollector extends DataCollector
         return $this->data['isForm'];
     }
 
+    public function listImagesWithoutAlt(): array
+    {
+        return $this->data['listImagesWithoutAlt'];
+    }
+
     public function getCountMissingTextInButtons(): int
     {
         return $this->data['countMissingTextInButtons'];
@@ -94,6 +101,16 @@ class AccessibilityCollector extends DataCollector
     public function getLinks(): array
     {
         return $this->data['links']->getValue();
+    }
+
+    public function getListImgUrlAndAlt(): array
+    {
+        return $this->data['listImgUrlAndAlt']->getValue();
+    }
+
+    public function getListImagesUrlAndAltTooLong(): array
+    {
+        return $this->data['listImagesUrlAndAltTooLong']->getValue();
     }
 
     public function listMissingAltFromImages(): array

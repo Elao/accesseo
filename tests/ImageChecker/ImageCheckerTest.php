@@ -62,6 +62,22 @@ class ImageCheckerTest extends TestCase
         static::assertEquals(['icon icon--alert'], $imgChecker->listNonExplicitIcons());
     }
 
+    public function testListImagesUrlAndAlt(): void
+    {
+        $imgChecker = $this->getImageChecker('images.html');
+        $expected = [
+            ['https://image.fr/image1.jpg', ''],
+            ['https://image.fr/image2.jpg', 'Un texte'],
+        ];
+        static::assertEquals($expected, $imgChecker->listImagesUrlAndAlt());
+    }
+
+    public function testListImagesUrlAndAltNoData(): void
+    {
+        $imgChecker = $this->getImageChecker('no-images.html');
+        static::assertEquals([], $imgChecker->listImagesUrlAndAlt());
+    }
+
     public function getImageChecker($filename): ImageChecker
     {
         $html = file_get_contents(sprintf(__DIR__.'/../ImageChecker/%s', $filename));
