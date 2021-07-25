@@ -287,37 +287,29 @@
     <div class="sf-tabs">
         <div class="tab">
             <span class="tab-title">
-                {#  Todo : If at least one missing property, show icon
+                {% if collector.missingOpenGraphProperties|length > 0 %}
                     {{ include('@ElaoAccesseo/profiler/danger.svg') }}
-                #}
-                </svg>
-                <span class="badge">{{ collector.OpenGraphProperties|length }}</span>
+                {% endif %}
                 Opengraph properties
             </span>
             <div class="tab-content">
-                {# Todo : display card if missing property #}
-                {# <div class="card status-warning">
-                    <strong>Warning : missing "title", "description" in Opengraph properties</strong>
-                </div> #}
+                {% if collector.missingOpenGraphProperties|length > 0 %}
+                 <div class="card status-warning">
+                    <strong>Warning : missing {{ collector.missingOpenGraphProperties|join(',') }}  in Opengraph properties</strong>
+                </div>
+                {% endif %}
+
                 <table>
                     <tr>
                         <th class="font-normal text-muted">Fulfilled properties</th>
                         <td>
                             {{ profiler_dump(collector.seek('OpenGraphProperties'), maxDepth=1) }}
-                            {# Todo : est-ce possible de récupérer le texte brut ici ? Exemple :
-                                <div class="font-normal"><strong>Title :</strong> Création et développement d'applications web et mobile sur-mesure à Lyon"</div>
-                                <div class="font-normal"><strong>Description :</strong> Création et développement d'applications web et mobile sur-mesure à Lyon"</div>
-                             #}
                         </td>
                     </tr>
                     <tr>
                         <th class="font-normal text-muted">Missing properties</th>
                         <td>
                             {{ profiler_dump(collector.seek('missingOpenGraphProperties'), maxDepth=1) }}
-                            {# Todo : Texte brut ici aussi ? Exemple :
-                                <div class="font-normal"><strong>Image</strong></div>
-                                <div class="font-normal"><strong>Creator</strong></div>
-                            #}
                         </td>
                     </tr>
                 </table>
@@ -326,31 +318,30 @@
 
         <div class="tab">
             <span class="tab-title">
-                {#  Todo : If at least one missing property, show icon
+                {% if collector.missingTwitterProperties|length > 0 %}
                     {{ include('@ElaoAccesseo/profiler/danger.svg') }}
-                #}
-                </svg>
-                <span class="badge">{{ collector.twitterProperties|length }}</span>
+                {% endif %}
                 Twitter card properties
             </span>
             <div class="tab-content">
-                {# Todo : display card if missing property #}
-                {# <div class="card status-error">
-                    <strong>Error : missing "title", "description" in Twitter card properties</strong>
-                </div> #}
+
+                {% if collector.missingTwitterProperties|length > 0 %}
+                    <div class="card status-error">
+                        <strong>Warning : missing {{ collector.missingTwitterProperties|join(',') }} in Twitter card properties</strong>
+                    </div>
+                {% endif %}
+
                 <table>
                     <tr>
                         <th class="font-normal text-muted">Fulfilled properties</th>
                         <td class="font-normal">
                             {{ profiler_dump(collector.seek('twitterProperties'), maxDepth=1) }}
-                            {# Todo : Texte brut ici aussi ? #}
                         </td>
                     </tr>
                     <tr>
                         <th class="font-normal text-muted">Missing properties</th>
                         <td class="font-normal">
                             {{ profiler_dump(collector.seek('missingTwitterProperties'), maxDepth=1) }}
-                            {# Todo : Texte brut ici aussi ? #}
                         </td>
                     </tr>
                 </table>
