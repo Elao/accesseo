@@ -107,13 +107,23 @@ class AccessibilityCheckerTest extends TestCase
     public function testMissingForInForm(): void
     {
         $accessibilityChecker = $this->getAccessibilityChecker('form-missing-for.html');
-        static::assertEquals(['name', 'email'], $accessibilityChecker->getListMissingForLabelsInForm());
+        $expected = [
+            ['type' => 'text', 'name' => 'name', 'label' => ''],
+            ['type' => 'email', 'name' => 'email', 'label' => ''],
+            ['type' => 'submit', 'name' => '', 'label' => ''],
+            ];
+        static::assertEquals($expected, $accessibilityChecker->getListMissingForLabelsInForm());
     }
 
     public function testNoMissingForInForm(): void
     {
         $accessibilityChecker = $this->getAccessibilityChecker('form-with-for.html');
-        static::assertEquals([2 => ''], $accessibilityChecker->getListMissingForLabelsInForm());
+        $expected = [
+            ['type' => 'text', 'name' => 'name', 'label' => 'Enter your name: '],
+            ['type' => 'email', 'name' => 'email', 'label' => 'Enter your email: '],
+            ['type' => 'submit', 'name' => '', 'label' => ''],
+        ];
+        static::assertEquals($expected, $accessibilityChecker->getListMissingForLabelsInForm());
     }
 
     public function testNoForm(): void

@@ -109,12 +109,35 @@ class AccessibilityChecker
         return \count($this->crawler->filter('form')) > 0;
     }
 
+    /**
+     * Returns an array of all inputs for the form, with associated of missing label
+     */
     public function getListMissingForLabelsInForm(): array
     {
-        $for = $this->crawler->filter('label')->extract(['for']);
-        $inputsName = $this->crawler->filter('input')->extract(['name']);
+        $formRows = [];
 
-        return array_diff($inputsName, $for);
+        $rawLabels = $this->crawler->filter('label')->extract(['for', '_text']);
+        $inputsName = $this->crawler->filter('input')->extract(['type', 'name']);
+
+        $labels = [];
+
+        foreach ($rawLabels as $label) {
+            if ($label[0] == !'') {
+                $labels[$label[0]] = $label[1];
+            }
+        }
+
+        foreach ($inputsName as $input) {
+            $label = \array_key_exists($input[1], $labels) ? $labels[$input[1]] : '';
+            $formRows[] =
+                        [
+                            'type' => $input[0],
+                            'name' => $input[1],
+                            'label' => $label,
+                        ];
+        }
+
+        return $formRows;
     }
 
     public function getLinks(): ?array
