@@ -6,6 +6,7 @@ namespace Elao\Bundle\Accesseo\DataCollector;
 
 use Elao\Bundle\Accesseo\Checker\AccessibilityChecker;
 use Elao\Bundle\Accesseo\Checker\ImageChecker;
+use Elao\Bundle\Accesseo\Checker\LinkChecker;
 use Elao\Bundle\Accesseo\Checker\OptimizationChecker;
 use Elao\Bundle\Accesseo\Checker\RobotDirectivesChecker;
 use Symfony\Component\DomCrawler\Crawler;
@@ -31,6 +32,9 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
     /** @var RobotDirectivesChecker */
     public $robotDirectivesChecker;
 
+    /** @var LinkChecker */
+    public $linkChecker;
+
     /** @var Stopwatch|null */
     private $stopwatch;
 
@@ -55,6 +59,7 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
         $this->imageChecker = new ImageChecker($crawler);
         $this->optimizationChecker = new OptimizationChecker($crawler);
         $this->accessibilityChecker = new AccessibilityChecker($crawler);
+        $this->linkChecker = new LinkChecker($crawler);
 
         $this->data = [
             'response' => $response,
@@ -75,6 +80,7 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
             'headlinesTree' => $this->accessibilityChecker->getHeadlineTree(),
             'isHreflang' => $this->optimizationChecker->isHreflang(),
             'hreflang' => $this->optimizationChecker->getHreflang(),
+            'qualifiedOutboundLinks' => $this->linkChecker->getQualifiedOutboundLinks(),
         ];
 
         if (isset($event)) {
@@ -114,6 +120,11 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
     public function getHreflang(): array
     {
         return $this->data['hreflang']->getValue();
+    }
+
+    public function qualifiedOutboundLinks(): array
+    {
+        return $this->data['qualifiedOutboundLinks']->getValue();
     }
 
     public function isHreflang(): bool
