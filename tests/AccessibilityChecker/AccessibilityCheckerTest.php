@@ -142,6 +142,37 @@ class AccessibilityCheckerTest extends TestCase
         static::assertEquals($links, $accessibilityChecker->getLinks());
     }
 
+    public function testGetNavElements(): void
+    {
+        $accessibilityChecker = $this->getAccessibilityChecker('nav-case1.html');
+
+        $expected =
+            [
+                [
+                    'id' => 'main-nav1',
+                    'ariaLabel' => 'Main1',
+                ],
+                [
+                    'id' => 'main-nav2',
+                    'ariaLabel' => 'Main2',
+                ],
+              [
+                  'id' => 'main-nav0',
+                  'ariaLabel' => 'Main0',
+              ],
+                [
+                    'id' => 'footer-nav',
+                    'ariaLabel' => 'Footer',
+                ],
+                [
+                    'id' => 'footer-bis-nav',
+                    'ariaLabel' => '',
+                ],
+            ];
+
+        static::assertEquals($expected, $accessibilityChecker->getNavigationElements());
+    }
+
     public function getAccessibilityChecker($filename): AccessibilityChecker
     {
         $html = file_get_contents(sprintf(__DIR__.'/../AccessibilityChecker/%s', $filename));
