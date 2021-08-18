@@ -27,6 +27,30 @@ class ImageChecker
         return \count($alt);
     }
 
+    public function listImagesUrlAndAlt(): array
+    {
+        return $this->crawler
+            ->filter('img')
+            ->extract(['src', 'alt']);
+    }
+
+    public function listImagesUrlAndAltTooLong(): array
+    {
+        $allImages = $this->listImagesUrlAndAlt();
+        $altTooLong = [];
+
+        foreach ($allImages as $image) {
+            if (\strlen($image[1]) > 80) {
+                $altTooLong[] = [
+                    'img' => $image[0],
+                    'alt' => $image[1],
+                ];
+            }
+        }
+
+        return $altTooLong;
+    }
+
     public function countAllImages(): int
     {
         return $this->crawler->filter('img')->count();

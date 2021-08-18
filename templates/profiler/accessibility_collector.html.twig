@@ -166,14 +166,13 @@
 
     <div class="sf-tabs">
         {# Images with an alt #}
-        {# Todo : show images URL + their alt text  #}
         <div class="tab">
             <span class="tab-title">
                 <span class="badge">{{ collector.countAltFromImages }}</span>
                 images with alt text
             </span>
             <div class="tab-content">
-                {# If there is at least 1 image with an alt
+                {% if collector.countAltFromImages > 1 %}
                     <div class="card status-info">
                         <strong>Make sure the alt text is meaningful.</strong>
                     </div>
@@ -186,49 +185,35 @@
                             </tr>
                         </thead>
                         <tbody>
+                        {% for img in collector.listImgUrlAndAlt %}
+                            {% if img.1 is not empty  %}
                             <tr>
                                 <td class="font-normal text-muted nowrap small-cell">1</td>
-                                <td class="break-long-words">https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
-                                <td class="font-normal">Team working together</td>
+                                <td class="break-long-words">{{ img.0 }}</td>
+                                <td class="font-normal">{{ img.1 }}</td>
                             </tr>
-                            <tr>
-                                <td class="font-normal text-muted nowrap small-cell">2</td>
-                                <td class="break-long-words">https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
-                                <td class="font-normal">Team working together</td>
-                            </tr>
-                            <tr>
-                                <td class="font-normal text-muted nowrap small-cell">3</td>
-                                <td class="break-long-words">https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
-                                <td class="font-normal">Team working together</td>
-                            </tr>
+                            {% endif %}
+                        {% endfor %}
                         </tbody>
                     </table>
-                #}
-                {# If there's no image with an alt
-                    <div class="empty">
-                        <p>No image with an alt attribute found on this page</p>
-                    </div>
-               #}
+                    {% else %}
+                        <div class="empty">
+                            <p>No image with an alt attribute found on this page</p>
+                        </div>
+                {% endif %}
             </div>
         </div>
 
-        {#
-            Images with an empty alt
-
-            Todo : count images that have an empty alt (should be decorative images)
-
             <div class="tab">
                 <span class="tab-title">
-                    <span class="badge">12</span>
+                    <span class="badge">{{ collector.listMissingAltFromImages|length }}</span>
                     images with empty alt text
                 </span>
                 <div class="tab-content">
-
-                    If there is at least 1 image with an empty alt:
-
-                    <div class="card status-info">
-                        <strong>Make sure the images are decorative. If they mean something, describe them in the alt attribute.</strong>
-                    </div>
+                    {% if collector.listMissingAltFromImages|length > 0 %}
+                        <div class="card status-info">
+                            <strong>Make sure the images are decorative. If they mean something, describe them in the alt attribute.</strong>
+                        </div>
                     <table>
                         <thead>
                             <tr>
@@ -237,97 +222,32 @@
                             </tr>
                         </thead>
                         <tbody>
+                        {% for img in collector.listMissingAltFromImages%}
                             <tr>
                                 <td class="font-normal text-muted nowrap small-cell">1</td>
-                                <td>https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
+                                <td>{{ img }}</td>
                             </tr>
-                            <tr>
-                                <td class="font-normal text-muted nowrap small-cell">1</td>
-                                <td>https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
-                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
 
-                    If there's no image with an empty alt
-                    <div class="empty">
-                        <p>No image with an empty alt attribute found on this page</p>
-                    </div>
+                    {% else %}
+                        <div class="empty">
+                            <p>No image with an empty alt attribute found on this page</p>
+                        </div>
+                    {% endif %}
+
                 </div>
             </div>
-        #}
-
-        {# Images without an alt #}
-        <div class="tab">
-            <span class="tab-title">
-                {% if collector.listMissingAltFromImages > 0 %}
-                    <span class="icon-danger">
-                        {{ include('@ElaoAccesseo/profiler/danger.svg') }}
-                    </span>
-                {% endif %}
-                {# Todo : count all images without an alt #}
-                <span class="badge">2</span>
-                images without alt text
-            </span>
-            <div class="tab-content">
-                {% if collector.listMissingAltFromImages > 0 %}
-                    <div class="card status-error">
-                        <strong>Error : these images are missing the alt attribute. All images should have an alt attribute. It can be left empty if an image is purely decorative.</strong>
-                    </div>
-                    {#
-                        Todo : can we have the images in separate rows ? Like this :
-
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Image URL</th>
-                                    <th>Alt text</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="font-normal text-muted nowrap small-cell">1</td>
-                                    <td>http://localhost:8080/build/images/pages/home/<strong>lorem.jpg</strong></td>
-                                    <td class="font-normal">Missing, you need to add one</td>
-                                </tr>
-                                <tr>
-                                    <td class="font-normal text-muted nowrap small-cell">2</td>
-                                    <td>http://localhost:8080/build/images/pages/home/<strong>ipsum.jpg</strong></td>
-                                    <td class="font-normal">Missing, you need to add one</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    #}
-                    <table>
-                        <tr>
-                            <td>
-                                {{ profiler_dump(collector.seek('listMissingAltFromImages'), maxDepth=1) }}
-                            </td>
-                        </tr>
-                    </table>
-                {% else %}
-                    <div class="empty">
-                        <p>No image without alt text found on this page (it's a good thing 🎉)</p>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-
-        {# Todo : Images with much alt text
-            - count images with too much alt text (define "too much" -> + 80 char ?)
-            - display the SVG icon only if at least 1 image has too much alt text
-            - display the warning card only if at least 1 image has too much alt text
-            - display the image URL + its alt text
 
             <div class="tab">
                 <span class="tab-title">
                     {{ include('@ElaoAccesseo/profiler/danger.svg') }}
-                    <span class="badge">12</span>
+                    <span class="badge">{{ collector.listImagesUrlAndAltTooLong|length }}</span>
                     alt text has + 80 char.
                 </span>
                 <div class="tab-content">
-
-                    If there is at least 1 image with too much alt text
+                    {% if collector.listImagesUrlAndAltTooLong|length > 0 %}
                     <div class="card status-warning">
                         <strong>Warning : too much alt text might interrupt the reading flow for screen reader users.</strong>
                     </div>
@@ -341,27 +261,22 @@
                         </thead>
                         <tbody>
                             <tr>
+                                {% for img in collector.listImagesUrlAndAltTooLong %}
                                 <td class="font-normal text-muted nowrap small-cell">1</td>
-                                <td>https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
-                                <td class="font-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla enim sit amet metus.</td>
+                                <td>{{ img.img }}</td>
+                                <td class="font-normal">{{ img.alt }}</td>
+                                {% endfor %}
                             </tr>
-                            <tr>
-                                <td class="font-normal text-muted nowrap small-cell">2</td>
-                                <td>https://elao.com/build/images/pages/home/<strong>workshop-team.jpg</strong></td>
-                                <td class="font-normal">Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
-                            </tr>
+
                         </tbody>
                     </table>
-
-                    If there's no image with too much alt text
+                    {% else %}
                     <div class="empty">
-                        <p>None of your images seem to have too much alt text (it's a good thing 🎉)</p>
+                        <p>None of your images seem to have too much alt text</p>
                     </div>
+                    {% endif %}
                 </div>
             </div>
-        #}
     </div>
 
     <br>
