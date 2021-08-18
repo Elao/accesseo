@@ -289,6 +289,28 @@
         </div>
     #}
 
+    <h3>Qualify Outbound links</h3>
+
+    <p>You might wanted to tell Search Engine robots how to interpret the relation with the linked page, using `rel` attribute values in the `< a >` tag.</p>
+    <p><a href="https://developers.google.com/search/docs/advanced/guidelines/qualify-outbound-links?hl=en">More informations on official documentation of Google.</a></p>
+    <table>
+        <thead>
+        <tr>
+            <th>href</th>
+            <th>text</th>
+            <th>rel attribute</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for link in collector.qualifiedOutboundLinks %}
+        <tr>
+            <td>{{ link.href }}</td>
+            <td>{{ link.text }}</td>
+            <td>{{ link.rel }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
     <h3>Social Media metas</h3>
     <div class="sf-tabs">
