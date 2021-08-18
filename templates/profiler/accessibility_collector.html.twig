@@ -399,6 +399,44 @@
 
     <br>
 
+    <h3>ARIA : Navigation Role</h3>
+
+    <p>Identify major groups of links used for navigation, using navigation landmark role.</p>
+    <p>Here is a list of navigation element (div with role=navigation or nav elements) for the page.</p>
+    <p>More informations on <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Navigation_Role">MDN Web Docs</a>.</p>
+    {%  if collector.navigationElements|length > 1 %}
+        <p>Found {{ collector.navigationElements|length }} navigation roles:</p>
+
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>id of navigation element</th>
+                <th>Aria label</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for navigation in collector.navigationElements %}
+                <tr>
+                    <td class="font-normal text-muted nowrap small-cell">#</td>
+                    {% if navigation.id == '' %}
+                        <td>Missing</td>
+                    {% else %}
+                        <td>{{ navigation.id }}</td>
+                    {% endif %}
+                    {% if navigation.ariaLabel == '' %}
+                        <td>Missing</td>
+                    {% else %}
+                        <td>{{ navigation.ariaLabel }}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Found 0 navigation role</p>
+    {% endif %}
+
     <h3>Forms</h3>
     <p class="text-muted">An input <strong>should always have a label</strong> for users to know what is expected of them. This is especially true for screen readers users as they won't have access to the input placeholder. To do so, an input must have an <code class="code-inline">id</code> and its label a <code class="code-inline">for</code> attribue targeting this <code class="code-inline">id</code>. More about <a href="https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input#accessibilit%C3%A9" target="_blank">accessible forms</a>.</p>
     {% if collector.isForm %}

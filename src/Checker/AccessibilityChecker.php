@@ -154,4 +154,16 @@ class AccessibilityChecker
 
         return $links;
     }
+
+    public function getNavigationElements(): ?array
+    {
+        $data = array_merge(
+            $this->crawler->filter('[role="navigation"]')->extract(['id', 'aria-label']),
+            $this->crawler->filter('nav')->extract(['id', 'aria-label'])
+        );
+
+        dump($data);
+
+        return array_map(fn ($row) => array_combine(['id', 'ariaLabel'], $row), $data);
+    }
 }

@@ -59,6 +59,7 @@ class AccessibilityCollector extends DataCollector
             'missingAssociatedLabelForInput' => $this->accessibilityChecker->getListMissingForLabelsInForm(),
             'countMissingTextInButtons' => $this->accessibilityChecker->countNonExplicitButtons(),
             'links' => $this->accessibilityChecker->getLinks(),
+            'navigationElements' => $this->accessibilityChecker->getNavigationElements(),
         ];
 
         $this->data = $this->cloneVar($this->data);
@@ -96,6 +97,11 @@ class AccessibilityCollector extends DataCollector
     public function getMissingAssociatedLabelForInput(): array
     {
         return $this->data['missingAssociatedLabelForInput']->getValue();
+    }
+
+    public function getNavigationElements(): array
+    {
+        return $this->data['navigationElements']->getValue();
     }
 
     public function getLinks(): array
