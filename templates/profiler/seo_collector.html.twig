@@ -158,21 +158,6 @@
                     {% block treeHeading %}
                         <ul class="headings-tree">
                             {% for heading in headings %}
-                                {# Todo : ne pas se reposer uniquement sur la couleur pour alerter
-                                    - si les titres respectent l'ordre
-                                    <li>
-                                        <strong>h{{ heading.level }}:</strong> {{ heading.content }}
-                                    </li>
-
-                                    - si les titres ne respectent pas l'ordre
-                                    <li>
-                                        {{ include('@ElaoAccesseo/profiler/danger.svg') }}
-                                        <span>
-                                            <strong>h{{ heading.level }}:</strong> {{ heading.content }}
-                                        </span>
-                                    </li>
-                                #}
-
                                 <li>
                                     <span class="{{ level != heading.level ? 'text-warning' }}">
                                         <strong>H{{ heading.level }}:</strong> {{ heading.content }}
@@ -189,13 +174,6 @@
             </tbody>
         </tr>
     </table>
-
-    {#
-        Todo : afficher si l'un des titres ne respecte pas l'ordre
-        <div class="card status-error">
-            <strong>Error : au moins 1 titre ne respecte pas la structure.</strong>
-        </div>
-     #}
 
     <h3>Robots directives</h3>
     {# Todo : if missing meta, show alert (mandatory meta) or warning (recommended meta)
