@@ -487,7 +487,14 @@
     <h3>Forms</h3>
     <p class="text-muted">An input <strong>should always have a label</strong> for users to know what is expected of them. This is especially true for screen readers users as they won't have access to the input placeholder. To do so, an input must have an <code class="code-inline">id</code> and its label a <code class="code-inline">for</code> attribue targeting this <code class="code-inline">id</code>. More about <a href="https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input#accessibilit%C3%A9" target="_blank">accessible forms</a>.</p>
     {% if collector.isForm %}
-         <table>
+        <table>
+            <tr>
+                <td>{{ profiler_dump(collector.seek('missingAssociatedLabelForInput'), maxDepth=1) }}</td>
+            </tr>
+        </table>
+
+        {# Todo : rendre la lecture plus simple. Proposition : #}
+       {#  <table>
             <thead>
                 <tr>
                     <th>#</th>
@@ -498,24 +505,21 @@
             </thead>
             <tbody>
                 <tr>
-                    {% for formrow in collector.missingAssociatedLabelForInput %}
-                        <td class="font-normal text-muted nowrap small-cell">1</td>
-                        <td>{{ formrow.type }}</td>
-                        <td>{{ formrow.name }}</td>
-                        {% if formrow.label is not empty %}
-                        <td>{{ formrow.label }}</td>
-                            {% elseif formrow.name is not empty %}
-                                <td>
-                                    <span class="icon-danger status-error">
-                                        {{ include('@ElaoAccesseo/profiler/danger.svg') }}
-                                    </span>
-                                            <strong class="text-error">Missing label</strong>
-                                </td>
-                        {% endif %}
+                    <td class="font-normal text-muted nowrap small-cell">1</td>
+                    <td>type="email"</td>
+                    <td>name="user_email"</td>
+                    If label
+                    <td>"User email"</td>
+                    If missing label
+                    <td>
+                        <span class="icon-danger status-error">
+                            {{ include('@ElaoAccesseo/profiler/danger.svg') }}
+                        </span>
+                        <strong class="text-error">Missing label</strong>
+                    </td>
                 </tr>
-                {% endfor %}
             </tbody>
-        </table>
+        </table> #}
 
     {% else %}
         <div class="empty">
