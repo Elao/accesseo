@@ -64,7 +64,8 @@
 
         .code-inline { display: inline-block; }
 
-        table ul li { margin: 0; }
+        table ul li,
+        table p { margin: 0; }
         table .small-cell { width: 45px; }
 
         .icon-danger {
@@ -83,7 +84,7 @@
         }
 
         .headings-tree {
-            padding: 0 0 0 25px;
+            padding: 0 0 0 20px;
             list-style:  none;
         }
 
@@ -114,13 +115,15 @@
                 <th class="font-normal text-muted">Title</th>
                 {# Todo : est-ce possible de récupérer le texte brut ici ⬇ ? #}
                 <td class="font-normal">
-                    <div>{{ profiler_dump(collector.seek('title')) }}</div>
+                    <strong>{{ collector.title }}</strong>
                     {% if collector.title|length == 0 %}
-                        <div class="card status-error">
+                        <div class="card status-warning">
                             <strong>Warning : missing title (recommended : 50 - 60 characters)</strong>
                         </div>
                     {% else %}
-                        <div class="text-muted">{{ collector.title|length }} characters (recommended : 50 - 60 characters)</div>
+                        <p>
+                            <small class="text-muted">{{ collector.title|length }} characters (recommended : 50 - 60 characters)</small>
+                        </p>
                     {% endif %}
                 </td>
             </tr>
@@ -128,20 +131,24 @@
                 <th class="font-normal text-muted">Meta description</th>
                 {# Todo : ici aussi ⬇ #}
                 <td class="font-normal">
-                    <div>{{ profiler_dump(collector.seek('metaDescription')) }}</div>
+                    <strong>{{ collector.metaDescription }}</strong>
                     {% if collector.metaDescription|length == 0 %}
-                        <div class="card status-error">
+                        <div class="card status-warning">
                             <strong>Warning : meta description is missing (recommended : 50 - 160 characters)</strong>
                         </div>
                     {% else %}
-                        <div class="text-muted">{{ collector.metaDescription|length }} characters (recommended : 50 - 160 characters)  </div>
+                        <p>
+                            <small class="text-muted">{{ collector.metaDescription|length }} characters (recommended : 50 - 160 characters)  </small>
+                        </p>
                     {% endif %}
                 </td>
             </tr>
             <tr>
-                <th class="font-normal text-muted">First h1</th>
+                <th class="font-normal text-muted">First H1</th>
                 {# Todo : ici aussi ⬇ #}
-                <td class="font-normal">{{ profiler_dump(collector.seek('h1')) }}</td>
+                <td class="font-normal">
+                    <strong>{{ collector.h1 }}</strong>
+                </td>
             </tr>
             <tr>
                 <th class="font-normal text-muted">Headings</th>
@@ -168,7 +175,7 @@
 
                                 <li>
                                     <span class="{{ level != heading.level ? 'text-warning' }}">
-                                        <strong>h{{ heading.level }}:</strong> {{ heading.content }}
+                                        <strong>H{{ heading.level }}:</strong> {{ heading.content }}
                                     </span>
                                 </li>
                                 {% set headings = heading.children %}
