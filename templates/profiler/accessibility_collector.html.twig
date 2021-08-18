@@ -401,9 +401,7 @@
 
     <h3>ARIA : Navigation Role</h3>
 
-    <p>Identify major groups of links used for navigation, using navigation landmark role.</p>
-    <p>Here is a list of navigation element (div with role=navigation or nav elements) for the page.</p>
-    <p>More informations on <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Navigation_Role">MDN Web Docs</a>.</p>
+    <p class="text-muted">Identify major groups of links used for navigation, using navigation landmark role(div with role=navigation or nav elements) for the page. More about the navigation role on <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Navigation_Role">MDN Web Docs</a>.</p>
     {%  if collector.navigationElements|length > 1 %}
         <p>Found {{ collector.navigationElements|length }} navigation roles:</p>
 
