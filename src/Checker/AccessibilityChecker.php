@@ -162,8 +162,6 @@ class AccessibilityChecker
             $this->crawler->filter('nav')->extract(['id', 'aria-label'])
         );
 
-        dump($data);
-
         return array_map(fn ($row) => array_combine(['id', 'ariaLabel'], $row), $data);
     }
 }
