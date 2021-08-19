@@ -43,6 +43,8 @@
 
         .tab-navigation li, .tab-navigation li * { vertical-align: middle; }
 
+        pre { margin: 0; }
+
         table td, table td * { vertical-align: middle; }
         table ul li { margin: 0; }
         table .small-cell { width: 45px; }
@@ -163,7 +165,8 @@
     <br>
 
     <h3>Alternative text</h3>
-    <p class="text-muted">All images should have an alt attribute. If an image has meaning, you should provide a concise alternative text to describe it. If it's decorative, add the alt attribute and leave it empty. More about <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Img#attributes" target="_blank">the alt attribute</a>.</p>
+    <p class="text-muted">All images must have an alt attribute.</p>
+    <p class="text-muted">If an image has meaning, you should provide a concise alternative text to describe it. If it's decorative, add the alt attribute and leave it empty. More about <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Img#attributes" target="_blank">the alt attribute</a>.</p>
 
     <br>
 
@@ -354,51 +357,48 @@
     #}
 
 
-    <h3>Font Icons</h3>
-    <p class="text-muted">Font icons rely on a font character displayed in CSS with a :before or an :after. Since <strong>CSS displayed text is not accessible to screen readers</strong>, they should be explicitly hidden with the HTML atttribute aria-hidden="true". More about <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-hidden_attribute" target="_blank">the aria-hidden attribute</a>.</p>
-    <div class="metrics">
-        <div class="metric">
-            <span class="value">{{ collector.countAllIcons }}</span>
-            <span class="label">Icons found</span>
-        </div>
-        <div class="metric">
-            <span class="value">{{ collector.countAllExplicitIcons }}</span>
-            <span class="label">visible to screen readers</span>
-        </div>
-    </div>
-    {% if collector.listNonExplicitIcons > 0 %}
-        <div class="card status-info"><strong>These icons are missing the aria-hidden attribute (to hide them from screen readers).</strong></div>
-        <table>
-            <tr>
-                <td>
-                    {{ profiler_dump(collector.seek('listNonExplicitIcons'), maxDepth=1) }}
-                </td>
-            </tr>
-        </table>
-        {#  Todo : is it possible to show every icon in a separate line of the table ? Proposition :
+    <h3>CSS content</h3>
+    <p class="text-muted">CSS displayed content (:before and :after) is not available to screen readers. Make sure it is purely decorative so that assistive technology users can access it.</p>
+    <p class="text-muted">The aria-hidden attribute can expose or hide elements from screen readers. When possible, use this attribute to hide all decorative elements (such as decorative images, icons, offscreen or collapsed content, etc.) from screen readers. More about <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-hidden_attribute" target="_blank">the aria-hidden attribute</a>.</p>
 
-            <table>
-                <thead>
-                    <th>#</th>
-                    <th>Icon class</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="font-normal text-muted nowrap small-cell">1</td>
-                        <td>icon icon--bell</td>
-                    </tr>
-                    <tr>
-                        <td class="font-normal text-muted nowrap small-cell">1</td>
-                        <td>icon icon--menu</td>
-                    </tr>
-                </tbody>
-            </table>
-        #}
-    {% else %}
-        <div class="empty">
-            <p>No icons found on this page.</p>
-        </div>
-    {% endif %}
+    <table>
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Tag</th>
+            <th>Aria hidden</th>
+        </tr>
+        </thead>
+        <tbody>
+             <tr>
+                <td class="font-normal text-muted nowrap small-cell">1</td>
+                <td>
+<pre><code>&lt;i class="fa fa-bell" aria-hidden="true"&gt;
+  :before
+&lt;/i&gt;</code></pre>
+                </td>
+                <td>true</td>
+            </tr>
+            <tr>
+                <td class="font-normal text-muted nowrap small-cell">2</td>
+                <td>
+<pre><code>&lt;i class="fa fa-bell" aria-hidden="false"&gt;
+  :before
+&lt;/i&gt;</code></pre>
+                </td>
+                <td>false</td>
+            </tr>
+            <tr>
+                <td class="font-normal text-muted nowrap small-cell">3</td>
+                <td>
+<pre><code>&lt;i class="fa fa-bell"&gt;
+  :before
+&lt;/i&gt;</code></pre>
+                </td>
+                <td>false</td>
+            </tr>
+        </tbody>
+    </table>
 
     <br>
 
