@@ -6,6 +6,7 @@ namespace Elao\Bundle\Accesseo\DataCollector;
 
 use Elao\Bundle\Accesseo\Checker\AccessibilityChecker;
 use Elao\Bundle\Accesseo\Checker\ImageChecker;
+use Elao\Bundle\Accesseo\Checker\OptimizationChecker;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +21,9 @@ class AccessibilityCollector extends DataCollector
 
     /** @var AccessibilityChecker */
     public $accessibilityChecker;
+
+    /** @var OptimizationChecker */
+    public $optimizationChecker;
 
     /** @var Stopwatch|null */
     private $stopwatch;
@@ -45,8 +49,13 @@ class AccessibilityCollector extends DataCollector
         $this->imageChecker = new ImageChecker($crawler);
         $this->accessibilityChecker = new AccessibilityChecker($crawler);
 
+        $this->optimizationChecker = new OptimizationChecker($crawler);
+
         $this->data = [
             'response' => $response,
+            'title' => $this->optimizationChecker->getTitle(),
+            'metaDescription' => $this->optimizationChecker->getMetaDescription(),
+            'h1' => $this->optimizationChecker->getH1(),
             'countAllImages' => $this->imageChecker->countAllImages(),
             'countAltFromImages' => $this->imageChecker->countAltFromImages(),
             'listImgUrlAndAlt' => $this->imageChecker->listImagesUrlAndAlt(),
@@ -60,6 +69,7 @@ class AccessibilityCollector extends DataCollector
             'countMissingTextInButtons' => $this->accessibilityChecker->countNonExplicitButtons(),
             'links' => $this->accessibilityChecker->getLinks(),
             'navigationElements' => $this->accessibilityChecker->getNavigationElements(),
+            'headlinesTree' => $this->accessibilityChecker->getHeadlineTree(),
         ];
 
         $this->data = $this->cloneVar($this->data);
@@ -157,5 +167,15 @@ class AccessibilityCollector extends DataCollector
     public function getCountAltFromImages(): int
     {
         return $this->data['countAltFromImages'];
+    }
+
+    public function getHeadlinesTree(): array
+    {
+        return $this->data['headlinesTree']->getValue();
+    }
+
+    public function getMetaDescription(): ?string
+    {
+        return $this->data['metaDescription'];
     }
 }
