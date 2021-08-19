@@ -1,6 +1,40 @@
 {% extends '@WebProfiler/Profiler/layout.html.twig' %}
 
 {% block toolbar %}
+    <style>
+        .section-andi {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .section-andi .button {
+            margin: 0 0 10px;
+            padding: 10px 25px;
+            display: flex;
+            justify-content: center;
+            font-size: 14px;
+            color: #fff !important;
+            text-decoration: none !important;
+            background: #666;
+        }
+
+        .section-andi a {
+            color: rgba(255, 255, 255, .8) !important;
+            display: flex;
+            justify-content: center;
+            text-decoration: underline !important;
+            border: none;
+            transition: color ease-in .15s;
+        }
+
+        .section-andi a:hover,
+        .section-andi a:active,
+        .section-andi a:focus {
+            color: rgba(255, 255, 255, 1) !important;
+        }
+    </style>
+
     {% set icon %}
         {# this is the content displayed as a panel in the toolbar #}
         {{ include('@ElaoAccesseo/profiler/179-accessibility.svg.twig') }}
@@ -12,18 +46,20 @@
            the toolbar panel #}
         <div class="sf-toolbar-info-piece">
             <b>Images with alt attribute / Total images :</b>
-            <span>{{ collector.countAltFromImages }} / {{ collector.countAllImages }} </span>
+            <span class="sf-toolbar-status">{{ collector.countAltFromImages }} / {{ collector.countAllImages }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>Explicit icons / Total icons:</b>
-            <span>{{ collector.countAllExplicitIcons }} / {{ collector.countAllIcons }}</span>
+            <b>CSS content</b>
+            <span>none</span> {# detected / none #}
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Total buttons without text:</b>
-            <span>{{ collector.countMissingTextInButtons }}</span>
+            <span class="sf-toolbar-status">{{ collector.countMissingTextInButtons }}</span>
         </div>
-        <div class="sf-toolbar-info-piece">
-            <b>Launch <a href="javascript:void((function(){andiScript=document.createElement('script');andiScript.setAttribute('src','https://www.ssa.gov/accessibility/andi/andi.js');document.body.appendChild(andiScript)})());">ANDI</a> on this page, <a href="https://www.ssa.gov/accessibility/andi/help/install.html">(accessibility testing tool).</a></b>
+        <div class="section-andi">
+            <div class="sf-toolbar-info-piece">
+                <a href="javascript:void((function(){andiScript=document.createElement('script');andiScript.setAttribute('src','https://www.ssa.gov/accessibility/andi/andi.js');document.body.appendChild(andiScript)})());" class="button">Launch ANDI</a> <a href="https://www.ssa.gov/accessibility/andi/help/install.html">What is ANDI ?</a>
+            </div>
         </div>
     {% endset %}
 
