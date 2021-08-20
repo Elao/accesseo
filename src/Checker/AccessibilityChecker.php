@@ -117,7 +117,10 @@ class AccessibilityChecker
         $formRows = [];
 
         $rawLabels = $this->crawler->filter('label')->extract(['for', '_text']);
-        $inputsName = $this->crawler->filter('input')->extract(['type', 'name']);
+
+        $inputs = $this->crawler->filter('input, select, textarea');
+        $data = $inputs->extract(['type', 'id']);
+        $inputs->each(function ($node, $i) use (&$data): void { $data[$i]['html'] = $node->outerHtml(); });
 
         $labels = [];
 
@@ -127,14 +130,17 @@ class AccessibilityChecker
             }
         }
 
-        foreach ($inputsName as $input) {
-            $label = \array_key_exists($input[1], $labels) ? $labels[$input[1]] : '';
-            $formRows[] =
-                        [
-                            'type' => $input[0],
-                            'name' => $input[1],
-                            'label' => $label,
-                        ];
+        foreach ($data as $input) {
+            if ($input[0] !== 'submit') {
+                $label = \array_key_exists($input[1], $labels) ? $labels[$input[1]] : '';
+                $formRows[] =
+                    [
+                        'type' => $input[0],
+                        'name' => $input[1],
+                        'html' => $input['html'],
+                        'label' => $label,
+                    ];
+            }
         }
 
         return $formRows;

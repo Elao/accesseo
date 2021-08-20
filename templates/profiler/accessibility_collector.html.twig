@@ -456,7 +456,7 @@
                     {% for formrow in collector.missingAssociatedLabelForInput %}
                         <td class="font-normal text-muted nowrap small-cell">1</td>
                         <td>
-<pre><code>&lt;input type="text" name="lorem" id="lorem"/&gt;</code></pre>
+<pre><code>{{ formrow.html }}</code></pre>
                         </td>
                         {% if formrow.label is not empty %}
                         <td>{{ formrow.label }}</td>
