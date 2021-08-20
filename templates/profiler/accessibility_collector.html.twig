@@ -122,6 +122,73 @@
 {% block panel %}
     <h2>Accessibility</h2>
 
+    <h3>Page structure</h3>
+    <table>
+        <tbody>
+        <tr>
+            <th class="font-normal text-muted">Title</th>
+            {# Todo : est-ce possible de récupérer le texte brut ici ⬇ ? #}
+            <td class="font-normal">
+                <strong>{{ collector.title }}</strong>
+                {% if collector.title|length == 0 %}
+                    <div class="card status-warning">
+                        <strong>Warning : missing title (recommended : 50 - 60 characters)</strong>
+                    </div>
+                {% else %}
+                    <p>
+                        <small class="text-muted">{{ collector.title|length }} characters (recommended : 50 - 60 characters)</small>
+                    </p>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th class="font-normal text-muted">Meta description</th>
+            {# Todo : ici aussi ⬇ #}
+            <td class="font-normal">
+                <strong>{{ collector.metaDescription }}</strong>
+                {% if collector.metaDescription|length == 0 %}
+                    <div class="card status-warning">
+                        <strong>Warning : meta description is missing (recommended : 50 - 160 characters)</strong>
+                    </div>
+                {% else %}
+                    <p>
+                        <small class="text-muted">{{ collector.metaDescription|length }} characters (recommended : 50 - 160 characters)  </small>
+                    </p>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th class="font-normal text-muted">First H1</th>
+            {# Todo : ici aussi ⬇ #}
+            <td class="font-normal">
+                <strong>{{ collector.h1 }}</strong>
+            </td>
+        </tr>
+        <tr>
+            <th class="font-normal text-muted">Headings</th>
+            <td class="font-normal">
+                {% set headings = collector.headlinesTree %}
+                {% set level = 1 %}
+                {% block treeHeading %}
+                    <ul class="headings-tree">
+                        {% for heading in headings %}
+                            <li>
+                                    <span class="{{ level != heading.level ? 'text-warning' }}">
+                                        <strong>H{{ heading.level }}:</strong> {{ heading.content }}
+                                    </span>
+                            </li>
+                            {% set headings = heading.children %}
+                            {% set level = level+1 %}
+                            {{ block ("treeHeading") }}
+                            {% set level = level-1 %}
+                        {% endfor %}
+                    </ul>
+                {% endblock %}
+            </td>
+        </tbody>
+        </tr>
+    </table>
+
     <h3>Images</h3>
     <div class="metrics">
         <div class="metric">
