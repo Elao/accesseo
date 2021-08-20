@@ -8,22 +8,100 @@
     {% endset %}
 
     {% set text %}
-        {# this is the content displayed when hovering the mouse over
-           the toolbar panel #}
+        <style>
+            .sf-toolbar-status-large {
+                margin-left:  10px;
+            }
+
+            .sf-toolbar-description {
+                margin-left: 5px;
+                color: #aaa !important;
+                vertical-align: middle !important;
+            }
+
+            .andi {
+                margin: 25px 0 0;
+                display: flex !important;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .andi a {
+                color: #f5f5f5 !important;
+                text-decoration: underline !important;
+                border: none;
+            }
+
+            .andi .button {
+                margin: 0 0 10px;
+                padding: 10px 18px;
+                background-color: #607d8b;
+                font-size: 13px;
+                text-decoration: none !important;
+                transition: background-color ease-in .15s;
+            }
+
+            .andi .button:hover,
+            .andi .button:active,
+            .andi .button:focus {
+                background-color: #5a7684;
+            }
+        </style>
         <div class="sf-toolbar-info-piece">
-            <b>Images with alt attribute / Total images :</b>
-            <span>{{ collector.countAltFromImages }} / {{ collector.countAllImages }} </span>
+            <b>Meta title</b>
+            {# OK #}
+            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">ok</span>
+
+            {# Not OK #}
+            {# <span class="sf-toolbar-status sf-toolbar-status-large">missing</span> #}
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>Explicit icons / Total icons:</b>
-            <span>{{ collector.countAllExplicitIcons }} / {{ collector.countAllIcons }}</span>
+            <b>Meta description</b>
+            {# OK #}
+            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">ok</span>
+
+            {# Not OK #}
+            {# <span class="sf-toolbar-status sf-toolbar-status-large">missing</span> #}
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>Total buttons without text:</b>
-            <span>{{ collector.countMissingTextInButtons }}</span>
+            <b>Headings</b>
+            {# OK #}
+            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">0</span>
+            <span class="sf-toolbar-description">order concerns</span>
+
+            {# Not OK #}
+            {# <span class="sf-toolbar-status sf-toolbar-status-large">2</span>
+            <span class="sf-toolbar-description">order concerns</span> #}
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>Launch <a href="javascript:void((function(){andiScript=document.createElement('script');andiScript.setAttribute('src','https://www.ssa.gov/accessibility/andi/andi.js');document.body.appendChild(andiScript)})());">ANDI</a> on this page, <a href="https://www.ssa.gov/accessibility/andi/help/install.html">(accessibility testing tool).</a></b>
+            <b>Images</b>
+            {# OK #}
+            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">0</span>
+            <span class="sf-toolbar-description">accessibility concerns</span>
+
+            {# Not OK #}
+            {# <span class="sf-toolbar-status sf-toolbar-status-large">23</span>
+            <span class="sf-toolbar-description">accessibility concerns</span> #}
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Navigation landmark role</b>
+            {# No OK / not OK here, this is just a piece of info #}
+            <span class="sf-toolbar-status sf-toolbar-status-large">0</span>
+            <span class="sf-toolbar-description">found</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Form accessibility</b>
+            {# OK #}
+            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">0</span>
+            <span class="sf-toolbar-description">accessibility concerns</span>
+
+            {# Not OK #}
+            {# <span class="sf-toolbar-status sf-toolbar-status-large">3</span>
+            <span class="sf-toolbar-description">accessibility concerns</span> #}
+        </div>
+        <div class="sf-toolbar-info-piece andi">
+            <a href="javascript:void((function(){andiScript=document.createElement('script');andiScript.setAttribute('src','https://www.ssa.gov/accessibility/andi/andi.js');document.body.appendChild(andiScript)})());" class="button">Launch ANDI</a>
+            <a href="https://www.ssa.gov/accessibility/andi/help/install.html">What is ANDI ?</a>
         </div>
     {% endset %}
 
