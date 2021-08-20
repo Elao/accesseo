@@ -10,6 +10,21 @@
     {% endset %}
 
     {% set text %}
+        <style>
+            .sf-toolbar-status-large {
+                margin-left:  10px;
+            }
+
+            .sf-toolbar-description {
+                margin-left: 10px;
+                color: #aaa !important;
+                vertical-align: middle !important;
+            }
+
+            .sf-toolbar-status + .sf-toolbar-description {
+                margin-left: 5px;
+            }
+        </style>
         {# this is the content displayed when hovering the mouse over
            the toolbar panel #}
         <div class="sf-toolbar-info-piece">
@@ -72,31 +87,25 @@
             <span class="sf-toolbar-description">found</span>
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>Opengraph metas</b>
-            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">6/6</span>
-            {# <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-yellow">5/6</span> #}
-        </div>
-        <div class="sf-toolbar-info-piece">
-            <b>Twitter card metas</b>
-            {# <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">6/6</span> #}
+            <b>Opengraph</b>
+            {# OK #}
+            {# <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">6/6</span>
+            <span class="sf-toolbar-description">metas</span> #}
+
+            {# Not OK #}
             <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-yellow">5/6</span>
-        </div>
-        {# <div class="sf-toolbar-info-piece">
-            <b>X-Robots-Tag</b>
-            <span>{{ collector.XRobotsTag }}</span>
+            <span class="sf-toolbar-description">metas</span>
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>Robots <meta> tag</b>
-            <span>{{ collector.metaRobot }}</span>
+            <b>Twitter card</b>
+            {# OK #}
+            {# <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">6/6</span>
+            <span class="sf-toolbar-description">metas</span> #}
+
+            {# Not OK #}
+            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-yellow">5/6</span>
+            <span class="sf-toolbar-description">metas</span>
         </div>
-        <div class="sf-toolbar-info-piece">
-            <b>Canonical</b>
-            {% if collector.canonical %}
-                <span>{{ collector.canonical }}</span>
-            {% else %}
-                <span class="help">No canonical</span>
-            {% endif %}
-        </div> #}
     {% endset %}
 
     {# the 'link' value set to 'false' means that this panel doesn't
