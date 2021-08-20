@@ -157,11 +157,14 @@ class AccessibilityChecker
 
     public function getNavigationElements(): ?array
     {
-        $data = array_merge(
-            $this->crawler->filter('[role="navigation"]')->extract(['id', 'aria-label']),
-            $this->crawler->filter('nav')->extract(['id', 'aria-label'])
-        );
+        $roles = $this->crawler->filter('[role="navigation"], nav');
+        $rolesData = $roles->extract(['id', 'aria-label']);
+        $roles->each(function ($node, $i) use (&$rolesData): void {
+            $rolesData[$i]['id'] = $rolesData[$i][0];
+            $rolesData[$i]['ariaLabel'] = $rolesData[$i][1];
+            $rolesData[$i]['html'] = $node->ancestors->outerHtml;
+        });
 
-        return array_map(fn ($row) => array_combine(['id', 'ariaLabel'], $row), $data);
+        return $rolesData;
     }
 }

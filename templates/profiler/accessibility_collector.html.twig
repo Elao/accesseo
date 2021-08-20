@@ -420,7 +420,6 @@
             <tr>
                 <th>#</th>
                 <th class="medium-cell">Nav element</th>
-                <th class="medium-cell">Nav Links</th>
                 <th class="medium-cell">Aria label</th>
             </tr>
             </thead>
@@ -429,14 +428,9 @@
                 <tr>
                     <td class="font-normal text-muted nowrap small-cell">1</td>
                     <td>
-<pre><code>&lt;nav class="menu"&gt;&lt;/nav&gt;</code></pre>
+<pre><code>{{ navigation.html }}</code></pre>
                     </td>
-                    <td>
-                        <ul>
-                            <li>/home</li>
-                            <li>/about</li>
-                        </ul>
-                    </td>
+
                     {% if navigation.ariaLabel == '' %}
                         <td>None</td>
                     {% else %}
