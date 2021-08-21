@@ -256,11 +256,11 @@
                         </thead>
                         <tbody>
                         {% for img in collector.listImgUrlAndAlt %}
-                            {% if img.1 is not empty  %}
+                            {% if img.alt is not empty  %}
                             <tr>
                                 <td class="font-normal text-muted nowrap small-cell">1</td>
-                                <td class="break-long-words">{{ img.0 }}</td>
-                                <td class="font-normal">{{ img.1 }}</td>
+                                <td class="break-long-words">{{ img.html }}</td>
+                                <td class="font-normal">{{ img.alt }}</td>
                             </tr>
                             {% endif %}
                         {% endfor %}
@@ -276,11 +276,11 @@
 
             <div class="tab">
                 <span class="tab-title">
-                    <span class="badge">{{ collector.listMissingAltFromImages|length }}</span>
+                    <span class="badge">{{ collector.listMissingAltFromImages.emptyAlt|length }}</span>
                     images with empty alt text
                 </span>
                 <div class="tab-content">
-                    {% if collector.listMissingAltFromImages|length > 0 %}
+                    {% if collector.listMissingAltFromImages.emptyAlt|length > 0 %}
                         <div class="card status-info">
                             <strong>Make sure the images are decorative. If they mean something, describe them in the alt attribute.</strong>
                         </div>
@@ -292,7 +292,43 @@
                             </tr>
                         </thead>
                         <tbody>
-                        {% for img in collector.listMissingAltFromImages%}
+                        {% for img in collector.listMissingAltFromImages.emptyAlt %}
+                            <tr>
+                                <td class="font-normal text-muted nowrap small-cell">1</td>
+                                <td>{{ img }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    {% else %}
+                        <div class="empty">
+                            <p>No image with an empty alt attribute found on this page</p>
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+
+        <div class="tab">
+                <span class="tab-title">
+                    <span class="badge">{{ collector.listMissingAltFromImages.missingAlt|length }}</span>
+                    images with no alt text
+                </span>
+                <div class="tab-content">
+                    {% if collector.listMissingAltFromImages.missingAlt|length > 0 %}
+                        <div class="card status-info">
+                            <strong>Make sure the images are decorative. If they mean something, describe them in the alt attribute.</strong>
+                        </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Image URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for img in collector.listMissingAltFromImages.missingAlt %}
                             <tr>
                                 <td class="font-normal text-muted nowrap small-cell">1</td>
                                 <td>{{ img }}</td>

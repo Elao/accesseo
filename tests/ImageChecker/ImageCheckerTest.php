@@ -53,7 +53,7 @@ class ImageCheckerTest extends TestCase
     public function testListImagesWithoutAlt(): void
     {
         $imgChecker = $this->getImageChecker('images.html');
-        static::assertEquals(['https://image.fr/image1.jpg'], $imgChecker->listImagesWithoutAlt());
+        static::assertEquals(['missingAlt' => [], 'emptyAlt' => ['<img src="https://image.fr/image1.jpg" alt="">']], $imgChecker->listImagesWithoutAlt());
     }
 
     public function testListImagesWithoutAriaHidden(): void
@@ -66,8 +66,8 @@ class ImageCheckerTest extends TestCase
     {
         $imgChecker = $this->getImageChecker('images.html');
         $expected = [
-            ['https://image.fr/image1.jpg', ''],
-            ['https://image.fr/image2.jpg', 'Un texte'],
+            ['src' => 'https://image.fr/image1.jpg', 'alt' => '', 'html' => '<img src="https://image.fr/image1.jpg" alt="">'],
+            ['src' => 'https://image.fr/image2.jpg', 'alt' => 'Un texte', 'html' => '<img src="https://image.fr/image2.jpg" alt="Un texte">'],
         ];
         static::assertEquals($expected, $imgChecker->listImagesUrlAndAlt());
     }
