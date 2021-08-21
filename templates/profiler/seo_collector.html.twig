@@ -309,13 +309,17 @@
                     <tr>
                         <th class="font-normal text-muted">Fulfilled properties</th>
                         <td>
-                            {{ profiler_dump(collector.seek('OpenGraphProperties'), maxDepth=1) }}
+                            {% for key, elt in collector.OpenGraphProperties %}
+                                <p class="font-normal"><span class="font-normal text-muted">{{ key }} : </span>{{ elt }}</p>
+                            {% endfor %}
                         </td>
                     </tr>
                     <tr>
                         <th class="font-normal text-muted">Missing properties</th>
                         <td>
-                            {{ profiler_dump(collector.seek('missingOpenGraphProperties'), maxDepth=1) }}
+                            {% for elt in collector.missingOpenGraphProperties %}
+                                <p class="font-normal">{{ elt }}</p>
+                            {% endfor %}
                         </td>
                     </tr>
                 </table>
@@ -341,13 +345,17 @@
                     <tr>
                         <th class="font-normal text-muted">Fulfilled properties</th>
                         <td class="font-normal">
-                            {{ profiler_dump(collector.seek('twitterProperties'), maxDepth=1) }}
+                            {% for key, elt in collector.twitterProperties %}
+                                <p class="font-normal"><span class="font-normal text-muted">{{ key }} : </span>{{ elt }}</p>
+                            {% endfor %}
                         </td>
                     </tr>
                     <tr>
                         <th class="font-normal text-muted">Missing properties</th>
                         <td class="font-normal">
-                            {{ profiler_dump(collector.seek('missingTwitterProperties'), maxDepth=1) }}
+                            {% for key, elt in collector.missingTwitterProperties %}
+                                <p class="font-normal">{{ elt }}</p>
+                            {% endfor %}
                         </td>
                     </tr>
                 </table>
