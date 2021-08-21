@@ -112,7 +112,7 @@ class AccessibilityChecker
     /**
      * Returns an array of all inputs for the form, with associated of missing label
      */
-    public function getListMissingForLabelsInForm(): array
+    public function getListLabelsInForm(): array
     {
         $formRows = [];
 
@@ -144,6 +144,20 @@ class AccessibilityChecker
         }
 
         return $formRows;
+    }
+
+    public function countMissingLabelsInForms(): int
+    {
+        $list = $this->getListLabelsInForm();
+        $missing = 0;
+
+        foreach ($list as $elt) {
+            if ($elt['label'] === '') {
+                $missing = $missing + 1;
+            }
+        }
+
+        return $missing;
     }
 
     public function getLinks(): ?array

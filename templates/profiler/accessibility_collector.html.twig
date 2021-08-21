@@ -53,55 +53,55 @@
         </style>
         <div class="sf-toolbar-info-piece">
             <b>Meta title</b>
-            {# OK #}
-            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">ok</span>
-
-            {# Not OK #}
-            {# <span class="sf-toolbar-status sf-toolbar-status-large">missing</span> #}
+            {% if collector.title is empty %}
+                <span class="sf-toolbar-status sf-toolbar-status-large">missing</span>
+            {% else %}
+                <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">ok</span>
+            {% endif %}
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Meta description</b>
-            {# OK #}
-            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">ok</span>
-
-            {# Not OK #}
-            {# <span class="sf-toolbar-status sf-toolbar-status-large">missing</span> #}
+            {% if collector.metaDescription is empty %}
+                <span class="sf-toolbar-status sf-toolbar-status-large">missing</span>
+            {% else %}
+                <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">ok</span>
+            {% endif %}
         </div>
-        <div class="sf-toolbar-info-piece">
-            <b>Headings</b>
-            {# OK #}
-            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">0</span>
-            <span class="sf-toolbar-description">order concerns</span>
+{#        <div class="sf-toolbar-info-piece">#}
+{#            <b>Headings</b>#}
+{#            #}{# OK #}
+{#            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">0</span>#}
+{#            <span class="sf-toolbar-description">order concerns</span>#}
 
-            {# Not OK #}
-            {# <span class="sf-toolbar-status sf-toolbar-status-large">2</span>
-            <span class="sf-toolbar-description">order concerns</span> #}
-        </div>
+{#            #}{# Not OK #}
+{#            #}{# <span class="sf-toolbar-status sf-toolbar-status-large">2</span>#}
+{#            <span class="sf-toolbar-description">order concerns</span> #}
+{#        </div>#}
         <div class="sf-toolbar-info-piece">
             <b>Images</b>
-            {# OK #}
-            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">0</span>
-            <span class="sf-toolbar-description">accessibility concerns</span>
-
-            {# Not OK #}
-            {# <span class="sf-toolbar-status sf-toolbar-status-large">23</span>
-            <span class="sf-toolbar-description">accessibility concerns</span> #}
+            {% if collector.listMissingAltFromImages|length > 0 %}
+                <span class="sf-toolbar-status sf-toolbar-status-large">{{ collector.listMissingAltFromImages|length }}</span>
+                <span class="sf-toolbar-description">accessibility concerns</span>
+           {% else %}
+               <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">0</span>
+               <span class="sf-toolbar-description">accessibility concerns</span>
+            {% endif %}
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Navigation landmark role</b>
             {# No OK / not OK here, this is just a piece of info #}
-            <span class="sf-toolbar-status sf-toolbar-status-large">0</span>
+            <span class="sf-toolbar-status sf-toolbar-status-large">{{ collector.navigationElements|length }}</span>
             <span class="sf-toolbar-description">found</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Form accessibility</b>
-            {# OK #}
-            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">0</span>
-            <span class="sf-toolbar-description">accessibility concerns</span>
-
-            {# Not OK #}
-            {# <span class="sf-toolbar-status sf-toolbar-status-large">3</span>
-            <span class="sf-toolbar-description">accessibility concerns</span> #}
+            {% if collector.countMissingLabelsInForms > 0 %}
+                <span class="sf-toolbar-status sf-toolbar-status-large">{{ collector.countMissingLabelsInForms }}</span>
+                <span class="sf-toolbar-description">accessibility concerns</span>
+            {% else %}
+                <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">0</span>
+                <span class="sf-toolbar-description">accessibility concerns</span>
+            {% endif %}
         </div>
         <div class="sf-toolbar-info-piece andi">
             <a href="javascript:void((function(){andiScript=document.createElement('script');andiScript.setAttribute('src','https://www.ssa.gov/accessibility/andi/andi.js');document.body.appendChild(andiScript)})());" class="button">Launch ANDI</a>
@@ -573,7 +573,7 @@
             </thead>
             <tbody>
                 <tr>
-                    {% for formrow in collector.missingAssociatedLabelForInput %}
+                    {% for formrow in collector.associatedLabelForInput %}
                         <td class="font-normal text-muted nowrap small-cell">1</td>
                         <td>
 <pre><code>{{ formrow.html }}</code></pre>
@@ -585,7 +585,7 @@
                                     <span class="icon-danger status-error">
                                         {{ include('@ElaoAccesseo/profiler/danger.svg') }}
                                     </span>
-                                            <strong class="text-error">Missing label</strong>
+                                    <strong class="text-error">Missing label</strong>
                                 </td>
                         {% endif %}
                 </tr>

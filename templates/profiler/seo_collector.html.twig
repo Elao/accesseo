@@ -29,82 +29,96 @@
            the toolbar panel #}
         <div class="sf-toolbar-info-piece">
             <b>Meta title</b>
-            {# OK #}
-            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">ok</span>
-
-            {# Not OK #}
-            {# <span class="sf-toolbar-status sf-toolbar-status-large">missing</span> #}
+           {% if collector.title is empty %}
+               <span class="sf-toolbar-status sf-toolbar-status-large">missing</span>
+            {% else %}
+                <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">ok</span>
+            {% endif %}
         </div>
         <div class="sf-toolbar-info-piece">
              <b>Meta description</b>
-            {# OK #}
-            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">ok</span>
-
-            {# Not OK #}
-            {# <span class="sf-toolbar-status sf-toolbar-status-large">missing</span> #}
+            {% if collector.metaDescription is empty %}
+                <span class="sf-toolbar-status sf-toolbar-status-large">missing</span>
+            {% else %}
+                <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">ok</span>
+            {% endif %}
         </div>
-        <div class="sf-toolbar-info-piece">
-            <b>Headings</b>
-            {# OK #}
-            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">0</span>
-            <span class="sf-toolbar-description">order concerns</span>
+{#        <div class="sf-toolbar-info-piece">#}
+{#            <b>Headings</b>#}
+{#            #}{# OK #}
+{#            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">0</span>#}
+{#            <span class="sf-toolbar-description">order concerns</span>#}
 
-            {# Not OK #}
-            {# <span class="sf-toolbar-status sf-toolbar-status-large">2</span>
-            <span class="sf-toolbar-description">order concerns</span> #}
-        </div>
+{#            #}{# Not OK #}
+{#            #}{# <span class="sf-toolbar-status sf-toolbar-status-large">2</span>#}
+{#            <span class="sf-toolbar-description">order concerns</span> #}
+{#        </div>#}
         <div class="sf-toolbar-info-piece">
             <b>Canonical URL</b>
-            <span class="sf-toolbar-description">http://localhost:8000/</span>
+            <span class="sf-toolbar-description">{{ collector.canonical }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Language</b>
-            <span class="sf-toolbar-status sf-toolbar-status-large">fr</span>
+            <span class="sf-toolbar-status sf-toolbar-status-large">{{ collector.language }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Hreflang</b>
-            <span class="sf-toolbar-status sf-toolbar-status-large">0</span>
+            {% if collector.hreflang|length > 0 %}
+                <span class="sf-toolbar-status sf-toolbar-status-large">{{ collector.hreflang|length }}</span>
+            {% else %}
+                <span class="sf-toolbar-status sf-toolbar-status-large">0</span>
+            {% endif %}
             <span class="sf-toolbar-description">found</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Robots meta directives</b>
-            <span class="sf-toolbar-status sf-toolbar-status-large">0</span>
-            <span class="sf-toolbar-description">found</span>
+                {% if collector.metaRobot is empty %}
+                    <span class="sf-toolbar-status sf-toolbar-status-large">missing</span>
+                {% else %}
+                    <span class=sf-toolbar-description">{{ collector.metaRobot }}</span>
+                {% endif %}
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Googlebot meta directives</b>
-            <span class="sf-toolbar-status sf-toolbar-status-large">0</span>
-            <span class="sf-toolbar-description">found</span>
+            {% if collector.metaGooglebot is empty %}
+                <span class="sf-toolbar-status sf-toolbar-status-large">missing</span>
+            {% else %}
+                <span class=sf-toolbar-description">{{ collector.metaGooglebot }}</span>
+            {% endif %}
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Googlebot-news meta directives</b>
-            <span class="sf-toolbar-status sf-toolbar-status-large">0</span>
-            <span class="sf-toolbar-description">found</span>
+            {% if collector.metaGooglebotNews is empty %}
+                <span class="sf-toolbar-status sf-toolbar-status-large">missing</span>
+            {% else %}
+                <span class=sf-toolbar-description">{{ collector.metaGooglebotNews }}</span>
+            {% endif %}
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Qualified outbound links</b>
-            <span class="sf-toolbar-status sf-toolbar-status-large">0</span>
-            <span class="sf-toolbar-description">found</span>
+            {% if collector.qualifiedOutboundLinks|length > 0 %}
+                <span class="sf-toolbar-status sf-toolbar-status-large">{{ collector.qualifiedOutboundLinks|length }}</span>
+            {% else %}
+                <span class="sf-toolbar-status sf-toolbar-status-large">0</span>
+            {% endif %}
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Opengraph</b>
-            {# OK #}
-            {# <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">6/6</span>
-            <span class="sf-toolbar-description">metas</span> #}
-
-            {# Not OK #}
-            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-yellow">5/6</span>
-            <span class="sf-toolbar-description">metas</span>
+           {% if collector.missingOpenGraphProperties|length > 0 %}
+               <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-yellow">{{ collector.OpenGraphProperties|length }} / {{ collector.OpenGraphProperties|length + collector.missingOpenGraphProperties|length }}</span>
+               <span class="sf-toolbar-description">metas</span>
+           {% else %}
+               <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">{{ collector.OpenGraphProperties|length }} / {{ collector.OpenGraphProperties|length }}</span>
+          {% endif %}
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Twitter card</b>
-            {# OK #}
-            {# <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">6/6</span>
-            <span class="sf-toolbar-description">metas</span> #}
-
-            {# Not OK #}
-            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-yellow">5/6</span>
-            <span class="sf-toolbar-description">metas</span>
+            {% if collector.missingTwitterProperties|length > 0 %}
+                <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-yellow">{{ collector.twitterProperties|length }} / {{ collector.twitterProperties|length + collector.missingTwitterProperties|length }}</span>
+                <span class="sf-toolbar-description">metas</span>
+            {% else %}
+                <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">{{ collector.twitterProperties|length }} / {{ collector.twitterProperties|length }}</span>
+            {% endif%}
         </div>
     {% endset %}
 
