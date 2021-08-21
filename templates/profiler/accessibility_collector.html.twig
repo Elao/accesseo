@@ -158,14 +158,21 @@
             </td>
         </tr>
         <tr>
+        <tr>
             <th class="font-normal text-muted">First H1</th>
-            {# Todo : ici aussi ⬇ #}
             <td class="font-normal">
-                <strong>{{ collector.h1 }}</strong>
+                {% if collector.h1 is empty %}
+                    <div class="card status-warning">
+                        <strong>Warning: We found no H1 in this page. H1 tag is pretty important to better understand the context of the page, maybe you should add one ?</strong>
+                    </div>
+                {% else %}
+                    <strong>{{ collector.h1 }}</strong>
+                {% endif %}
             </td>
         </tr>
         <tr>
             <th class="font-normal text-muted">Headings</th>
+
             <td class="font-normal">
                 {% set headings = collector.headlinesTree %}
                 {% set level = 1 %}
@@ -173,9 +180,18 @@
                     <ul class="headings-tree">
                         {% for heading in headings %}
                             <li>
-                                    <span class="{{ level != heading.level ? 'text-warning' }}">
-                                        <strong>H{{ heading.level }}:</strong> {{ heading.content }}
+                                {% if level != heading.level %}
+                                    <span class="icon-danger status-error text-warning">
+                                        {{ include('@ElaoAccesseo/profiler/danger.svg') }}
+                                        <strong>H{{ heading.level }}:</strong>
                                     </span>
+                                    {{ heading.content }}
+                                {% else %}
+                                    <span class="">
+                                        <strong>H{{ heading.level }}:</strong>
+                                    </span>
+                                    {{ heading.content }}
+                                {% endif %}
                             </li>
                             {% set headings = heading.children %}
                             {% set level = level+1 %}
@@ -186,7 +202,6 @@
                 {% endblock %}
             </td>
         </tbody>
-        </tr>
     </table>
 
     <h3>Images</h3>
