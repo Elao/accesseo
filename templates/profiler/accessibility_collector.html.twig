@@ -46,6 +46,8 @@
         table td, table td * { vertical-align: middle; }
         table ul li { margin: 0; }
         table .small-cell { width: 45px; }
+        table .medium-cell { width: 300px; }
+        table .large-cell { width: unset; }
 
         .icon-danger {
             display: inline-flex;
@@ -506,23 +508,23 @@
     {% endif %}
 
     <h3>Forms</h3>
-    <p class="text-muted">An input <strong>should always have a label</strong> for users to know what is expected of them. This is especially true for screen readers users as they won't have access to the input placeholder. To do so, an input must have an <code class="code-inline">id</code> and its label a <code class="code-inline">for</code> attribue targeting this <code class="code-inline">id</code>. More about <a href="https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input#accessibilit%C3%A9" target="_blank">accessible forms</a>.</p>
+    <p class="text-muted">An input <strong>should always have a label</strong> do users can know what is expected of them. This is especially true for screen readers users as they won't have access to the input placeholder. To do so, an input must have an <code class="code-inline">id</code> and its label a <code class="code-inline">for</code> attribue targeting this <code class="code-inline">id</code>. More about <a href="https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input#accessibilit%C3%A9" target="_blank">accessible forms</a>.</p>
     {% if collector.isForm %}
          <table>
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Type</th>
-                    <th>Name</th>
-                    <th>Label</th>
+                    <th class="medium-cell">Form element</th>
+                    <th class="medium-cell">Label</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     {% for formrow in collector.missingAssociatedLabelForInput %}
                         <td class="font-normal text-muted nowrap small-cell">1</td>
-                        <td>{{ formrow.type }}</td>
-                        <td>{{ formrow.name }}</td>
+                        <td>
+<pre><code>{{ formrow.html }}</code></pre>
+                        </td>
                         {% if formrow.label is not empty %}
                         <td>{{ formrow.label }}</td>
                             {% elseif formrow.name is not empty %}

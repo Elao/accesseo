@@ -108,9 +108,8 @@ class AccessibilityCheckerTest extends TestCase
     {
         $accessibilityChecker = $this->getAccessibilityChecker('form-missing-for.html');
         $expected = [
-            ['type' => 'text', 'name' => 'name', 'label' => ''],
-            ['type' => 'email', 'name' => 'email', 'label' => ''],
-            ['type' => 'submit', 'name' => '', 'label' => ''],
+            ['type' => 'text', 'name' => 'name', 'label' => '', 'html' => '<input type="text" name="name" id="name" required>'],
+            ['type' => 'email', 'name' => 'email', 'label' => '', 'html' => '<input type="email" name="email" id="email" required>'],
             ];
         static::assertEquals($expected, $accessibilityChecker->getListMissingForLabelsInForm());
     }
@@ -119,9 +118,8 @@ class AccessibilityCheckerTest extends TestCase
     {
         $accessibilityChecker = $this->getAccessibilityChecker('form-with-for.html');
         $expected = [
-            ['type' => 'text', 'name' => 'name', 'label' => 'Enter your name: '],
-            ['type' => 'email', 'name' => 'email', 'label' => 'Enter your email: '],
-            ['type' => 'submit', 'name' => '', 'label' => ''],
+            ['type' => 'text', 'name' => 'name', 'label' => 'Enter your name: ', 'html' => '<input type="text" name="name" id="name" required>'],
+            ['type' => 'email', 'name' => 'email', 'label' => 'Enter your email: ', 'html' => '<input type="email" name="email" id="email" required>'],
         ];
         static::assertEquals($expected, $accessibilityChecker->getListMissingForLabelsInForm());
     }
