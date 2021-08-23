@@ -29,21 +29,29 @@ class ImageChecker
 
     public function listImagesUrlAndAlt(): array
     {
-        return $this->crawler
-            ->filter('img')
-            ->extract(['src', 'alt']);
+        $images = $this->crawler->filter('img');
+        $extract = $images->extract(['src', 'alt']);
+
+        $data = [];
+
+        $images->each(function ($node, $i) use ($extract, &$data): void {
+            $data[$i]['src'] = $extract[$i][0];
+            $data[$i]['alt'] = $extract[$i][1];
+            $data[$i]['html'] = $node->outerHtml();
+        });
+
+        return $data;
     }
 
     public function listImagesUrlAndAltTooLong(): array
     {
         $allImages = $this->listImagesUrlAndAlt();
         $altTooLong = [];
-
         foreach ($allImages as $image) {
-            if (\strlen($image[1]) > 80) {
+            if (\strlen($image['alt']) > 80) {
                 $altTooLong[] = [
-                    'img' => $image[0],
-                    'alt' => $image[1],
+                    'img' => $image['html'],
+                    'alt' => $image['alt'],
                 ];
             }
         }
@@ -56,12 +64,30 @@ class ImageChecker
         return $this->crawler->filter('img')->count();
     }
 
+    /**
+     * @return array
+     *               Returns two arrays :
+     *               - Missing Alt
+     *               - Empty Alt
+     */
     public function listImagesWithoutAlt(): array
     {
-        $images = $this->crawler->filter('img')->extract(['src', 'alt']);
-        $missingAlt = array_filter($images, function ($img) { return '' === $img[1]; });
+        $images = $this->listImagesUrlAndAlt();
 
-        return array_values(array_map(function ($img) { return $img[0]; }, $missingAlt));
+        $missingAlt = [];
+        $emptyAlt = [];
+
+        foreach ($images as $img) {
+            if (strpos($img['html'], 'alt="')) {
+                if ('' === $img['alt']) {
+                    $emptyAlt[] = $img['html'];
+                }
+            } else {
+                $missingAlt[] = $img['html'];
+            }
+        }
+
+        return ['missingAlt' => $missingAlt, 'emptyAlt' => $emptyAlt];
     }
 
     public function countIcons(): int
