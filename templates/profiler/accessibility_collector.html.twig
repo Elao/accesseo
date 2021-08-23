@@ -8,22 +8,104 @@
     {% endset %}
 
     {% set text %}
-        {# this is the content displayed when hovering the mouse over
-           the toolbar panel #}
+        <style>
+            .sf-toolbar-status-large {
+                margin-left:  10px;
+            }
+
+            .sf-toolbar-description {
+                margin-left: 10px;
+                color: #aaa !important;
+                vertical-align: middle !important;
+            }
+
+            .sf-toolbar-status + .sf-toolbar-description {
+                margin-left: 5px;
+            }
+
+            .andi {
+                margin: 25px 0 0;
+                display: flex !important;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .andi a {
+                color: #f5f5f5 !important;
+                text-decoration: underline !important;
+                border: none;
+            }
+
+            .andi .button {
+                margin: 0 0 10px;
+                padding: 10px 18px;
+                background-color: #607d8b;
+                font-size: 13px;
+                text-decoration: none !important;
+                transition: background-color ease-in .15s;
+            }
+
+            .andi .button:hover,
+            .andi .button:active,
+            .andi .button:focus {
+                background-color: #5a7684;
+            }
+        </style>
         <div class="sf-toolbar-info-piece">
-            <b>Images with alt attribute / Total images :</b>
-            <span>{{ collector.countAltFromImages }} / {{ collector.countAllImages }} </span>
+            <b>Meta title</b>
+            {% if collector.title is empty %}
+                <span class="sf-toolbar-status sf-toolbar-status-large">missing</span>
+            {% else %}
+                <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">ok</span>
+            {% endif %}
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>Explicit icons / Total icons:</b>
-            <span>{{ collector.countAllExplicitIcons }} / {{ collector.countAllIcons }}</span>
+            <b>Meta description</b>
+            {% if collector.metaDescription is empty %}
+                <span class="sf-toolbar-status sf-toolbar-status-large">missing</span>
+            {% else %}
+                <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">ok</span>
+            {% endif %}
+        </div>
+{#        <div class="sf-toolbar-info-piece">#}
+{#            <b>Headings</b>#}
+{#            #}{# OK #}
+{#            <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">0</span>#}
+{#            <span class="sf-toolbar-description">order concerns</span>#}
+
+{#            #}{# Not OK #}
+{#            #}{# <span class="sf-toolbar-status sf-toolbar-status-large">2</span>#}
+{#            <span class="sf-toolbar-description">order concerns</span> #}
+{#        </div>#}
+        <div class="sf-toolbar-info-piece">
+            <b>Images</b>
+            {% if collector.listMissingAltFromImages|length > 0 %}
+                <span class="sf-toolbar-status sf-toolbar-status-large">{{ collector.listMissingAltFromImages|length }}</span>
+                <span class="sf-toolbar-description">accessibility concerns</span>
+           {% else %}
+               <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">0</span>
+               <span class="sf-toolbar-description">accessibility concerns</span>
+            {% endif %}
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>Total buttons without text:</b>
-            <span>{{ collector.countMissingTextInButtons }}</span>
+            <b>Navigation landmark role</b>
+            {# No OK / not OK here, this is just a piece of info #}
+            <span class="sf-toolbar-status sf-toolbar-status-large">{{ collector.navigationElements|length }}</span>
+            <span class="sf-toolbar-description">found</span>
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>Launch <a href="javascript:void((function(){andiScript=document.createElement('script');andiScript.setAttribute('src','https://www.ssa.gov/accessibility/andi/andi.js');document.body.appendChild(andiScript)})());">ANDI</a> on this page, <a href="https://www.ssa.gov/accessibility/andi/help/install.html">(accessibility testing tool).</a></b>
+            <b>Form accessibility</b>
+            {% if collector.countMissingLabelsInForms > 0 %}
+                <span class="sf-toolbar-status sf-toolbar-status-large">{{ collector.countMissingLabelsInForms }}</span>
+                <span class="sf-toolbar-description">accessibility concerns</span>
+            {% else %}
+                <span class="sf-toolbar-status sf-toolbar-status-large sf-toolbar-status-green">0</span>
+                <span class="sf-toolbar-description">accessibility concerns</span>
+            {% endif %}
+        </div>
+        <div class="sf-toolbar-info-piece andi">
+            <a href="javascript:void((function(){andiScript=document.createElement('script');andiScript.setAttribute('src','https://www.ssa.gov/accessibility/andi/andi.js');document.body.appendChild(andiScript)})());" class="button">Launch ANDI</a>
+            <a href="https://www.ssa.gov/accessibility/andi/help/install.html">What is ANDI ?</a>
         </div>
     {% endset %}
 
@@ -491,7 +573,7 @@
             </thead>
             <tbody>
                 <tr>
-                    {% for formrow in collector.missingAssociatedLabelForInput %}
+                    {% for formrow in collector.associatedLabelForInput %}
                         <td class="font-normal text-muted nowrap small-cell">1</td>
                         <td>
 <pre><code>{{ formrow.html }}</code></pre>
@@ -503,7 +585,7 @@
                                     <span class="icon-danger status-error">
                                         {{ include('@ElaoAccesseo/profiler/danger.svg') }}
                                     </span>
-                                            <strong class="text-error">Missing label</strong>
+                                    <strong class="text-error">Missing label</strong>
                                 </td>
                         {% endif %}
                 </tr>

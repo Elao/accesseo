@@ -65,7 +65,8 @@ class AccessibilityCollector extends DataCollector
             'countAllIcons' => $this->imageChecker->countIcons(),
             'countAllExplicitIcons' => $this->imageChecker->countExplicitIcons(),
             'isForm' => $this->accessibilityChecker->isForm(),
-            'missingAssociatedLabelForInput' => $this->accessibilityChecker->getListMissingForLabelsInForm(),
+            'associatedLabelForInput' => $this->accessibilityChecker->getListLabelsInForm(),
+            'countMissingLabelsInForms' => $this->accessibilityChecker->countMissingLabelsInForms(),
             'countMissingTextInButtons' => $this->accessibilityChecker->countNonExplicitButtons(),
             'links' => $this->accessibilityChecker->getLinks(),
             'navigationElements' => $this->accessibilityChecker->getNavigationElements(),
@@ -104,9 +105,14 @@ class AccessibilityCollector extends DataCollector
         return $this->data['countMissingTextInButtons'];
     }
 
-    public function getMissingAssociatedLabelForInput(): array
+    public function getAssociatedLabelForInput(): array
     {
-        return $this->data['missingAssociatedLabelForInput']->getValue();
+        return $this->data['associatedLabelForInput']->getValue();
+    }
+
+    public function getCountMissingLabelsInForms(): int
+    {
+        return $this->data['countMissingLabelsInForms'];
     }
 
     public function getNavigationElements(): array

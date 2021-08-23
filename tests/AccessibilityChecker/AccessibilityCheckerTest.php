@@ -111,7 +111,7 @@ class AccessibilityCheckerTest extends TestCase
             ['type' => 'text', 'name' => 'name', 'label' => '', 'html' => '<input type="text" name="name" id="name" required>'],
             ['type' => 'email', 'name' => 'email', 'label' => '', 'html' => '<input type="email" name="email" id="email" required>'],
             ];
-        static::assertEquals($expected, $accessibilityChecker->getListMissingForLabelsInForm());
+        static::assertEquals($expected, $accessibilityChecker->getListLabelsInForm());
     }
 
     public function testNoMissingForInForm(): void
@@ -121,13 +121,13 @@ class AccessibilityCheckerTest extends TestCase
             ['type' => 'text', 'name' => 'name', 'label' => 'Enter your name: ', 'html' => '<input type="text" name="name" id="name" required>'],
             ['type' => 'email', 'name' => 'email', 'label' => 'Enter your email: ', 'html' => '<input type="email" name="email" id="email" required>'],
         ];
-        static::assertEquals($expected, $accessibilityChecker->getListMissingForLabelsInForm());
+        static::assertEquals($expected, $accessibilityChecker->getListLabelsInForm());
     }
 
     public function testNoForm(): void
     {
         $accessibilityChecker = $this->getAccessibilityChecker('headlines-1-6.html');
-        static::assertEquals([], $accessibilityChecker->getListMissingForLabelsInForm());
+        static::assertEquals([], $accessibilityChecker->getListLabelsInForm());
     }
 
     public function testIsForm(): void
