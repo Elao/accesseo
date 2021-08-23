@@ -281,7 +281,16 @@
         <tbody>
         {% for link in collector.qualifiedOutboundLinks %}
         <tr>
-            <td>{{ link.href }}</td>
+            <td>
+                {% if link.href is empty %}
+                    <span class="icon-danger status-error">
+                        {{ include('@ElaoAccesseo/profiler/danger.svg') }}
+                    </span>
+                    <strong class="text-error">Missing link</strong>
+                {% else %}
+                    {{ link.href }}
+                {% endif %}
+            </td>
             <td>{{ link.text }}</td>
             <td>{{ link.rel }}</td>
         </tr>
