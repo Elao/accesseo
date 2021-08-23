@@ -67,6 +67,9 @@
         table ul li,
         table p { margin: 0; }
         table .small-cell { width: 45px; }
+        table .thead th {
+            background-color: var(--table-header);
+        }
 
         .icon-danger {
             fill: var(--base-5);
@@ -306,21 +309,22 @@
                 {% endif %}
 
                 <table>
-                    <tr>
-                        <th class="font-normal text-muted">Fulfilled properties</th>
-                        <td>
-                            {% for key, elt in collector.OpenGraphProperties %}
-                                <p class="font-normal"><span class="font-normal text-muted">{{ key }} : </span>{{ elt }}</p>
-                            {% endfor %}
-                        </td>
+                    <tr class="thead">
+                        <th class="font-normal" colspan="2">Fulfilled properties</th>
+                    </tr>
+                    {% for key, elt in collector.OpenGraphProperties %}
+                        <tr>
+                            <th class="font-normal text-muted">{{ key }}</th>
+                            <td class="font-normal">{{ elt }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr class="thead">
+                        <th class="font-normal" colspan="2">Missing properties</th>
                     </tr>
                     <tr>
-                        <th class="font-normal text-muted">Missing properties</th>
-                        <td>
-                            {% for elt in collector.missingOpenGraphProperties %}
-                                <p class="font-normal">{{ elt }}</p>
-                            {% endfor %}
-                        </td>
+                        {% for elt in collector.missingOpenGraphProperties %}
+                            <th class="font-normal text-muted">{{ elt }}</th>
+                        {% endfor %}
                     </tr>
                 </table>
             </div>
@@ -342,21 +346,22 @@
                 {% endif %}
 
                 <table>
-                    <tr>
-                        <th class="font-normal text-muted">Fulfilled properties</th>
-                        <td class="font-normal">
-                            {% for key, elt in collector.twitterProperties %}
-                                <p class="font-normal"><span class="font-normal text-muted">{{ key }} : </span>{{ elt }}</p>
-                            {% endfor %}
-                        </td>
+                    <tr class="thead">
+                        <th class="font-normal" colspan="2">Fulfilled properties</th>
+                    </tr>
+                    {% for key, elt in collector.twitterProperties %}
+                        <tr>
+                            <th class="font-normal text-muted">{{ key }}</th>
+                            <td class="font-normal">{{ elt }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr class="thead">
+                        <th class="font-normal" colspan="2">Missing properties</th>
                     </tr>
                     <tr>
-                        <th class="font-normal text-muted">Missing properties</th>
-                        <td class="font-normal">
-                            {% for key, elt in collector.missingTwitterProperties %}
-                                <p class="font-normal">{{ elt }}</p>
-                            {% endfor %}
-                        </td>
+                        {% for key, elt in collector.missingTwitterProperties %}
+                            <td class="font-normal text-muted">{{ elt }}</td>
+                        {% endfor %}
                     </tr>
                 </table>
             </div>
