@@ -121,7 +121,7 @@
     #}
     <table>
         <tr>
-            <th class="font-normal text-muted">Canonical URL</th>
+            <th class="font-normal text-muted">Canonical URL (<a href="https://moz.com/learn/seo/canonicalization">more informations</a>)</th>
             {% if collector.canonical %}
                 <td class="font-normal">
                     <a href="{{ collector.canonical }}">{{ collector.canonical }}</a>
@@ -133,7 +133,7 @@
             {% endif %}
         </tr>
         <tr>
-            <th class="font-normal text-muted">Language</th>
+            <th class="font-normal text-muted">Language (<a href="https://www.w3.org/International/articles/language-tags/">more informations</a>)</th>
             {% if collector.language %}
                 <td class="font-normal">{{ collector.language }}</td>
             {% else %}
@@ -143,7 +143,7 @@
             {% endif %}
         </tr>
         <tr>
-            <th class="font-normal text-muted">Hreflang</th>
+            <th class="font-normal text-muted">Hreflang (<a href="https://developers.google.com/search/docs/advanced/crawling/consolidate-duplicate-urls">more informations</a>)</th>
             {% if collector.isHrefLang %}
                 <td class="font-normal">
                     {% for href in collector.hreflang %}
@@ -158,7 +158,7 @@
             {% endif %}
         </tr>
         <tr>
-            <th class="font-normal text-muted">Robots meta directives</th>
+            <th class="font-normal text-muted">Robots meta directives (<a href="https://moz.com/learn/seo/robots-meta-directives">more informations</a>)</th>
             {% if collector.metaRobot %}
                 <td class="font-normal">{{ collector.metaRobot }}</td>
             {% else %}
@@ -168,7 +168,7 @@
             {% endif %}
         </tr>
         <tr>
-            <th class="font-normal text-muted">Googlebot meta directives</th>
+            <th class="font-normal text-muted">Googlebot meta directives (<a href="https://developers.google.com/search/docs/advanced/robots/robots_meta_tag">more informations</a>)</th>
             {% if collector.metaGooglebot %}
                 <td class="font-normal">{{ collector.metaGooglebot }}</td>
             {% else %}
@@ -178,7 +178,7 @@
             {% endif %}
         </tr>
         <tr>
-            <th class="font-normal text-muted">Googlebot-news meta directives</th>
+            <th class="font-normal text-muted">Googlebot-news meta directives (<a href="https://developers.google.com/search/docs/advanced/robots/robots_meta_tag">more informations</a>)</th>
             {% if collector.metaGooglebotNews %}
                 <td class="font-normal">{{ collector.metaGooglebotNews }}</td>
             {% else %}
