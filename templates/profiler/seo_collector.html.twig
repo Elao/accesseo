@@ -123,23 +123,29 @@
         <tr>
             <th class="font-normal text-muted">Canonical URL</th>
             {% if collector.canonical %}
-                <td>
+                <td class="font-normal">
                     <a href="{{ collector.canonical }}">{{ collector.canonical }}</a>
                 </td>
             {% else %}
                 <td class="font-normal">
-                    No canonical
+                    Missing
                 </td>
             {% endif %}
         </tr>
         <tr>
             <th class="font-normal text-muted">Language</th>
-            <td>{{ collector.language }}</td>
+            {% if collector.language %}
+                <td class="font-normal">{{ collector.language }}</td>
+            {% else %}
+                <td class="font-normal">
+                    Missing
+                </td>
+            {% endif %}
         </tr>
         <tr>
             <th class="font-normal text-muted">Hreflang</th>
             {% if collector.isHrefLang %}
-                <td>
+                <td class="font-normal">
                     {% for href in collector.hreflang %}
                         <div>
                             {{ href['hreflang'] }}
@@ -148,59 +154,40 @@
                     {% endfor %}
                 </td>
             {% else %}
-                <td class="font-normal">No hreflang</td>
+                <td class="font-normal">Missing</td>
             {% endif %}
         </tr>
         <tr>
             <th class="font-normal text-muted">Robots meta directives</th>
-            <td>{{ profiler_dump(collector.seek('metaRobot')) }}</td>
+            {% if collector.metaRobot %}
+                <td class="font-normal">{{ collector.metaRobot }}</td>
+            {% else %}
+                <td class="font-normal">
+                    Missing
+                </td>
+            {% endif %}
         </tr>
         <tr>
             <th class="font-normal text-muted">Googlebot meta directives</th>
-            <td>{{ profiler_dump(collector.seek('metaGooglebot')) }}</td>
+            {% if collector.metaGooglebot %}
+                <td class="font-normal">{{ collector.metaGooglebot }}</td>
+            {% else %}
+                <td class="font-normal">
+                    Missing
+                </td>
+            {% endif %}
         </tr>
         <tr>
             <th class="font-normal text-muted">Googlebot-news meta directives</th>
-            <td>{{ profiler_dump(collector.seek('metaGooglebotNews')) }}</td>
+            {% if collector.metaGooglebotNews %}
+                <td class="font-normal">{{ collector.metaGooglebotNews }}</td>
+            {% else %}
+                <td class="font-normal">
+                    Missing
+                </td>
+            {% endif %}
         </tr>
     </table>
-
-    {#
-        Todo : replace this
-
-        <div class="metrics">
-            <div class="metric">
-                <span class="value">
-                    {% if collector.XRobotsTag %}
-                        {{ collector.XRobotsTag }}
-                    {% else %}
-                        {{ include('@WebProfiler/Icon/no-gray.svg') }}
-                    {% endif %}
-                </span>
-                <span class="label">X-Robots-Tag</span>
-            </div>
-            <div class="metric">
-                <span class="value">
-                    {% if collector.isHreflang %}
-                        {{ include('@WebProfiler/Icon/yes.svg') }}
-                    {% else %}
-                        {{ include('@WebProfiler/Icon/no-gray.svg') }}
-                    {% endif %}
-                </span>
-                <span class="label">Hreflang</span>
-            </div>
-        </div>
-
-        with this
-
-        <div class="card status-warning">
-            <strong>Warning : Missing hreflang on this page.</strong>
-        </div>
-
-        <div class="card status-error">
-            <strong>Error : Missing XRobotsTag on this page.</strong>
-        </div>
-    #}
 
     <h3>Qualify Outbound links</h3>
 
