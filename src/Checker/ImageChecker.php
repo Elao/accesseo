@@ -119,6 +119,7 @@ class ImageChecker
             $icons[$i] = [
                 'class' => $this->crawler->filter('i')->eq($i)->attr('class'),
                 'aria-hidden' => '',
+                'html' => $this->crawler->filter('i')->eq($i)->outerHtml(),
             ];
 
             try {
@@ -133,7 +134,7 @@ class ImageChecker
 
         foreach ($icons as $icon) {
             if (null === $icon['aria-hidden']) {
-                $missingAriaHidden[] = $icon['class'];
+                $missingAriaHidden[] = ['class' => $icon['class'], 'html' => $icon['html']];
             }
         }
 

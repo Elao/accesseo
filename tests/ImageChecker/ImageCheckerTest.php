@@ -59,7 +59,8 @@ class ImageCheckerTest extends TestCase
     public function testListImagesWithoutAriaHidden(): void
     {
         $imgChecker = $this->getImageChecker('explicit-icons.html');
-        static::assertEquals(['icon icon--alert'], $imgChecker->listNonExplicitIcons());
+        $expected = [['class' => 'icon icon--alert', 'html' => '<i class="icon icon--alert"></i>']];
+        static::assertEquals($expected, $imgChecker->listNonExplicitIcons());
     }
 
     public function testListImagesUrlAndAlt(): void
