@@ -19,7 +19,6 @@ class AccessibilityCollectorTest extends TestCase
         $datacollector = new AccessibilityCollector();
         $datacollector->collect($request, $response);
 
-        static::assertEquals(['icon icon--alert'], $datacollector->listNonExplicitIcons());
         static::assertEquals(2, $datacollector->getCountAllIcons());
         static::assertEquals(1, $datacollector->getCountAllExplicitIcons());
         static::assertEquals(0, $datacollector->getCountAllImages());

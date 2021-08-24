@@ -274,10 +274,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                        {% for img in collector.listImgUrlAndAlt %}
+                        {% for key, img in collector.listImgUrlAndAlt %}
+
                             {% if img.alt is not empty  %}
+                            {% set counter = ( counter | default(0) ) + 1 %}
                             <tr>
-                                <td class="font-normal text-muted nowrap small-cell">1</td>
+                                <td class="font-normal text-muted nowrap small-cell">{{ counter }}</td>
                                 <td class="break-long-words">{{ img.html }}</td>
                                 <td class="font-normal">{{ img.alt }}</td>
                             </tr>
@@ -311,9 +313,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                        {% for img in collector.listMissingAltFromImages.emptyAlt %}
+                        {% for key, img in collector.listMissingAltFromImages.emptyAlt %}
+                            {% set counter = ( counter | default(0) ) + 1 %}
+
                             <tr>
-                                <td class="font-normal text-muted nowrap small-cell">1</td>
+                                <td class="font-normal text-muted nowrap small-cell">{{ counter }}</td>
                                 <td>{{ img }}</td>
                             </tr>
                         {% endfor %}
@@ -347,9 +351,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                        {% for img in collector.listMissingAltFromImages.missingAlt %}
+                        {% for key, img in collector.listMissingAltFromImages.missingAlt %}
+                            {% set counter = ( counter | default(0) ) + 1 %}
                             <tr>
-                                <td class="font-normal text-muted nowrap small-cell">1</td>
+                                <td class="font-normal text-muted nowrap small-cell">{{ counter }}</td>
                                 <td>{{ img }}</td>
                             </tr>
                         {% endfor %}
@@ -386,8 +391,9 @@
                         </thead>
                         <tbody>
                             <tr>
-                                {% for img in collector.listImagesUrlAndAltTooLong %}
-                                <td class="font-normal text-muted nowrap small-cell">1</td>
+                                {% for key, img in collector.listImagesUrlAndAltTooLong %}
+                                {% set counter = ( counter | default(0) ) + 1 %}
+                                <td class="font-normal text-muted nowrap small-cell">{{ counter }}</td>
                                 <td>{{ img.img }}</td>
                                 <td class="font-normal">{{ img.alt }}</td>
                                 {% endfor %}
@@ -490,32 +496,22 @@
     </div>
     {% if collector.listNonExplicitIcons > 0 %}
         <div class="card status-info"><strong>These icons are missing the aria-hidden attribute (to hide them from screen readers).</strong></div>
-        <table>
-            <tr>
-                <td>
-                    {{ profiler_dump(collector.seek('listNonExplicitIcons'), maxDepth=1) }}
-                </td>
-            </tr>
-        </table>
-        {#  Todo : is it possible to show every icon in a separate line of the table ? Proposition :
-
             <table>
                 <thead>
                     <th>#</th>
-                    <th>Icon class</th>
+                    <th>Tag</th>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="font-normal text-muted nowrap small-cell">1</td>
-                        <td>icon icon--bell</td>
-                    </tr>
-                    <tr>
-                        <td class="font-normal text-muted nowrap small-cell">1</td>
-                        <td>icon icon--menu</td>
-                    </tr>
+               {% for key, icone in collector.listNonExplicitIcons %}
+                   {% set counter = ( counter | default(0) ) + 1 %}
+
+                   <tr>
+                        <td class="font-normal text-muted nowrap small-cell">{{ counter }}</td>
+                        <td>{{ icone.html }}</td>
+                   </tr>
+                {% endfor %}
                 </tbody>
             </table>
-        #}
     {% else %}
         <div class="empty">
             <p>No icons found on this page.</p>
