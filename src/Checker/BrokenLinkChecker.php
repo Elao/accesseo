@@ -11,10 +11,10 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class BrokenLinkChecker
 {
-    /** @var HttpClientInterface */
+    /** @var HttpClientInterface|null */
     private $client;
 
-    public function __construct(HttpClientInterface $client)
+    public function __construct(?HttpClientInterface $client)
     {
         $this->client = $client;
     }
@@ -80,6 +80,10 @@ class BrokenLinkChecker
      */
     private function getStatusCode(string $uri): int
     {
+        if (null === $this->client) {
+            throw new \LogicException(sprintf('You cannot use the "%s" if the Http Client Contracts are not available. Try running "composer require symfony/http-client".', __CLASS__));
+        }
+
         $response = $this->client->request(
             'GET',
             $uri
