@@ -156,24 +156,33 @@ class AccessibilityCheckerTest extends TestCase
 
         $expected = [
             [
-                'id' => 'main-nav1',
-                'ariaLabel' => 'Main1',
-            ],
-            [
-                'id' => 'main-nav2',
-                'ariaLabel' => 'Main2',
-            ],
-            [
-                'id' => 'main-nav0',
+                'tag' => '<nav id="main-nav0" aria-label="Main0"></nav>',
                 'ariaLabel' => 'Main0',
+                'links' => [],
             ],
             [
-                'id' => 'footer-nav',
+                'tag' => '<div id="main-nav1" role="navigation" aria-label="Main1"></div>',
+                'ariaLabel' => 'Main1',
+                'links' => [
+                    '/foo',
+                    '/bar',
+                    '/foobar',
+                ],
+            ],
+            [
+                'tag' => '<div id="main-nav2" role="navigation" aria-label="Main2"></div>',
+                'ariaLabel' => 'Main2',
+                'links' => [],
+            ],
+            [
+                'tag' => '<nav id="footer-nav" aria-label="Footer"></nav>',
                 'ariaLabel' => 'Footer',
+                'links' => [],
             ],
             [
-                'id' => 'footer-bis-nav',
+                'tag' => '<nav id="footer-bis-nav"></nav>',
                 'ariaLabel' => '',
+                'links' => [],
             ],
         ];
 
