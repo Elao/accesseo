@@ -333,7 +333,7 @@
                 </div>
             </div>
 
-        <div class="tab">
+            <div class="tab">
                 <span class="tab-title">
                     <span class="badge">{{ collector.listMissingAltFromImages.missingAlt|length }}</span>
                     images with no alt text
@@ -481,7 +481,6 @@
         <br>
     #}
 
-
     <h3>Font Icons</h3>
     <p class="text-muted">Font icons rely on a font character displayed in CSS with a :before or an :after. Since <strong>CSS displayed text is not accessible to screen readers</strong>, they should be explicitly hidden with the HTML atttribute aria-hidden="true". More about <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-hidden_attribute" target="_blank">the aria-hidden attribute</a>.</p>
     <div class="metrics">
@@ -496,12 +495,12 @@
     </div>
     {% if collector.listNonExplicitIcons > 0 %}
         <div class="card status-info"><strong>These icons are missing the aria-hidden attribute (to hide them from screen readers).</strong></div>
-            <table>
-                <thead>
-                    <th>#</th>
-                    <th>Tag</th>
-                </thead>
-                <tbody>
+        <table>
+            <thead>
+                <th>#</th>
+                <th>Tag</th>
+            </thead>
+            <tbody>
                {% for key, icone in collector.listNonExplicitIcons %}
                    {% set counter = ( counter | default(0) ) + 1 %}
 
@@ -510,8 +509,8 @@
                         <td>{{ icone.html }}</td>
                    </tr>
                 {% endfor %}
-                </tbody>
-            </table>
+            </tbody>
+        </table>
     {% else %}
         <div class="empty">
             <p>No icons found on this page.</p>
@@ -523,7 +522,7 @@
     <h3>ARIA : Navigation Role</h3>
 
     <p class="text-muted">Identify major groups of links used for navigation, using navigation landmark role(div with role=navigation or nav elements) for the page. More about the navigation role on <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Navigation_Role">MDN Web Docs</a>.</p>
-    {%  if collector.navigationElements|length > 1 %}
+    {%  if collector.navigationElements is not empty %}
         <p>Found {{ collector.navigationElements|length }} navigation roles:</p>
 
         <table>
@@ -572,17 +571,17 @@
                     {% for formrow in collector.associatedLabelForInput %}
                         <td class="font-normal text-muted nowrap small-cell">1</td>
                         <td>
-<pre><code>{{ formrow.html }}</code></pre>
+                            <pre><code>{{ formrow.html }}</code></pre>
                         </td>
                         {% if formrow.label is not empty %}
-                        <td>{{ formrow.label }}</td>
-                            {% elseif formrow.name is not empty %}
-                                <td>
-                                    <span class="icon-danger status-error">
-                                        {{ include('@ElaoAccesseo/profiler/danger.svg') }}
-                                    </span>
-                                    <strong class="text-error">Missing label</strong>
-                                </td>
+                            <td>{{ formrow.label }}</td>
+                        {% elseif formrow.name is not empty %}
+                            <td>
+                                <span class="icon-danger status-error">
+                                    {{ include('@ElaoAccesseo/profiler/danger.svg') }}
+                                </span>
+                                <strong class="text-error">Missing label</strong>
+                            </td>
                         {% endif %}
                 </tr>
                 {% endfor %}
