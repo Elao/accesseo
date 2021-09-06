@@ -81,7 +81,7 @@ class BrokenLinkChecker
     private function getStatusCode(string $uri): int
     {
         if (null === $this->client) {
-            throw new \LogicException(sprintf('You cannot use the "%s" if the Http Client Contracts are not available. Try running "composer require symfony/http-client".', __CLASS__));
+            throw new \LogicException(sprintf('You cannot use the "%s" class if no "symfony/http-client-contracts" implementation is available. Try running "composer require symfony/http-client".', __CLASS__));
         }
 
         $response = $this->client->request(
