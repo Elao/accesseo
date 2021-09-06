@@ -146,7 +146,7 @@ class AccessibilityCheckerTest extends TestCase
             'http://www.google.com/error',
             'http://www.google/error',
             'http://www.google/timeout',
-            ];
+        ];
         static::assertEquals($links, $accessibilityChecker->getLinks());
     }
 
@@ -154,29 +154,37 @@ class AccessibilityCheckerTest extends TestCase
     {
         $accessibilityChecker = $this->getAccessibilityChecker('nav-case1.html');
 
-        $expected =
+        $expected = [
             [
-                [
-                    'id' => 'main-nav1',
-                    'ariaLabel' => 'Main1',
+                'tag' => '<nav id="main-nav0" aria-label="Main0"></nav>',
+                'ariaLabel' => 'Main0',
+                'links' => [],
+            ],
+            [
+                'tag' => '<div id="main-nav1" role="navigation" aria-label="Main1"></div>',
+                'ariaLabel' => 'Main1',
+                'links' => [
+                    '/foo',
+                    '/bar',
+                    '/foobar',
                 ],
-                [
-                    'id' => 'main-nav2',
-                    'ariaLabel' => 'Main2',
-                ],
-              [
-                  'id' => 'main-nav0',
-                  'ariaLabel' => 'Main0',
-              ],
-                [
-                    'id' => 'footer-nav',
-                    'ariaLabel' => 'Footer',
-                ],
-                [
-                    'id' => 'footer-bis-nav',
-                    'ariaLabel' => '',
-                ],
-            ];
+            ],
+            [
+                'tag' => '<div id="main-nav2" role="navigation" aria-label="Main2"></div>',
+                'ariaLabel' => 'Main2',
+                'links' => [],
+            ],
+            [
+                'tag' => '<nav id="footer-nav" aria-label="Footer"></nav>',
+                'ariaLabel' => 'Footer',
+                'links' => [],
+            ],
+            [
+                'tag' => '<nav id="footer-bis-nav"></nav>',
+                'ariaLabel' => '',
+                'links' => [],
+            ],
+        ];
 
         static::assertEquals($expected, $accessibilityChecker->getNavigationElements());
     }

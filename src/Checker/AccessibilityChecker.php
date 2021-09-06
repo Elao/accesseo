@@ -177,11 +177,14 @@ class AccessibilityChecker
 
     public function getNavigationElements(): ?array
     {
-        $data = array_merge(
-            $this->crawler->filter('[role="navigation"]')->extract(['id', 'aria-label']),
-            $this->crawler->filter('nav')->extract(['id', 'aria-label'])
-        );
+        $crawler = $this->crawler->filter('[role="navigation"], nav');
 
-        return array_map(fn ($row) => array_combine(['id', 'ariaLabel'], $row), $data);
+        return $crawler->each(function (Crawler $element) {
+            return [
+                'tag' => str_replace($element->html(), '', $element->outerHtml()),
+                'ariaLabel' => $element->first()->attr('aria-label'),
+                'links' => $element->filter('a')->extract(['href']),
+            ];
+        });
     }
 }
