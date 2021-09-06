@@ -1,6 +1,9 @@
 {% extends '@WebProfiler/Profiler/layout.html.twig' %}
 
+{% import '@ElaoAccesseo/profiler/microdata.html.twig' as macro_microdata %}
+
 {% block toolbar %}
+
 
     {% set icon %}
         {# this is the content displayed as a panel in the toolbar #}
@@ -143,6 +146,9 @@
         table ul li,
         table p { margin: 0; }
         table .small-cell { width: 45px; }
+        table .medium-cell { width: 300px; }
+        table .large-cell { width: unset; }
+
         table .thead th {
             background-color: var(--table-header);
         }
@@ -170,6 +176,12 @@
         .headings-tree:first-child {
             padding:  0;
         }
+
+        .property-level-1 th { padding-left: 25px; }
+        .property-level-2 th { padding-left: 50px; }
+        .property-level-3 th { padding-left: 75px; }
+        .property-level-4 th { padding-left: 100px; }
+        .property-level-5 th { padding-left: 125px; }
     </style>
 {% endblock %}
 
@@ -298,6 +310,21 @@
         </tbody>
     </table>
 
+    <h3>Microdata</h3>
+    <p class="text-muted">Microdata attributes can be used in your existing content to help major search engines and other applications understand it better and provide more accurate results to users.<a href="https://schema.org/docs/gs.html">More informations about microdata on Schema.org.</a></p>
+
+        {% for thing in collector.microdata %}
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2"><a href="https://schema.org/{{ thing.type }}" target="_blank">{{ thing.type }}</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ macro_microdata.display_microdata(thing.values) }}
+        {% endfor %}
+            </tbody>
+        </table>
     <h3>Social Media metas</h3>
     <div class="sf-tabs">
         <div class="tab">
