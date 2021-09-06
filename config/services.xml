@@ -18,7 +18,7 @@
         </service>
 
         <service id="Elao\Bundle\Accesseo\Checker\BrokenLinkChecker">
-            <argument type="service" id="http_client" />
+            <argument type="service" id="http_client" on-invalid="null" />
         </service>
 
         <service id="Elao\Bundle\Accesseo\Controller\BrokenLinkController" public="true">

@@ -48,13 +48,16 @@
         "symfony/string": "^5.3"
     },
     "require-dev": {
-        "symfony/http-client": "^4.4|^5.1",
         "friendsofphp/php-cs-fixer": "^2.17",
         "symfony/console": "^4.4|^5.1",
         "symfony/filesystem": "^4.4|^5.1",
+        "symfony/http-client": "^4.4|^5.1",
         "symfony/phpunit-bridge": "^5.2",
         "symfony/twig-bridge": "^4.4|^5.1",
         "symfony/web-profiler-bundle": "^4.4|^5.1"
+    },
+    "suggest": {
+        "symfony/http-client": "HTTP Client implementation, used for broken link detection."
     },
     "extra": {
         "branch-alias": {
