@@ -25,12 +25,16 @@ class AccessibilityCollector extends DataCollector
     /** @var OptimizationChecker */
     public $optimizationChecker;
 
-    /** @var Stopwatch|null */
+    /** @var Stopwatch */
     private $stopwatch;
 
-    public function __construct(?Stopwatch $stopwatch = null)
+    /** @var array */
+    private $icons;
+
+    public function __construct(array $icons, ?Stopwatch $stopwatch = null)
     {
         $this->stopwatch = $stopwatch;
+        $this->icons = $icons;
     }
 
     public function getName(): string
@@ -46,7 +50,7 @@ class AccessibilityCollector extends DataCollector
 
         $crawler = new Crawler((string) $response->getContent(), $request->getUri(), $request->getBaseUrl());
 
-        $this->imageChecker = new ImageChecker($crawler);
+        $this->imageChecker = new ImageChecker($crawler, $this->icons);
         $this->accessibilityChecker = new AccessibilityChecker($crawler);
 
         $this->optimizationChecker = new OptimizationChecker($crawler);
