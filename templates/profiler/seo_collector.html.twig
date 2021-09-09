@@ -324,6 +324,8 @@
                             <td class="font-normal">{{ elt }}</td>
                         </tr>
                     {% endfor %}
+                    {% if collector.missingOpenGraphProperties is not empty %}
+
                     <tr class="thead">
                         <th class="font-normal" colspan="2">Missing properties</th>
                     </tr>
@@ -332,6 +334,7 @@
                             <th class="font-normal text-muted">{{ elt }}</th>
                         {% endfor %}
                     </tr>
+                    {% endif %}
                 </table>
             </div>
         </div>
@@ -361,6 +364,7 @@
                             <td class="font-normal">{{ elt }}</td>
                         </tr>
                     {% endfor %}
+                    {% if collector.missingTwitterProperties is not empty %}
                     <tr class="thead">
                         <th class="font-normal" colspan="2">Missing properties</th>
                     </tr>
@@ -369,6 +373,7 @@
                             <td class="font-normal text-muted">{{ elt }}</td>
                         {% endfor %}
                     </tr>
+                    {% endif %}
                 </table>
             </div>
         </div>
