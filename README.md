@@ -1,6 +1,6 @@
 # Accesseo
 
-You don't give a shit about accessibility and seo optimizations but want to improve quality of your pages ? Accesseo makes your life easier !
+Accesseo helps you improve the accessibility and SEO of your pages with some simple optimization insights.
 
 ## Installation
 
