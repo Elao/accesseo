@@ -322,9 +322,13 @@
             </thead>
             <tbody>
                 {{ macro_microdata.display_microdata(thing.values) }}
-        {% endfor %}
             </tbody>
         </table>
+        {% else %}
+    <div class="empty">
+        <p>No microdata found on this page</p>
+    </div>
+    {% endfor %}
     <h3>Social Media metas</h3>
     <div class="sf-tabs">
         <div class="tab">
