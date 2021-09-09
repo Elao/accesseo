@@ -47,7 +47,7 @@ class ImageCheckerTest extends TestCase
     public function testIcons(): void
     {
         $imgChecker = $this->getImageChecker('explicit-icons.html');
-        static::assertEquals(2, $imgChecker->countIcons());
+        static::assertEquals(3, $imgChecker->countIcons());
     }
 
     public function testListImagesWithoutAlt(): void
@@ -59,7 +59,10 @@ class ImageCheckerTest extends TestCase
     public function testListImagesWithoutAriaHidden(): void
     {
         $imgChecker = $this->getImageChecker('explicit-icons.html');
-        $expected = [['class' => 'icon icon--alert', 'html' => '<i class="icon icon--alert"></i>']];
+        $expected = [
+            ['class' => 'icon icon--alert', 'html' => '<i class="icon icon--alert"></i>'],
+            ['class' => 'icon icon--alert', 'html' => '<i class="icon icon--alert" aria-hidden=""></i>'],
+        ];
         static::assertEquals($expected, $imgChecker->listNonExplicitIcons());
     }
 
@@ -84,6 +87,6 @@ class ImageCheckerTest extends TestCase
         $html = file_get_contents(sprintf(__DIR__.'/../ImageChecker/%s', $filename));
         $crawler = new Crawler($html);
 
-        return new ImageChecker($crawler);
+        return new ImageChecker($crawler, ['icon']);
     }
 }

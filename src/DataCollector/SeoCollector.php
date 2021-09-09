@@ -38,9 +38,12 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
     /** @var Stopwatch|null */
     private $stopwatch;
 
-    public function __construct(?Stopwatch $stopwatch = null)
+    private array $icons;
+
+    public function __construct(array $icons, ?Stopwatch $stopwatch = null)
     {
         $this->stopwatch = $stopwatch;
+        $this->icons = $icons;
     }
 
     public function getName(): string
@@ -56,7 +59,7 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
 
         $crawler = new Crawler((string) $response->getContent(), $request->getUri(), $request->getBaseUrl());
 
-        $this->imageChecker = new ImageChecker($crawler);
+        $this->imageChecker = new ImageChecker($crawler, $this->icons);
         $this->optimizationChecker = new OptimizationChecker($crawler);
         $this->accessibilityChecker = new AccessibilityChecker($crawler);
         $this->linkChecker = new LinkChecker($crawler);

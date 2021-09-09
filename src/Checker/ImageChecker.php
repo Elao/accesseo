@@ -11,9 +11,18 @@ class ImageChecker
     /** @var Crawler */
     private $crawler;
 
-    public function __construct(Crawler $crawler)
+    /** @var array */
+    private $icons;
+
+    public function __construct(Crawler $crawler, array $icons)
     {
         $this->crawler = $crawler;
+        $this->icons = $icons;
+    }
+
+    public function setIcons(array $value): void
+    {
+        $this->icons = $value;
     }
 
     public function countAltFromImages(): int
@@ -93,7 +102,7 @@ class ImageChecker
     public function countIcons(): int
     {
         $images = $this->crawler
-            ->filter('i');
+            ->filter(implode(',', array_map(function ($i) { return sprintf('.%s', $i); }, $this->icons)));
 
         return \count($images);
     }
@@ -101,7 +110,7 @@ class ImageChecker
     public function countExplicitIcons(): int
     {
         $images = $this->crawler
-            ->filter('i')
+            ->filter(implode(',', array_map(function ($i) { return sprintf('.%s', $i); }, $this->icons)))
             ->extract(['aria-hidden']);
 
         $images = array_filter($images);
@@ -111,32 +120,22 @@ class ImageChecker
 
     public function listNonExplicitIcons(): array
     {
-        $countIcons = $this->countIcons();
-        $icons = [];
-
-        $i = 0;
-        while ($i < $countIcons) {
-            $icons[$i] = [
-                'class' => $this->crawler->filter('i')->eq($i)->attr('class'),
-                'aria-hidden' => '',
-                'html' => $this->crawler->filter('i')->eq($i)->outerHtml(),
-            ];
-
-            try {
-                $icons[$i]['aria-hidden'] = $this->crawler->filter('i')->eq($i)->attr('aria-hidden');
-            } catch (\Exception $e) {
-            }
-
-            ++$i;
-        }
-
         $missingAriaHidden = [];
 
-        foreach ($icons as $icon) {
-            if (null === $icon['aria-hidden']) {
-                $missingAriaHidden[] = ['class' => $icon['class'], 'html' => $icon['html']];
+        $iconsElements = $this->crawler
+            ->filter(implode(',', array_map(function ($i) { return sprintf('.%s', $i); }, $this->icons)))
+        ;
+
+        $iconsElements->each(
+            function ($icon) use (&$missingAriaHidden): void {
+                if ($icon->attr('aria-hidden') === null || $icon->attr('aria-hidden') === '') {
+                    $missingAriaHidden[] = [
+                        'class' => $icon->attr('class'),
+                        'html' => $icon->outerHtml(),
+                    ];
+                }
             }
-        }
+        );
 
         return $missingAriaHidden;
     }

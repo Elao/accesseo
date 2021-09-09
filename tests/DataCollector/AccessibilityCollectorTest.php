@@ -16,7 +16,7 @@ class AccessibilityCollectorTest extends TestCase
         $html = file_get_contents(__DIR__.'/../DataCollector/my-page.html');
         $request = new Request();
         $response = new Response($html, 200);
-        $datacollector = new AccessibilityCollector();
+        $datacollector = new AccessibilityCollector(['icon']);
         $datacollector->collect($request, $response);
 
         static::assertEquals(2, $datacollector->getCountAllIcons());

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Elao\Bundle\Accesseo\Checker;
 
+use Brick\Schema\SchemaReader;
 use Symfony\Component\DomCrawler\Crawler;
 
 class OptimizationChecker
@@ -185,5 +186,12 @@ class OptimizationChecker
         }
 
         return $hreflang;
+    }
+
+    public function getAllMicroData(): array
+    {
+        $schemaReader = SchemaReader::forAllFormats();
+
+        return $schemaReader->readHtml($this->crawler->html(), '');
     }
 }
