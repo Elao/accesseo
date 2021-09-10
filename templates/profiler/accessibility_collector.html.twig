@@ -493,7 +493,7 @@
             <span class="label">visible to screen readers</span>
         </div>
     </div>
-    {% if collector.listNonExplicitIcons > 0 %}
+    {% if collector.listNonExplicitIcons is not empty %}
         <div class="card status-info"><strong>These icons are missing the aria-hidden attribute (to hide them from screen readers).</strong></div>
         <table>
             <thead>
@@ -558,7 +558,9 @@
             </tbody>
         </table>
     {% else %}
-        <p>Found 0 navigation role</p>
+        <div class="empty">
+            <p>No navigation role found on this page</p>
+        </div>
     {% endif %}
 
     <h3>Forms</h3>

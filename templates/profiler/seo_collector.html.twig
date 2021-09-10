@@ -207,7 +207,7 @@
                 </td>
             {% else %}
                 <td class="font-normal">
-                    Missing
+                    No data
                 </td>
             {% endif %}
         </tr>
@@ -217,7 +217,7 @@
                 <td class="font-normal">{{ collector.language }}</td>
             {% else %}
                 <td class="font-normal">
-                    Missing
+                    No data
                 </td>
             {% endif %}
         </tr>
@@ -233,7 +233,7 @@
                     {% endfor %}
                 </td>
             {% else %}
-                <td class="font-normal">Missing</td>
+                <td class="font-normal">No data</td>
             {% endif %}
         </tr>
         <tr>
@@ -242,7 +242,7 @@
                 <td class="font-normal">{{ collector.metaRobot }}</td>
             {% else %}
                 <td class="font-normal">
-                    Missing
+                    No data
                 </td>
             {% endif %}
         </tr>
@@ -252,7 +252,7 @@
                 <td class="font-normal">{{ collector.metaGooglebot }}</td>
             {% else %}
                 <td class="font-normal">
-                    Missing
+                    No data
                 </td>
             {% endif %}
         </tr>
@@ -262,7 +262,7 @@
                 <td class="font-normal">{{ collector.metaGooglebotNews }}</td>
             {% else %}
                 <td class="font-normal">
-                    Missing
+                    No data
                 </td>
             {% endif %}
         </tr>
@@ -270,6 +270,11 @@
 
     <h3>Qualified outbound links</h3>
     <p class="text-muted">You might want to tell search engine robots how to interpret the relationship with the linked page, using `rel` attribute values in the &lt;a&gt; tag. <a href="https://developers.google.com/search/docs/advanced/guidelines/qualify-outbound-links?hl=en">More informations on Google's official documentation.</a></p>
+    {% if collector.qualifiedOutboundLinks is empty %}
+        <div class="empty">
+            <p>No outbound links found on this page</p>
+        </div>
+    {% else %}
     <table>
         <thead>
         <tr>
@@ -297,6 +302,7 @@
         {% endfor %}
         </tbody>
     </table>
+    {% endif %}
 
     <h3>Social Media metas</h3>
     <div class="sf-tabs">
@@ -310,22 +316,24 @@
             <div class="tab-content">
                 {% if collector.missingOpenGraphProperties|length > 0 %}
                  <div class="card status-warning">
-                    <strong>Warning : missing {{ collector.missingOpenGraphProperties|join(',') }}  in Opengraph properties</strong>
+                    <strong>Warning : missing {{ collector.missingOpenGraphProperties|join(', ') }}  in Opengraph properties</strong>
                 </div>
                 {% endif %}
 
                 <table>
+                    {% if collector.OpenGraphProperties|length > 0 %}
                     <tr class="thead">
                         <th class="font-normal" colspan="2">Fulfilled properties</th>
                     </tr>
-                    {% for key, elt in collector.OpenGraphProperties %}
+                        {% for key, elt in collector.OpenGraphProperties %}
                         <tr>
                             <th class="font-normal text-muted">{{ key }}</th>
                             <td class="font-normal">{{ elt }}</td>
                         </tr>
-                    {% endfor %}
-                    {% if collector.missingOpenGraphProperties is not empty %}
+                        {% endfor %}
+                    {% endif %}
 
+                   {% if collector.missingOpenGraphProperties|length > 0 and collector.OpenGraphProperties is not empty %}
                     <tr class="thead">
                         <th class="font-normal" colspan="2">Missing properties</th>
                     </tr>
@@ -349,22 +357,25 @@
             <div class="tab-content">
 
                 {% if collector.missingTwitterProperties|length > 0 %}
-                    <div class="card status-error">
-                        <strong>Warning : missing {{ collector.missingTwitterProperties|join(',') }} in Twitter card properties</strong>
+                    <div class="card status-warning">
+                        <strong>Warning : missing {{ collector.missingTwitterProperties|join(', ') }} in Twitter card properties</strong>
                     </div>
                 {% endif %}
 
+
                 <table>
+                    {% if collector.twitterProperties is not empty %}
                     <tr class="thead">
                         <th class="font-normal" colspan="2">Fulfilled properties</th>
                     </tr>
-                    {% for key, elt in collector.twitterProperties %}
+                        {% for key, elt in collector.twitterProperties %}
                         <tr>
                             <th class="font-normal text-muted">{{ key }}</th>
                             <td class="font-normal">{{ elt }}</td>
                         </tr>
-                    {% endfor %}
-                    {% if collector.missingTwitterProperties is not empty %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if collector.missingTwitterProperties is not empty and collector.twitterProperties is not empty %}
                     <tr class="thead">
                         <th class="font-normal" colspan="2">Missing properties</th>
                     </tr>
