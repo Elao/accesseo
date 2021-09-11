@@ -70,6 +70,10 @@
                         {% set level = level+1 %}
                         {{ block ("treeHeading") }}
                         {% set level = level-1 %}
+                       {% else%}
+                           <div class="empty">
+                               <p>No headings found on this page</p>
+                           </div>
                     {% endfor %}
                 </ul>
             {% endblock %}
