@@ -191,7 +191,14 @@ class OptimizationChecker
     public function getAllMicroData(): array
     {
         $schemaReader = SchemaReader::forAllFormats();
+        $things = $schemaReader->readHtml($this->crawler->html(), '');
 
-        return $schemaReader->readHtml($this->crawler->html(), '');
+        $microdatas = [];
+
+        foreach ($things as $thing) {
+            $microdatas[] = Microdata::create($thing);
+        }
+
+        return $microdatas;
     }
 }

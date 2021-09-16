@@ -38,6 +38,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.4",
+        "brick/schema": "^0.1.1",
         "symfony/css-selector": "^4.4|^5.1",
         "symfony/dependency-injection": "^4.4|^5.1",
         "symfony/dom-crawler": "^4.4|^5.1",

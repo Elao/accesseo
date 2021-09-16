@@ -175,6 +175,20 @@ class OptimizationCheckerTest extends TestCase
         static::assertEquals(false, $optimizationChecker->isHreflang());
     }
 
+    public function testMicrodataHTML(): void
+    {
+        $optimizationChecker = $this->getOptimizationChecker('microdata-html.html');
+
+        static::assertEquals(3, \count($optimizationChecker->getAllMicroData()));
+    }
+
+    public function testMicrodataJson(): void
+    {
+        $optimizationChecker = $this->getOptimizationChecker('microdata-json.html');
+
+        static::assertEquals(1, \count($optimizationChecker->getAllMicroData()));
+    }
+
     public function getOptimizationChecker($filename): OptimizationChecker
     {
         $html = file_get_contents(sprintf(__DIR__.'/../OptimizationChecker/%s', $filename));

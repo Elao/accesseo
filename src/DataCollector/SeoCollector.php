@@ -84,6 +84,7 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
             'isHreflang' => $this->optimizationChecker->isHreflang(),
             'hreflang' => $this->optimizationChecker->getHreflang(),
             'qualifiedOutboundLinks' => $this->linkChecker->getQualifiedOutboundLinks(),
+            'microdata' => $this->optimizationChecker->getAllMicroData(),
         ];
 
         if (isset($event)) {
@@ -138,6 +139,11 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
     public function getHeadlinesTree(): array
     {
         return $this->data['headlinesTree']->getValue();
+    }
+
+    public function getMicrodata(): array
+    {
+        return $this->data['microdata']->getValue();
     }
 
     public function getLanguage(): ?string
