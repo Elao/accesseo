@@ -2,52 +2,51 @@
 <table>
     <tbody>
     <tr>
-        <th class="font-normal text-muted">Title</th>
-        <td class="font-normal">
-            <strong>{{ collector.title }}</strong>
+        <th class="font-normal">Title in head</th>
+        <td>
+            {{ collector.title }}
             {% if collector.title|length == 0 %}
                 <div class="card status-warning">
                     <strong>Warning : missing title (recommended : 50 - 60 characters)</strong>
                 </div>
             {% else %}
                 <p>
-                    <small class="text-muted">{{ collector.title|length }} characters (recommended : 50 - 60 characters)</small>
+                    <small class="text-muted font-normal">{{ collector.title|length }} characters (recommended : 50 - 60 characters)</small>
                 </p>
             {% endif %}
         </td>
     </tr>
     <tr>
-        <th class="font-normal text-muted">Meta description</th>
-        <td class="font-normal">
-            <strong>{{ collector.metaDescription }}</strong>
+        <th class="font-normal">Meta description</th>
+        <td>
+            {{ collector.metaDescription }}
             {% if collector.metaDescription|length == 0 %}
                 <div class="card status-warning">
                     <strong>Warning : meta description is missing (recommended : 50 - 160 characters)</strong>
                 </div>
             {% else %}
                 <p>
-                    <small class="text-muted">{{ collector.metaDescription|length }} characters (recommended : 50 - 160 characters)  </small>
+                    <small class="text-muted font-normal">{{ collector.metaDescription|length }} characters (recommended : 50 - 160 characters)  </small>
                 </p>
             {% endif %}
         </td>
     </tr>
     <tr>
-        <th class="font-normal text-muted">First H1</th>
-        <td class="font-normal">
+        <th class="font-normal">Level 1 title</th>
+        <td>
             {% if collector.h1 is empty %}
                 <div class="card status-warning">
-                    <strong>Warning: no H1 found in this page.</strong>
+                    <span class="font-normal">Warning: no H1 found in this page.</span>
                 </div>
             {% else %}
-                <strong>{{ collector.h1 }}</strong>
+                <span>{{ collector.h1 }}</span>
             {% endif %}
         </td>
     </tr>
     <tr>
-        <th class="font-normal text-muted">Headings</th>
-
+        <th class="font-normal">All headings</th>
         {% if collector.headlinesTree %}
-        <td class="font-normal">
+        <td>
             {% set headings = collector.headlinesTree %}
             {% set level = 1 %}
             {% block treeHeading %}
@@ -56,15 +55,12 @@
                         <li>
                             {% if level != heading.level %}
                                 <span class="icon-danger status-error text-warning">
-                                        {{ include('@ElaoAccesseo/profiler/danger.svg') }}
-                                        <strong>H{{ heading.level }}:</strong>
-                                    </span>
-                                {{ heading.content }}
+                                    {{ include('@ElaoAccesseo/profiler/danger.svg') }}
+                                    [h{{ heading.level }}]
+                                </span>
+                                <span> {{ heading.content }}</span>
                             {% else %}
-                                <span class="">
-                                        <strong>H{{ heading.level }}:</strong>
-                                    </span>
-                                {{ heading.content }}
+                                h{{ heading.level }} - {{ heading.content }}
                             {% endif %}
                         </li>
                         {% set headings = heading.children %}
@@ -76,12 +72,11 @@
             {% endblock %}
         </td>
     {% else %}
-            <td>
-                <div class="empty">
-                    <p>No headings found on this page</p>
-                </div>
-            </td>
-
+        <td>
+            <div class="empty">
+                <p>No headings found on this page</p>
+            </div>
+        </td>
     {% endif %}
     </tbody>
     </tr>

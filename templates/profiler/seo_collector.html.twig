@@ -143,15 +143,22 @@
 
         .code-inline { display: inline-block; }
 
+        .capitalize { text-transform: capitalize; }
+
         table ul li,
         table p { margin: 0; }
         table .small-cell { width: 45px; }
         table .medium-cell { width: 300px; }
         table .large-cell { width: unset; }
+        table .icon-danger { vertical-align: middle; }
+        small { font-size: 80% !important; }
 
         table .thead th {
             background-color: var(--table-header);
         }
+
+        .robot-directives th a { font-weight: normal; display: block; }
+        .robot-directives td { vertical-align: middle; }
 
         .icon-danger {
             fill: var(--base-5);
@@ -169,7 +176,7 @@
         }
 
         .headings-tree {
-            padding: 0 0 0 20px;
+            padding: 0 0 0 40px;
             list-style:  none;
         }
 
@@ -197,7 +204,7 @@
 
 {% block panel %}
     {# Optional, for showing the most details. #}
-    <h2>SEO insights ✨</h2>
+    <h2>SEO insights</h2>
 
     {{ include('@ElaoAccesseo/profiler/headings_elements.html.twig') }}
 
@@ -210,89 +217,94 @@
             <strong>Error : Missing XRobotsTag on this page.</strong>
         </div>
     #}
-    <table>
+    <table class="robot-directives">
         <tr>
-            <th class="font-normal text-muted">Canonical URL (<a href="https://moz.com/learn/seo/canonicalization">more informations</a>)</th>
+            <th class="font-normal medium-cell">
+                Canonical URL
+                <a href="https://moz.com/learn/seo/canonicalization">More about canonical URLs</a>
+            </th>
             {% if collector.canonical %}
-                <td class="font-normal">
+                <td>
                     <a href="{{ collector.canonical }}">{{ collector.canonical }}</a>
                 </td>
             {% else %}
-                <td class="font-normal">
-                    No data
-                </td>
+                <td class="font-normal">-</td>
             {% endif %}
         </tr>
         <tr>
-            <th class="font-normal text-muted">Language (<a href="https://www.w3.org/International/articles/language-tags/">more informations</a>)</th>
+            <th class="font-normal">
+                Language
+                <a href="https://www.w3.org/International/articles/language-tags/">More about language tags</a>
+            </th>
             {% if collector.language %}
-                <td class="font-normal">{{ collector.language }}</td>
+                <td>{{ collector.language }}</td>
             {% else %}
-                <td class="font-normal">
-                    No data
-                </td>
+                <td class="font-normal">-</td>
             {% endif %}
         </tr>
         <tr>
-            <th class="font-normal text-muted">Hreflang (<a href="https://developers.google.com/search/docs/advanced/crawling/consolidate-duplicate-urls">more informations</a>)</th>
+            <th class="font-normal">
+                Hreflang
+                <a href="https://developers.google.com/search/docs/advanced/crawling/consolidate-duplicate-urls">More about hreflangs</a>
+            </th>
             {% if collector.isHrefLang %}
-                <td class="font-normal">
+                <td>
                     {% for href in collector.hreflang %}
                         <div>
                             {{ href['hreflang'] }}
-                            (<a href="{{ href['href'] }}">{{ href['href'] }}</a>)
+                            <a href="{{ href['href'] }}">{{ href['href'] }}</a>
                         </div>
                     {% endfor %}
                 </td>
             {% else %}
-                <td class="font-normal">No data</td>
+                <td class="font-normal">-</td>
             {% endif %}
         </tr>
         <tr>
-            <th class="font-normal text-muted">Robots meta directives (<a href="https://moz.com/learn/seo/robots-meta-directives">more informations</a>)</th>
+            <th class="font-normal">
+                Robots meta directives
+                <a href="https://moz.com/learn/seo/robots-meta-directives">More about robots meta tags</a>
+            </th>
             {% if collector.metaRobot %}
-                <td class="font-normal">{{ collector.metaRobot }}</td>
+                <td>{{ collector.metaRobot }}</td>
             {% else %}
-                <td class="font-normal">
-                    No data
-                </td>
+                <td class="font-normal">-</td>
             {% endif %}
         </tr>
         <tr>
-            <th class="font-normal text-muted">Googlebot meta directives (<a href="https://developers.google.com/search/docs/advanced/robots/robots_meta_tag">more informations</a>)</th>
+            <th class="font-normal">
+                Googlebot meta directives
+                <a href="https://developers.google.com/search/docs/advanced/robots/robots_meta_tag">More about Googlebot meta tags</a>
+            </th>
             {% if collector.metaGooglebot %}
-                <td class="font-normal">{{ collector.metaGooglebot }}</td>
+                <td>{{ collector.metaGooglebot }}</td>
             {% else %}
-                <td class="font-normal">
-                    No data
-                </td>
+                <td class="font-normal">-</td>
             {% endif %}
         </tr>
         <tr>
-            <th class="font-normal text-muted">Googlebot-news meta directives (<a href="https://developers.google.com/search/docs/advanced/robots/robots_meta_tag">more informations</a>)</th>
+            <th class="font-normal">Googlebot-news meta directives</th>
             {% if collector.metaGooglebotNews %}
-                <td class="font-normal">{{ collector.metaGooglebotNews }}</td>
+                <td>{{ collector.metaGooglebotNews }}</td>
             {% else %}
-                <td class="font-normal">
-                    No data
-                </td>
+                <td class="font-normal">-</td>
             {% endif %}
         </tr>
     </table>
 
     <h3>Qualified outbound links</h3>
-    <p class="text-muted">You might want to tell search engine robots how to interpret the relationship with the linked page, using `rel` attribute values in the &lt;a&gt; tag. <a href="https://developers.google.com/search/docs/advanced/guidelines/qualify-outbound-links?hl=en">More informations on Google's official documentation.</a></p>
+    <p class="text-muted">You might want to tell search engine robots how to interpret the relationship with the linked page, using rel attribute values in the &lt;a&gt; tag. <a href="https://developers.google.com/search/docs/advanced/guidelines/qualify-outbound-links?hl=en">More about qualifying your outbound links to Google</a>.</p>
     {% if collector.qualifiedOutboundLinks is empty %}
         <div class="empty">
-            <p>No outbound links found on this page</p>
+            <p>No outbound links on this page</p>
         </div>
     {% else %}
     <table>
         <thead>
         <tr>
-            <th>href</th>
-            <th>text</th>
-            <th>rel attribute</th>
+            <th class="medium-cell">href</th>
+            <th class="large-cell">text content</th>
+            <th class="medium-cell">rel attribute</th>
         </tr>
         </thead>
         <tbody>
@@ -303,13 +315,17 @@
                     <span class="icon-danger status-error">
                         {{ include('@ElaoAccesseo/profiler/danger.svg') }}
                     </span>
-                    <strong class="text-error">Missing link</strong>
+                    <strong class="text-error">Missing href</strong>
                 {% else %}
-                    {{ link.href }}
+                    <a href="{{ link.href }}">{{ link.href }}</a>
                 {% endif %}
             </td>
             <td>{{ link.text }}</td>
-            <td>{{ link.rel }}</td>
+            {% if link.rel is empty %}
+                <td class="font-normal">-</td>
+            {% else %}
+                <td>{{ link.rel }}</td>
+            {% endif %}
         </tr>
         {% endfor %}
         </tbody>
@@ -317,9 +333,9 @@
     {% endif %}
 
     <h3>Microdata</h3>
-    <p class="text-muted">Microdata attributes can be used in your existing content to help major search engines and other applications understand it better and provide more accurate results to users.<a href="https://schema.org/docs/gs.html">More informations about microdata on Schema.org.</a></p>
+    <p class="text-muted">Microdata attributes can be used in your existing content to help major search engines and other applications understand it better and provide more accurate results to users. <a href="https://schema.org/docs/gs.html">More about microdata on Schema.org.</a></p>
 
-        {% for thing in collector.microdata %}
+    {% for thing in collector.microdata %}
         <table>
             <thead>
                 <tr>
@@ -330,12 +346,13 @@
                 {{ macro_microdata.display_microdata(thing.values) }}
             </tbody>
         </table>
-        {% else %}
+    {% else %}
     <div class="empty">
-        <p>No microdata found on this page</p>
+        <p>No microdata on this page</p>
     </div>
     {% endfor %}
-    <h3>Social Media metas</h3>
+
+    <h3>Social media metas</h3>
     <div class="sf-tabs">
         <div class="tab">
             <span class="tab-title">
@@ -346,33 +363,33 @@
             </span>
             <div class="tab-content">
                 {% if collector.missingOpenGraphProperties|length > 0 %}
-                 <div class="card status-warning">
-                    <strong>Warning : missing {{ collector.missingOpenGraphProperties|join(', ') }}  in Opengraph properties</strong>
-                </div>
+                    <div class="card status-warning">
+                        <strong>Warning : missing {{ collector.missingOpenGraphProperties|join(', ') }}  in Opengraph properties</strong>
+                    </div>
                 {% endif %}
 
                 <table>
                     {% if collector.OpenGraphProperties|length > 0 %}
-                    <tr class="thead">
-                        <th class="font-normal" colspan="2">Fulfilled properties</th>
-                    </tr>
-                        {% for key, elt in collector.OpenGraphProperties %}
-                        <tr>
-                            <th class="font-normal text-muted">{{ key }}</th>
-                            <td class="font-normal">{{ elt }}</td>
+                        <tr class="thead">
+                            <th class="font-normal" colspan="2">Fulfilled properties</th>
                         </tr>
+                        {% for key, elt in collector.OpenGraphProperties %}
+                            <tr>
+                                <th class="font-normal capitalize">{{ key }}</th>
+                                <td>{{ elt }}</td>
+                            </tr>
                         {% endfor %}
                     {% endif %}
 
                    {% if collector.missingOpenGraphProperties|length > 0 and collector.OpenGraphProperties is not empty %}
-                    <tr class="thead">
-                        <th class="font-normal" colspan="2">Missing properties</th>
-                    </tr>
-                    <tr>
-                        {% for elt in collector.missingOpenGraphProperties %}
-                            <th class="font-normal text-muted">{{ elt }}</th>
-                        {% endfor %}
-                    </tr>
+                        <tr class="thead">
+                            <th class="font-normal capitalize" colspan="2">Missing properties</th>
+                        </tr>
+                        <tr>
+                            {% for elt in collector.missingOpenGraphProperties %}
+                                <th>{{ elt }}</th>
+                            {% endfor %}
+                        </tr>
                     {% endif %}
                 </table>
             </div>
@@ -393,7 +410,6 @@
                     </div>
                 {% endif %}
 
-
                 <table>
                     {% if collector.twitterProperties is not empty %}
                     <tr class="thead">
@@ -401,18 +417,18 @@
                     </tr>
                         {% for key, elt in collector.twitterProperties %}
                         <tr>
-                            <th class="font-normal text-muted">{{ key }}</th>
-                            <td class="font-normal">{{ elt }}</td>
+                            <th class="font-normal capitalize">{{ key }}</th>
+                            <td>{{ elt }}</td>
                         </tr>
                         {% endfor %}
                     {% endif %}
                     {% if collector.missingTwitterProperties is not empty and collector.twitterProperties is not empty %}
                     <tr class="thead">
-                        <th class="font-normal" colspan="2">Missing properties</th>
+                        <th class="font-normal capitalize" colspan="2">Missing properties</th>
                     </tr>
                     <tr>
                         {% for key, elt in collector.missingTwitterProperties %}
-                            <td class="font-normal text-muted">{{ elt }}</td>
+                            <td>{{ elt }}</td>
                         {% endfor %}
                     </tr>
                     {% endif %}
