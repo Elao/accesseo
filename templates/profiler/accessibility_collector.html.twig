@@ -125,6 +125,9 @@
 
         .tab-navigation li, .tab-navigation li * { vertical-align: middle; }
 
+        table ul li,
+        table p { margin: 0; }
+        table tbody ul { list-style: none; padding: 0 !important; }
         table td, table td * { vertical-align: middle; }
         table ul li { margin: 0; }
         table .small-cell { width: 45px; }
@@ -145,6 +148,15 @@
         .sf-tabs .icon-danger {
             vertical-align: middle;
             border: solid 1px #fff;
+        }
+
+        .headings-tree {
+            padding: 0 0 0 40px;
+            list-style:  none;
+        }
+
+        .headings-tree:first-child {
+            padding:  0;
         }
     </style>
     <script>
@@ -289,7 +301,7 @@
                     </table>
                     {% else %}
                         <div class="empty">
-                            <p>No image with an alt attribute found on this page</p>
+                            <p>No image with an alt attribute on this page</p>
                         </div>
                 {% endif %}
             </div>
@@ -326,7 +338,7 @@
 
                     {% else %}
                         <div class="empty">
-                            <p>No image with an empty alt attribute found on this page</p>
+                            <p>No image with an empty alt attribute on this page</p>
                         </div>
                     {% endif %}
 
@@ -363,7 +375,7 @@
 
                     {% else %}
                         <div class="empty">
-                            <p>No image with an empty alt attribute found on this page</p>
+                            <p>No image with an empty alt attribute on this page</p>
                         </div>
                     {% endif %}
 
@@ -519,18 +531,17 @@
 
     <br>
 
-    <h3>ARIA : Navigation Role</h3>
-
-    <p class="text-muted">Identify major groups of links used for navigation, using navigation landmark role(div with role=navigation or nav elements) for the page. More about the navigation role on <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Navigation_Role">MDN Web Docs</a>.</p>
+    <h3>ARIA roles</h3>
+    <p class="text-muted">ARIA semantics expose extra information to a browser's accessibility API, and does not affect a page's DOM. Identify elements, states and properties using ARIA roles. <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques">More about ARIA roles</a>.</p>
+    <h4>Navigation</h4>
     {%  if collector.navigationElements is not empty %}
-        <p>Found {{ collector.navigationElements|length }} navigation roles:</p>
-
+        <p>{{ collector.navigationElements|length }} nav elements on the page</p>
         <table>
             <thead>
                 <tr>
                     <th>Tag</th>
                     <th>Links</th>
-                    <th>Aria label</th>
+                    <th>ARIA label</th>
                 </tr>
             </thead>
             <tbody>
@@ -548,9 +559,7 @@
                             {% if navigation.ariaLabel %}
                                 {{ navigation.ariaLabel }}
                             {% else %}
-                                <div class="card status-warning">
-                                    <strong>Missing</strong>
-                                </div>
+                                -
                             {% endif %}
                         </td>
                     </tr>
