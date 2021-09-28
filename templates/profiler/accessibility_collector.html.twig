@@ -532,7 +532,7 @@
     <br>
 
     <h3>ARIA roles</h3>
-    <p class="text-muted">ARIA semantics expose extra information to a browser's accessibility API, and does not affect a page's DOM. Identify elements, states and properties using ARIA roles. <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques">More about ARIA roles</a>.</p>
+    <p class="text-muted">ARIA semantics expose extra information to a browser's accessibility API, and does not affect a page's DOM. Identify elements, states and properties to screen readers using ARIA roles. <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques">More about ARIA roles</a>.</p>
     <h4>Navigation</h4>
     {%  if collector.navigationElements is not empty %}
         <p>{{ collector.navigationElements|length }} nav elements on the page</p>
@@ -568,12 +568,13 @@
         </table>
     {% else %}
         <div class="empty">
-            <p>No navigation role found on this page</p>
+            <p>No nav on this page</p>
         </div>
     {% endif %}
 
     <h3>Forms</h3>
-    <p class="text-muted">An input <strong>should always have a label</strong> do users can know what is expected of them. This is especially true for screen readers users as they won't have access to the input placeholder. To do so, an input must have an <code class="code-inline">id</code> and its label a <code class="code-inline">for</code> attribue targeting this <code class="code-inline">id</code>. More about <a href="https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input#accessibilit%C3%A9" target="_blank">accessible forms</a>.</p>
+    <p class="text-muted">An input should always have a label for users to know what is expected of them. <strong>A placeholder is not supposed to replace a label</strong>.</p>
+    <p class="text-muted">Remember screen readers won't read placeholders, and some users won't have access to the information displayed in it. <strong>An input must have an id and its label must have a for attribue targeting this id</strong>. More about <a href="https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input#accessibilit%C3%A9" target="_blank">accessible forms</a>.</p>
     {% if collector.isForm %}
          <table>
             <thead>
@@ -604,10 +605,9 @@
                 {% endfor %}
             </tbody>
         </table>
-
     {% else %}
         <div class="empty">
-            <p>No forms found on this page.</p>
+            <p>No form on this page.</p>
         </div>
     {% endif %}
 {% endblock %}
