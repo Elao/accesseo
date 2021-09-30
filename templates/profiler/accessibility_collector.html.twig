@@ -133,6 +133,7 @@
         table .small-cell { width: 45px; }
         table .medium-cell { width: 300px; }
         table .large-cell { width: unset; }
+        table .v-top { vertical-align: top;  }
 
         .icon-danger {
             display: inline-flex;
@@ -258,9 +259,8 @@
         </div>
     #}
 
-    <br>
 
-    <h3>Alternative text</h3>
+    <h4>Images alternative text</h4>
     <p class="text-muted">All images should have an alt attribute. If an image has meaning, you should provide a concise alternative text to describe it. If it's decorative, add the alt attribute and leave it empty. More about <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Img#attributes" target="_blank">the alt attribute</a>.</p>
 
     <br>
@@ -280,9 +280,9 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Image URL</th>
-                                <th>Alt text</th>
+                                <th class="small-cell">#</th>
+                                <th class="medium-cell">Image URL</th>
+                                <th class="medium-cell">Alt text</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -292,7 +292,15 @@
                             {% set counter = ( counter | default(0) ) + 1 %}
                             <tr>
                                 <td class="font-normal text-muted nowrap small-cell">{{ counter }}</td>
-                                <td class="break-long-words">{{ img.html }}</td>
+                                {#
+                                    Todo :
+                                    Là où on a {{ img.html }} ce serait bien qu'on ait juste l'URL de l'image (comme on dit dans l'en-tête du tableau)
+
+                                    <td class="break-long-words">
+                                        <a href="/build/images/image.png">/build/images/image.png</a>
+                                    </td>
+                                #}
+                                <td class="break-long-words"><a href="/build/images/image.png">{{ img.html }}</a></td>
                                 <td class="font-normal">{{ img.alt }}</td>
                             </tr>
                             {% endif %}
@@ -320,7 +328,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th class="small-cell">#</th>
                                 <th>Image URL</th>
                             </tr>
                         </thead>
@@ -330,6 +338,14 @@
 
                             <tr>
                                 <td class="font-normal text-muted nowrap small-cell">{{ counter }}</td>
+                                {#
+                                    Todo :
+                                    ici aussi où on a {{ img }} ce serait bien qu'on ait juste l'URL de l'image (comme on dit dans l'en-tête du tableau)
+
+                                    <td class="break-long-words">
+                                        <a href="/build/images/image.png">/build/images/image.png</a>
+                                    </td>
+                                #}
                                 <td>{{ img }}</td>
                             </tr>
                         {% endfor %}
@@ -358,7 +374,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th class='small-cell'>#</th>
                                 <th>Image URL</th>
                             </tr>
                         </thead>
@@ -367,6 +383,14 @@
                             {% set counter = ( counter | default(0) ) + 1 %}
                             <tr>
                                 <td class="font-normal text-muted nowrap small-cell">{{ counter }}</td>
+                                {#
+                                    Todo :
+                                    ici aussi où on a {{ img }} ce serait bien qu'on ait juste l'URL de l'image (comme on dit dans l'en-tête du tableau)
+
+                                    <td class="break-long-words">
+                                        <a href="/build/images/image.png">/build/images/image.png</a>
+                                    </td>
+                                #}
                                 <td>{{ img }}</td>
                             </tr>
                         {% endfor %}
@@ -384,7 +408,9 @@
 
             <div class="tab">
                 <span class="tab-title">
-                    {{ include('@ElaoAccesseo/profiler/danger.svg') }}
+                    {% if collector.listImagesUrlAndAltTooLong|length > 0 %}
+                        {{ include('@ElaoAccesseo/profiler/danger.svg') }}
+                    {% endif %}
                     <span class="badge">{{ collector.listImagesUrlAndAltTooLong|length }}</span>
                     alt text has + 80 char.
                 </span>
@@ -396,18 +422,26 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Image URL</th>
-                                <th>Alt text</th>
+                                <th class="small-cell">#</th>
+                                <th class="medium-cell">Image URL</th>
+                                <th class="medium-cell">Alt text</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 {% for key, img in collector.listImagesUrlAndAltTooLong %}
-                                {% set counter = ( counter | default(0) ) + 1 %}
-                                <td class="font-normal text-muted nowrap small-cell">{{ counter }}</td>
-                                <td>{{ img.img }}</td>
-                                <td class="font-normal">{{ img.alt }}</td>
+                                    {% set counter = ( counter | default(0) ) + 1 %}
+                                    <td class="font-normal text-muted nowrap small-cell">{{ counter }}</td>
+                                    {#
+                                        Todo :
+                                        ici aussi où on a {{ img.img }} ce serait bien qu'on ait juste l'URL de l'image (comme on dit dans l'en-tête du tableau)
+
+                                        <td class="break-long-words">
+                                            <a href="/build/images/image.png">/build/images/image.png</a>
+                                        </td>
+                                    #}
+                                    <td>{{ img.img }}</td>
+                                    <td class="font-normal">{{ img.alt }}</td>
                                 {% endfor %}
                             </tr>
 
@@ -539,23 +573,23 @@
         <table>
             <thead>
                 <tr>
-                    <th>Tag</th>
-                    <th>Links</th>
-                    <th>ARIA label</th>
+                    <th class="medium-cell">Tag</th>
+                    <th class="medium-cell">Links</th>
+                    <th class="medium-cell">ARIA label</th>
                 </tr>
             </thead>
             <tbody>
                 {% for navigation in collector.navigationElements %}
                     <tr>
-                        <td>{{ navigation.tag }}</td>
-                        <td>
+                        <td class="v-top">{{ navigation.tag }}</td>
+                        <td class="v-top">
                             <ul>
                                 {% for link in navigation.links %}
                                     <li>{{ link }}</li>
                                 {% endfor %}
                             </ul>
                         </td>
-                        <td>
+                        <td class="v-top">
                             {% if navigation.ariaLabel %}
                                 {{ navigation.ariaLabel }}
                             {% else %}
