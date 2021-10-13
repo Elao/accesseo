@@ -3,7 +3,7 @@
     {% for key, value in values %}
         {% if value.type == 'string'%}
             <tr class="property-level-{{ prefix }}">
-                <th class="medium-cell property-level-[{{ prefix }}]">├ {{ key }}</th>
+                <th class="font-normal capitalize medium-cell property-level-[{{ prefix }}]">├ {{ key }}</th>
                 <td>{{ value }}</td>
             </tr>
         {% elseif value.type == 'array'%}
@@ -12,15 +12,19 @@
             {% endfor %}
         {% elseif value.type is defined %}
             <tr class="property-level-{{ prefix }}">
-                <th class="medium-cell"><a href="https://schema.org/{{ key }}" target="_blank">├ {{ key }}</a></th>
-                <td><!-- contains other items, leave blank (sub-items will be detailed under) --></td>
+                <th class="font-normal capitalize medium-cell">
+                    <a href="https://schema.org/{{ key }}" target="_blank">├ {{ key }}</a>
+                </th>
+                <td>
+                    <!-- contains other items, leave blank (sub-items will be detailed under) -->
+                </td>
             </tr>
             {{ _self.display_microdata(value.values, prefix + 1) }}
         {% elseif value is iterable %}
             {% for key, item in value %}
                 <!-- add css class property-level-[level] -->
                 <tr class="property-level-{{ prefix }}">
-                    <th class="medium-cell">├ {{ key }}</th>
+                    <th class="font-normal capitalize medium-cell">├ {{ key }}</th>
                     <td>{{ value }}</td>
                 </tr>
             {% endfor %}
