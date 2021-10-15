@@ -5,7 +5,6 @@ Accesseo helps you improve the accessibility and SEO of your pages with some sim
 ## Installation
 
 ```
-composer config repositories.elao/accesseo vcs git@github.com:Elao/accesseo.git
 composer require --dev elao/accesseo
 ```
 
