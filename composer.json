@@ -35,7 +35,6 @@
         "sort-packages": true
     },
     "prefer-stable": true,
-    "minimum-stability": "dev",
     "require": {
         "php": ">=7.4",
         "brick/schema": "^0.1.1",
