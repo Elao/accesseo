@@ -14,14 +14,6 @@ in `config/bundles.php` add:
 Elao\Bundle\Accesseo\ElaoAccesseoBundle::class => ['dev' => true],
 ```
 
-in `config/routes/dev`, create `accesseo.yaml` and add:
-
-```yaml
-accesseo:
-    resource: '@ElaoAccesseoBundle/config/routing/accesseo.xml'
-    prefix: /_accesseo
-```
-
 ### Configuration options
 
 in `config/packages/elao_accesseo.yaml` :
