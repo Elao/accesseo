@@ -19,6 +19,11 @@
             "name": "Anne-Laure de Boissieu",
             "email": "anne-laure@protonmail.com",
             "homepage": "https://github.com/al2b"
+        },
+        {
+            "name": "Amélie Defrance",
+            "email": "amelie.defrance@elao.com",
+            "homepage": "https://github.com/ameliedefrance"
         }
     ],
     "autoload": {
