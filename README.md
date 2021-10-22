@@ -5,7 +5,7 @@ Accesseo helps you improve the accessibility and SEO of your pages with some sim
 ## Installation
 
 ```
-composer require --dev elao/accesseo
+composer require --dev elao/accesseo:^1.0@beta
 ```
 
 in `config/bundles.php` add:
