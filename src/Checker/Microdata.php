@@ -10,8 +10,8 @@ use Brick\Schema\SchemaTypeList;
 
 class Microdata
 {
-    private string $type;
-    private array $values;
+    public string $type;
+    public array $values;
 
     public function __construct(string $type, array $values)
     {
@@ -21,7 +21,7 @@ class Microdata
 
     public static function create($thing)
     {
-        $type = \Closure::bind(function () {return $this->types[0]; }, $thing, Base::class)();
+        $type = \Closure::bind(function () {return $this->type[0]; }, $thing, Base::class)();
         $values = [];
 
         foreach (\Closure::bind(function () {return $this->values; }, $thing, Base::class)() as $key => $value) {

@@ -63,6 +63,11 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
         $this->optimizationChecker = new OptimizationChecker($crawler);
         $this->accessibilityChecker = new AccessibilityChecker($crawler);
         $this->linkChecker = new LinkChecker($crawler);
+        $enabledMicrodata = true;
+
+        if (!\is_string($crawler->html())) {
+            $enabledMicrodata = false;
+        }
 
         $this->data = [
             'response' => $response,
@@ -84,7 +89,7 @@ class SeoCollector extends DataCollector implements LateDataCollectorInterface
             'isHreflang' => $this->optimizationChecker->isHreflang(),
             'hreflang' => $this->optimizationChecker->getHreflang(),
             'qualifiedOutboundLinks' => $this->linkChecker->getQualifiedOutboundLinks(),
-            'microdata' => $this->optimizationChecker->getAllMicroData(),
+            'microdata' => $enabledMicrodata ? $this->optimizationChecker->getAllMicroData() : [],
         ];
 
         if (isset($event)) {
